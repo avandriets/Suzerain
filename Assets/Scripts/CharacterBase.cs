@@ -200,6 +200,7 @@ public class CharacterBase : MonoBehaviour
     {
       isDead = true;
       thisAnimator.enabled = false;
+      rotatingSpeed = 0;
       go = false;
       Invoke("ShowButtonRestart", 3);
     }
