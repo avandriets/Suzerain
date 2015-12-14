@@ -20,6 +20,7 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private float maxAngle = 4;
   [SerializeField] private Animator pistolAnimator = null;
   [HideInInspector] public Vector2 SpineBoneJoystickAngle = Vector2.zero;
+  /*[HideInInspector]*/ public bool CanRotating = true;
   protected float rayLength = 0.1f;
   protected bool isUpdateDone = false;
   protected Animator thisAnimator = null;

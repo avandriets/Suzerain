@@ -13,7 +13,7 @@ public class CharacterMain : CharacterBase
   private Vector3 finishCameraPosition = Vector3.zero;
   private Quaternion finishCameraLocalRotation = Quaternion.identity;
   private float time = 0;
-  private bool moveToPistol = false;
+  private bool moveToPistol = false;    
 
   protected override void StartGo()
   {
@@ -38,11 +38,12 @@ public class CharacterMain : CharacterBase
       if (time > 1)
       {
         time = 1;
-        isCameraMoving = false;
+        isCameraMoving = false;        
         if (moveToPistol)
         {
           mainCamera.transform.parent = handBone;
           Time.timeScale = 1;
+          CanRotating = true;
         }
       }
       if (moveToPistol)
@@ -62,6 +63,7 @@ public class CharacterMain : CharacterBase
   protected override void Dead()
   {
     base.Dead();
+    CanRotating = false;
     mainCamera.transform.parent = null;
     mainCamera.transform.position = cameraDeadPosition.position;
     mainCamera.transform.rotation = cameraDeadPosition.rotation;
@@ -71,6 +73,7 @@ public class CharacterMain : CharacterBase
   {
     base.ReduceHelth(isHead);
     isCameraMoving = true;
+    CanRotating = false;
     time = 0;
     moveToPistol = false;
     Time.timeScale = 0.2f;
@@ -92,6 +95,7 @@ public class CharacterMain : CharacterBase
     if (Helth > 0)
     {
       isCameraMoving = true;
+      CanRotating = false;
       moveToPistol = true;
       time = 0;
       startCameraPosition = mainCamera.transform.position;
