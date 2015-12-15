@@ -17,10 +17,11 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private float moveSpeed = 2;
   [SerializeField] private float helthStep = 50;
   [SerializeField] private float rotatingSpeed = 2;
+  [SerializeField] private float stabilityTime = 1;
   [SerializeField] private float maxAngle = 4;
   [SerializeField] private Animator pistolAnimator = null;
   [HideInInspector] public Vector2 SpineBoneJoystickAngle = Vector2.zero;
-  /*[HideInInspector]*/ public bool CanRotating = true;
+  [HideInInspector] public bool CanRotating = true;
   protected float rayLength = 0.1f;
   protected bool isUpdateDone = false;
   protected Animator thisAnimator = null;
@@ -35,6 +36,7 @@ public class CharacterBase : MonoBehaviour
   private bool rotatingRight = false;
   private Vector3 spineRotation = Vector3.zero;
   private float currentReductionTime = 0;
+  private float currentRotatingSpeed = 0;
 
 
   public float Helth
@@ -52,6 +54,7 @@ public class CharacterBase : MonoBehaviour
   protected virtual void Start () 
   {
     thisAnimator = GetComponent<Animator>();
+    //thisAnimator.Play("Idle",1);
     Invoke("UpArmo", 1.5f);
     if (pistolAnimator != null)
       pistolAnimator.speed = 0;
@@ -81,6 +84,7 @@ public class CharacterBase : MonoBehaviour
     currentReductionTime -= Time.deltaTime;
     if (currentReductionTime < 0)
       currentReductionTime = armo.ReductionTime;
+    currentRotatingSpeed = Mathf.Max(currentRotatingSpeed - Time.deltaTime * rotatingSpeed/stabilityTime, 0);
   }
 
   protected virtual void LateUpdate()
@@ -88,13 +92,13 @@ public class CharacterBase : MonoBehaviour
     float reductionKoeff = currentReductionTime/armo.ReductionTime;
     if (rotatingRight)
     {
-      currentBoneAngle -= Time.deltaTime * rotatingSpeed * reductionKoeff;
+      currentBoneAngle -= Time.deltaTime * currentRotatingSpeed * reductionKoeff;
       if (currentBoneAngle < -maxAngle * reductionKoeff)
         rotatingRight = false;
     }
     else
     {
-      currentBoneAngle += Time.deltaTime * rotatingSpeed;
+      currentBoneAngle += Time.deltaTime * currentRotatingSpeed;
       if (currentBoneAngle > maxAngle * reductionKoeff)
         rotatingRight = true;
     }
@@ -137,6 +141,7 @@ public class CharacterBase : MonoBehaviour
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();
     Invoke("ReturnFireIdleAnimation", armo.ShootTime);
+    currentRotatingSpeed = rotatingSpeed;
     if (rayLength < 70)
     {
       enemyCharacterBase.ReduceHelth(toHead);
@@ -201,7 +206,7 @@ public class CharacterBase : MonoBehaviour
     {
       isDead = true;
       thisAnimator.enabled = false;
-      rotatingSpeed = 0;
+      currentRotatingSpeed = 0;
       go = false;
       Invoke("ShowButtonRestart", 3);
     }
