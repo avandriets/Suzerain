@@ -3,7 +3,7 @@
 public class Joistick : MonoBehaviour
 {
   [SerializeField] private Transform joystick = null;
-  [SerializeField] private CharacterBase character = null;
+  public CharacterBase Character = null;
   [SerializeField] private float size = 200;
   [SerializeField] private float sensitivityX = 4f;
   [SerializeField] private float sensitivityY = 0.2f;
@@ -29,18 +29,18 @@ public class Joistick : MonoBehaviour
     }
     if (Input.GetMouseButtonUp(0) && isTouch)
     {
-      character.TryShoot();
+      Character.TryShoot(true);
       isTouch = false;
     }
 
-    if (Input.GetMouseButton(0) && isTouch && character.CanRotating)
+    if (Input.GetMouseButton(0) && isTouch && Character.CanRotating)
     {
       float x = Mathf.Clamp(Input.mousePosition.x - startPressPosition.x, transform.position.x - size, transform.position.x + size);
       float y = Mathf.Clamp(Input.mousePosition.y - startPressPosition.y, transform.position.y - size, transform.position.y + size);
       joystickPosition = new Vector2(x, y);
       joystick.transform.position = new Vector3(x, y, 0);
       joystickPosition = new Vector2((x - transform.position.x)/size, (y - transform.position.y)/size);
-      character.SpineBoneJoystickAngle = new Vector2(joystickPosition.x * sensitivityX, joystickPosition.y * sensitivityY);
+      Character.SpineBoneJoystickAngle = new Vector2(joystickPosition.x * sensitivityX, joystickPosition.y * sensitivityY);
     }
   }
 }

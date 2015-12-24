@@ -1,0 +1,295 @@
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.184 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.586872 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 3fc -> priority: 1 
+  Thread -> id: 2f0 -> priority: 1 
+U: 0.787123, SN: DuelGameServer
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Server Initialized
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.088 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.668978 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 4d0 -> priority: 1 
+  Thread -> id: 18a8 -> priority: 1 
+U: 0.422507, SN: DuelGameServer
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Server Initialized
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.103 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.694792 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1c24 -> priority: 1 
+  Thread -> id: 17b0 -> priority: 1 
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.120 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.695414 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 194c -> priority: 1 
+  Thread -> id: a8 -> priority: 1 
+U: 0.600836, SN: DuelGameServer
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Server Initialized
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.150 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.781563 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1df0 -> priority: 1 
+  Thread -> id: 1dd4 -> priority: 1 
+U: 0.023250, SN: DuelGameServer
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Server Initialized
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.124 seconds
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.716562 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 20c4 -> priority: 1 
+  Thread -> id: 20c0 -> priority: 1 
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at CharacterBase.ShowButtonRestart () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Couldn't send RPC function 'UpdateMovement'
+
+ 
+(Filename:  Line: 2480)
+
+Cleaning up after player 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Couldn't send RPC function 'UpdateMovement'
+
+ 
+(Filename:  Line: 2480)
+
+Cleaning up after player 1
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
