@@ -1,0 +1,50 @@
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 550 Ti (ID=0x1244)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.162 seconds
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\PROJECTS\DuelGame\forWindows\Duel_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3200x1080 at -1280,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.584693 ms
+Hostlist != null, length = 0
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 36b8 -> priority: 1 
+  Thread -> id: 2388 -> priority: 1 
+Binding to local socket 0.0.0.0
+Sending NAT type detection request, local port 63512
+U: 0.216592, SN: DuelGameServer
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Server Initialized
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+Player was spawn
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+
+HostListReceived
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 37)
+

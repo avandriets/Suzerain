@@ -223,10 +223,8 @@ public class CharacterBase : MonoBehaviour
     AudioSource thisAudio = GetComponent<AudioSource>();
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();
-    thisAnimator.Play("Reload", 1);
-    go = false;
-    thisAnimator.SetBool("Go", false);
-    //
+    
+    /*
     if (IsMine)
     {
       isCameraMoving = true;
@@ -240,7 +238,7 @@ public class CharacterBase : MonoBehaviour
       mainCamera.transform.parent = null;
       Invoke("ParentingCameraToPistol", reloadClip.length * 0.5f);
     }
-    //
+    */
 
     Invoke("ReturnFireIdleAnimation", reloadClip.length * 0.5f);
     currentRotatingSpeed = rotatingSpeed;
@@ -251,6 +249,9 @@ public class CharacterBase : MonoBehaviour
         enemyCharacterBase.ReduceHelth(toHead);
       }      
     }
+    thisAnimator.Play("Reload", 1);
+    go = false;
+    thisAnimator.SetBool("Go", false);
     if (pistolAnimator != null)
     {
       pistolAnimator.speed = 1;
@@ -304,16 +305,19 @@ public class CharacterBase : MonoBehaviour
         Invoke("ReturnShock", shockClip.length);
     }
     currentReductionTime = armo.ReductionTime;
-    isCameraMoving = true;
-    CanRotating = false;
-    time = 0;
-    moveToPistol = false;
+    if (IsMine)
+    {
+      isCameraMoving = true;
+      CanRotating = false;
+      time = 0;
+      moveToPistol = false;
 
-    startCameraPosition = mainCamera.transform.position;
-    finishCameraPosition = cameraDeadPosition.position;
-    startCameraLocalRotation = mainCamera.transform.rotation;
-    finishCameraLocalRotation = cameraDeadPosition.rotation;
-    mainCamera.transform.parent = null;
+      startCameraPosition = mainCamera.transform.position;
+      finishCameraPosition = cameraDeadPosition.position;
+      startCameraLocalRotation = mainCamera.transform.rotation;
+      finishCameraLocalRotation = cameraDeadPosition.rotation;
+      mainCamera.transform.parent = null;
+    }
   }
 
   protected virtual void ReturnShock()
