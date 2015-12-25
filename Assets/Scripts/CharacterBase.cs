@@ -109,7 +109,8 @@ public class CharacterBase : MonoBehaviour
       helthIndicator = guiController.EnemyHelth;
       patronsIndicator = guiController.EnemyPatrons;
     }
-    demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();     
+    demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
+    buttonRestart = FindObjectOfType<GUIController>().ButtonRestart; 
   }
 
   public void StartDuel()
