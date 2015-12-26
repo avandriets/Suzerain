@@ -141,11 +141,7 @@ ModelImporter:
     motionNodeName: 
     animationImportErrors: 
     animationImportWarnings: 
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Scene':\n\tLeftLowerLeg
-      average position error 4.7 mm and maximum position error 5.2 mm at time 0: 9
-      (1.8%) Frame 9\n\tRightLowerLeg average position error 4.7 mm and maximum position
-      error 5.2 mm at time 0: 1 (0.2%) Frame 1\n\tRightLowerArm average position error
-      1.8 mm and maximum position error 2.1 mm at time 14: 5 (68.2%) Frame 341\n"
+    animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 1
     animationCompression: 3
     animationRotationError: 0.5
@@ -1818,22 +1814,6 @@ ModelImporter:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
       scale: {x: 10, y: 10, z: 10}
-      transformModified: 1
-    - name: priklad.001
-      position: {x: 0.074659646, y: 1.5568115, z: 0.8668055}
-      rotation: {x: -0.7098774, y: 0.014127774, z: -0.03528285, w: 0.70329916}
-      scale: {x: 10.979134, y: 10.9791355, z: 10.979126}
-      transformModified: 1
-    - name: stvol.000
-      position: {x: -0.000001005411, y: 0.00004305267, z: 0.000030288695}
-      rotation: {x: -0.000000010244549, y: -0.0000002812594, z: -0.0000000072759567,
-        w: 1}
-      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000002}
-      transformModified: 1
-    - name: zatvor.001
-      position: {x: 0.0008781993, y: 0.0019166945, z: 0.0017566832}
-      rotation: {x: 0.43184337, y: -0.014158045, z: 0.0025887704, w: 0.90183383}
-      scale: {x: 1, y: 1, z: 1.0000002}
       transformModified: 1
     armTwist: 0.5
     foreArmTwist: 0.5

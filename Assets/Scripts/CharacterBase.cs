@@ -28,7 +28,7 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private Camera mainCamera = null;
   [SerializeField] private Transform cameraDeadPosition = null;
   [SerializeField] private float cameraMovingTime = 0.3f;
-  [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
+  /*[HideInInspector] */public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;
   [HideInInspector] public bool CanRotating = true;
   [HideInInspector] public bool CanShoot = false;
@@ -84,7 +84,8 @@ public class CharacterBase : MonoBehaviour
 
   protected virtual void Start () 
   {
-    thisAnimator = GetComponent<Animator>();    
+    thisAnimator = GetComponent<Animator>();
+    thisAnimator.Play("Idle");
     networkManager = FindObjectOfType<NetworkManager>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
@@ -129,7 +130,7 @@ public class CharacterBase : MonoBehaviour
   protected virtual void StartGo()
   {
     go = true;
-    thisAnimator.Play("Walk", 1);
+    thisAnimator.Play("Walk");
     thisAnimator.SetBool("Go", true);
     CanShoot = true;
     Invoke("ChangeCamera", 1);
@@ -169,9 +170,10 @@ public class CharacterBase : MonoBehaviour
     if (!isDead)
     {
       if (IsMine)
-        spineBone.rotation = Quaternion.Euler(spineRotation.x - SpineBoneJoystickAngle.y, spineRotation.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineRotation.z);
-      else
-        spineBone.rotation = Quaternion.Euler(spineRotation.x - SpineBoneNetworkAngle.y, spineRotation.y + currentBoneAngle + SpineBoneNetworkAngle.x, spineRotation.z);
+        spineBone.rotation = Quaternion.Euler(spineBone.eulerAngles.x - SpineBoneJoystickAngle.y, spineBone.eulerAngles.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineBone.eulerAngles.z);
+      //spineBone.rotation = Quaternion.Euler(spineRotation.x - SpineBoneJoystickAngle.y, spineRotation.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineRotation.z);      
+      //else
+      //  spineBone.rotation = Quaternion.Euler(spineRotation.x, spineRotation.y + currentBoneAngle, spineRotation.z);
     }
     CameraMoving();
   }
@@ -230,7 +232,7 @@ public class CharacterBase : MonoBehaviour
         enemyCharacterBase.ReduceHelth(toHead);
       }      
     }
-    thisAnimator.Play("Shoot", 1);    
+    thisAnimator.Play("Shoot");    
     pistolAnimator.speed = 1;
     pistolAnimator.Play("Shoot");
     
@@ -248,7 +250,7 @@ public class CharacterBase : MonoBehaviour
     currentReductionTime = armo.ReductionTime;
     if (armo.Patrons == 0)
     {
-      thisAnimator.Play("Reload", 1);
+      thisAnimator.Play("Reload");
       pistolAnimator.speed = 1;
       pistolAnimator.Play("Reload");
     }
@@ -262,7 +264,7 @@ public class CharacterBase : MonoBehaviour
   private void ReturnFireIdleAnimation()
   {
     isShooting = false;
-    thisAnimator.Play("IdleShoot", 1);
+    thisAnimator.Play("IdleShoot");
     if (!isNearBarrier)
     {
       go = true;
