@@ -7,6 +7,7 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private Armo armo = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
+  [SerializeField] private AnimationClip schootClip = null;
   [SerializeField] private Transform spineBone = null;
   [SerializeField] private GameObject shootSparks = null;
   [SerializeField] private GameObject buttonRestart = null;
@@ -24,12 +25,9 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] protected NetworkManager networkManager = null;
   [SerializeField] private PlayerSync playerSync = null;
   [SerializeField] private Camera demoCamera = null;
-  [SerializeField]
-  private Camera mainCamera = null;
-  [SerializeField]
-  private Transform cameraDeadPosition = null;
-  [SerializeField]
-  private float cameraMovingTime = 0.3f;
+  [SerializeField] private Camera mainCamera = null;
+  [SerializeField] private Transform cameraDeadPosition = null;
+  [SerializeField] private float cameraMovingTime = 0.3f;
   [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;
   [HideInInspector] public bool CanRotating = true;
@@ -41,10 +39,8 @@ public class CharacterBase : MonoBehaviour
   protected Animator thisAnimator = null;
   private float currentMoveSpeed = 0;
   private float currentBoneAngle = 0;
-  [SerializeField]
   private bool isShooting = false;
   protected bool go = false;
-  [SerializeField]
   private bool isDead = false;
   private float helth = 100;
   private bool toHead = false;
@@ -88,8 +84,7 @@ public class CharacterBase : MonoBehaviour
 
   protected virtual void Start () 
   {
-    thisAnimator = GetComponent<Animator>();
-    //thisAnimator.Play("Idle",1);
+    thisAnimator = GetComponent<Animator>();    
     networkManager = FindObjectOfType<NetworkManager>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
@@ -102,13 +97,15 @@ public class CharacterBase : MonoBehaviour
     {
       joistick.Character = this;
       helthIndicator = guiController.MyHelth;
-      patronsIndicator = guiController.MyPatrons;
+      patronsIndicator = guiController.MyPatrons;      
     }
     else
     {
       helthIndicator = guiController.EnemyHelth;
       patronsIndicator = guiController.EnemyPatrons;
     }
+    patronsIndicator.text = armo.Patrons.ToString();
+
     demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
     buttonRestart = FindObjectOfType<GUIController>().ButtonRestart; 
   }
@@ -225,23 +222,6 @@ public class CharacterBase : MonoBehaviour
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();
     
-    /*
-    if (IsMine)
-    {
-      isCameraMoving = true;
-      CanRotating = false;
-      time = 0;
-      moveToPistol = false;
-      startCameraPosition = mainCamera.transform.position;
-      finishCameraPosition = cameraDeadPosition.position;
-      startCameraLocalRotation = mainCamera.transform.rotation;
-      finishCameraLocalRotation = cameraDeadPosition.rotation;
-      mainCamera.transform.parent = null;
-      Invoke("ParentingCameraToPistol", reloadClip.length * 0.5f);
-    }
-    */
-
-    Invoke("ReturnFireIdleAnimation", reloadClip.length * 0.5f);
     currentRotatingSpeed = rotatingSpeed;
     if (canReduceHelth)
     {      
@@ -250,21 +230,33 @@ public class CharacterBase : MonoBehaviour
         enemyCharacterBase.ReduceHelth(toHead);
       }      
     }
-    thisAnimator.Play("Reload", 1);
+    thisAnimator.Play("Shoot", 1);    
+    pistolAnimator.speed = 1;
+    pistolAnimator.Play("Shoot");
+    
     go = false;
     thisAnimator.SetBool("Go", false);
-    if (pistolAnimator != null)
+    
+    if (IsMine)
+        playerSync.TryNetworkShoot(rayLength < 70, toHead);
+
+    Invoke("EndShoot", schootClip.length);
+  }
+
+  private void EndShoot()
+  {    
+    currentReductionTime = armo.ReductionTime;
+    if (armo.Patrons == 0)
     {
+      thisAnimator.Play("Reload", 1);
       pistolAnimator.speed = 1;
       pistolAnimator.Play("Reload");
     }
-    currentReductionTime = armo.ReductionTime;
-    if (armo.Patrons == 0)
-      Invoke("ArmoReload", armo.ReloadTime);
-    if (IsMine)
-        playerSync.TryNetworkShoot(rayLength < 70, toHead);
-    
-
+    else
+    {
+      ReturnFireIdleAnimation();
+    }
+    Invoke("ArmoReload", armo.ReloadTime);
   }
 
   private void ReturnFireIdleAnimation()
@@ -284,10 +276,14 @@ public class CharacterBase : MonoBehaviour
 
   private void ArmoReload()
   {
-    
+    Invoke("ReturnFireIdleAnimation", reloadClip.length * 0.5f);
     armo.Reload();
     if (patronsIndicator != null)
       patronsIndicator.text = armo.Patrons.ToString();
+  }
+
+  private void ExitArmoReload()
+  {
   }
 
   public virtual void ReduceHelth(bool isHead)

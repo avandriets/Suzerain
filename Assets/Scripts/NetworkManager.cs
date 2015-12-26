@@ -29,7 +29,7 @@ public class NetworkManager : MonoBehaviour {
   [SerializeField] Transform clientPosition = null;
   [SerializeField] GameObject serverPanel = null;
   //ChatSystem chatSys;
-  private NetworkReachability networkReachability;
+  //private NetworkReachability networkReachability;
   //===========
   // This is where we check NAT settings
   // Check http://docs.unity3d.com/Documentation/ScriptReference/Network.TestConnection.html for more information
@@ -55,11 +55,6 @@ public class NetworkManager : MonoBehaviour {
 
   void Start()
   {
-    //networkReachability = 
-    //if (networkReachability == NetworkReachability.NotReachable)
-    //  Debug.LogWarning("No internet");
-    //else
-    //  Debug.LogWarning("Has internet");
     MasterServer.ClearHostList();
     hostList = MasterServer.PollHostList();
     RefreshHostList();
