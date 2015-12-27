@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: 1aa18e230eb53fb48bda11b53ad9baa9
+timeCreated: 1451212086
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: abdomen2
+    100002: Character
+    100004: chest
+    100006: head
+    100008: hip
+    100010: l_Collar
+    100012: l_Foot
+    100014: l_ForeArm
+    100016: l_ForeArm1
+    100018: l_Hand
+    100020: l_Index1
+    100022: l_Index2
+    100024: l_Mid1
+    100026: l_Mid2
+    100028: l_Pinky1
+    100030: l_Pinky2
+    100032: l_Ring1
+    100034: l_Ring2
+    100036: l_Shin
+    100038: l_Shldr
+    100040: l_Shldr1
+    100042: l_Thigh
+    100044: l_Thumb1
+    100046: l_Thumb2
+    100048: l_Toe
+    100050: neck
+    100052: r_Collar
+    100054: r_Foot
+    100056: r_ForeArm
+    100058: r_ForeArm1
+    100060: r_Hand
+    100062: r_Index1
+    100064: r_Index2
+    100066: r_Mid1
+    100068: r_Mid2
+    100070: r_Pinky1
+    100072: r_Pinky2
+    100074: r_Ring1
+    100076: r_Ring2
+    100078: r_Shin
+    100080: r_Shldr
+    100082: r_Shldr1
+    100084: r_Thigh
+    100086: r_Thumb1
+    100088: r_Thumb2
+    100090: r_Toe
+    100092: //RootNode
+    400000: abdomen2
+    400002: Character
+    400004: chest
+    400006: head
+    400008: hip
+    400010: l_Collar
+    400012: l_Foot
+    400014: l_ForeArm
+    400016: l_ForeArm1
+    400018: l_Hand
+    400020: l_Index1
+    400022: l_Index2
+    400024: l_Mid1
+    400026: l_Mid2
+    400028: l_Pinky1
+    400030: l_Pinky2
+    400032: l_Ring1
+    400034: l_Ring2
+    400036: l_Shin
+    400038: l_Shldr
+    400040: l_Shldr1
+    400042: l_Thigh
+    400044: l_Thumb1
+    400046: l_Thumb2
+    400048: l_Toe
+    400050: neck
+    400052: r_Collar
+    400054: r_Foot
+    400056: r_ForeArm
+    400058: r_ForeArm1
+    400060: r_Hand
+    400062: r_Index1
+    400064: r_Index2
+    400066: r_Mid1
+    400068: r_Mid2
+    400070: r_Pinky1
+    400072: r_Pinky2
+    400074: r_Ring1
+    400076: r_Ring2
+    400078: r_Shin
+    400080: r_Shldr
+    400082: r_Shldr1
+    400084: r_Thigh
+    400086: r_Thumb1
+    400088: r_Thumb2
+    400090: r_Toe
+    400092: //RootNode
+    7400000: Scene
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

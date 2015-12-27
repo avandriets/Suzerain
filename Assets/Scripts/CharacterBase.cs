@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class CharacterBase : MonoBehaviour
 {
-  [SerializeField] protected Transform armoTransform = null;
   [SerializeField] private Armo armo = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
@@ -21,14 +20,14 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private float stabilityTime = 1;
   [SerializeField] private float maxAngle = 4;
   [SerializeField] private float shootAiInterval = 1;
-  [SerializeField] private Animator pistolAnimator = null;
+  private Animator pistolAnimator = null;
   [SerializeField] protected NetworkManager networkManager = null;
   [SerializeField] private PlayerSync playerSync = null;
   [SerializeField] private Camera demoCamera = null;
   [SerializeField] private Camera mainCamera = null;
   [SerializeField] private Transform cameraDeadPosition = null;
   [SerializeField] private float cameraMovingTime = 0.3f;
-  /*[HideInInspector] */public Vector3 SpineBoneJoystickAngle = Vector3.zero;
+  [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;
   [HideInInspector] public bool CanRotating = true;
   [HideInInspector] public bool CanShoot = false;
@@ -45,7 +44,6 @@ public class CharacterBase : MonoBehaviour
   private float helth = 100;
   private bool toHead = false;
   private bool rotatingRight = false;
-  private Vector3 spineRotation = Vector3.zero;
   private float currentReductionTime = 0;
   private float currentRotatingSpeed = 0;   
   private GUIController guiController = null;
@@ -82,18 +80,17 @@ public class CharacterBase : MonoBehaviour
     }
   }
 
-  protected virtual void Start () 
+  private void Start () 
   {
     thisAnimator = GetComponent<Animator>();
-    thisAnimator.Play("Idle");
+    pistolAnimator = armo.GetComponent<Animator>();
     networkManager = FindObjectOfType<NetworkManager>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
-    spineRotation = spineBone.eulerAngles;
     if (pistolAnimator != null)
       pistolAnimator.speed = 0;
     currentReductionTime = armo.ReductionTime;
-    Joistick joistick = FindObjectOfType<Joistick>();
+    Joistick joistick = FindObjectOfType<Joistick>();    
     if (IsMine)
     {
       joistick.Character = this;
@@ -106,7 +103,7 @@ public class CharacterBase : MonoBehaviour
       patronsIndicator = guiController.EnemyPatrons;
     }
     patronsIndicator.text = armo.Patrons.ToString();
-
+    Debug.LogWarning("armo.Patrons after = " + armo.Patrons);
     demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
     buttonRestart = FindObjectOfType<GUIController>().ButtonRestart; 
   }
@@ -123,15 +120,13 @@ public class CharacterBase : MonoBehaviour
   }
   private void UpArmo()
   {
-    thisAnimator.Play("ArmoUp");
+    thisAnimator.SetTrigger("ArmoUp");
     Invoke("StartGo", 1.0f);
   }
 
-  protected virtual void StartGo()
+  private void StartGo()
   {
-    go = true;
-    thisAnimator.Play("Walk");
-    thisAnimator.SetBool("Go", true);
+    go = true;    
     CanShoot = true;
     Invoke("ChangeCamera", 1);
     handBone = mainCamera.transform.parent;
@@ -152,7 +147,7 @@ public class CharacterBase : MonoBehaviour
     }
   }
 
-  protected virtual void LateUpdate()
+  private void LateUpdate()
   {
     float reductionKoeff = currentReductionTime/armo.ReductionTime;
     if (rotatingRight)
@@ -190,8 +185,8 @@ public class CharacterBase : MonoBehaviour
   private void OnDrawGizmos()
   {
     Gizmos.color = Color.red;
-    float dist = 50;// Vector3.Distance(transform.position, enemyCharacterBase.transform.position);
-    Gizmos.DrawRay(armoTransform.position, armoTransform.forward * dist);
+    float dist = 50;
+    Gizmos.DrawRay(armo.transform.position, armo.transform.forward * dist);
   }
   public void NetworkTryShoot(bool hasTarget, bool _toHead)
   {
@@ -213,13 +208,13 @@ public class CharacterBase : MonoBehaviour
 
   private void Shoot(bool canReduceHelth)
   {
-    //thisAnimator.Play("Shoot", 1);
     isShooting = true;
     --armo.Patrons;
+    thisAnimator.SetBool("Reload", armo.Patrons == 0);    
     if (patronsIndicator != null)
       patronsIndicator.text = armo.Patrons.ToString();
-    GameObject sparks = Instantiate(shootSparks, armoTransform.position, armoTransform.rotation) as GameObject;
-    sparks.transform.parent = armoTransform;
+    GameObject sparks = Instantiate(shootSparks, armo.transform.position, armo.transform.rotation) as GameObject;
+    sparks.transform.parent = armo.transform;
     AudioSource thisAudio = GetComponent<AudioSource>();
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();
@@ -232,8 +227,7 @@ public class CharacterBase : MonoBehaviour
         enemyCharacterBase.ReduceHelth(toHead);
       }      
     }
-    thisAnimator.Play("Shoot");    
-    pistolAnimator.speed = 1;
+    thisAnimator.SetTrigger("Shoot");    
     pistolAnimator.Play("Shoot");
     
     go = false;
@@ -250,8 +244,7 @@ public class CharacterBase : MonoBehaviour
     currentReductionTime = armo.ReductionTime;
     if (armo.Patrons == 0)
     {
-      thisAnimator.Play("Reload");
-      pistolAnimator.speed = 1;
+      thisAnimator.SetTrigger("Reload");      
       pistolAnimator.Play("Reload");
     }
     else
@@ -264,11 +257,15 @@ public class CharacterBase : MonoBehaviour
   private void ReturnFireIdleAnimation()
   {
     isShooting = false;
-    thisAnimator.Play("IdleShoot");
     if (!isNearBarrier)
     {
       go = true;
       thisAnimator.SetBool("Go", true);
+    }
+    else
+    {
+      go = false;
+      thisAnimator.SetBool("Go", false);
     }
     if (pistolAnimator != null)
     {
@@ -278,7 +275,7 @@ public class CharacterBase : MonoBehaviour
 
   private void ArmoReload()
   {
-    Invoke("ReturnFireIdleAnimation", reloadClip.length * 0.5f);
+    Invoke("ReturnFireIdleAnimation", reloadClip.length);
     armo.Reload();
     if (patronsIndicator != null)
       patronsIndicator.text = armo.Patrons.ToString();
@@ -299,7 +296,7 @@ public class CharacterBase : MonoBehaviour
       Helth = 0;
     else
     {
-      thisAnimator.SetBool("Shock", true);
+      thisAnimator.SetTrigger("Shock");
       if (Helth > 0)
         Invoke("ReturnShock", shockClip.length);
     }
@@ -322,7 +319,6 @@ public class CharacterBase : MonoBehaviour
   protected virtual void ReturnShock()
   {
     Invoke("EnableShoot", 0.7f);
-    thisAnimator.SetBool("Shock", false);
     Invoke("ParentingCameraToPistol", 0.90f);
   }
 
@@ -365,7 +361,7 @@ public class CharacterBase : MonoBehaviour
   {
     int layerMask = 1 << 8;
     RaycastHit[] hits;
-    hits = Physics.RaycastAll(armoTransform.position, armoTransform.forward, 100, layerMask);
+    hits = Physics.RaycastAll(armo.transform.position, armo.transform.forward, 100, layerMask);
     int i = 0;
     rayLength = 100;
     toHead = false;

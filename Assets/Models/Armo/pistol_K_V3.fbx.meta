@@ -26,7 +26,7 @@ ModelImporter:
     4300004: stvol
     7400000: Reload
     7400002: Idle
-    7400004: Schoot
+    7400004: Shoot
     9500000: //RootNode
     13700000: priklad
     13700002: stvol
@@ -141,7 +141,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: Schoot
+      name: Shoot
       takeName: Scene
       firstFrame: 315
       lastFrame: 340
