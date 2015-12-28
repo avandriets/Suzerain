@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class CharacterBase : MonoBehaviour
 {
   [SerializeField] private Armo armo = null;
+  [SerializeField] private Transform armoRayTransform = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
   [SerializeField] private AnimationClip schootClip = null;
@@ -27,7 +28,7 @@ public class CharacterBase : MonoBehaviour
   [HideInInspector] public bool CanShoot = false;
   [HideInInspector] public bool IsMine = false;
 
-  private NetworkManager networkManager = null;
+  //private NetworkManager networkManager = null;
   private GameObject buttonRestart = null;
   private Text helthIndicator = null;
   private Text patronsIndicator = null;
@@ -85,7 +86,7 @@ public class CharacterBase : MonoBehaviour
   {
     thisAnimator = GetComponent<Animator>();
     pistolAnimator = armo.GetComponent<Animator>();
-    networkManager = FindObjectOfType<NetworkManager>();
+    //networkManager = FindObjectOfType<NetworkManager>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
     currentReductionTime = armo.ReductionTime;
@@ -102,7 +103,6 @@ public class CharacterBase : MonoBehaviour
       patronsIndicator = guiController.EnemyPatrons;
     }
     patronsIndicator.text = armo.Patrons.ToString();
-    Debug.LogWarning("armo.Patrons after = " + armo.Patrons);
     demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
     buttonRestart = FindObjectOfType<GUIController>().ButtonRestart; 
   }
@@ -185,7 +185,7 @@ public class CharacterBase : MonoBehaviour
   {
     Gizmos.color = Color.red;
     float dist = 50;
-    Gizmos.DrawRay(armo.transform.position, armo.transform.forward * dist);
+    Gizmos.DrawRay(armoRayTransform.position, armoRayTransform.forward * dist);
   }
   public void NetworkTryShoot(bool hasTarget, bool _toHead)
   {
@@ -212,8 +212,8 @@ public class CharacterBase : MonoBehaviour
     thisAnimator.SetBool("Reload", armo.Patrons == 0);    
     if (patronsIndicator != null)
       patronsIndicator.text = armo.Patrons.ToString();
-    GameObject sparks = Instantiate(shootSparks, armo.transform.position, armo.transform.rotation) as GameObject;
-    sparks.transform.parent = armo.transform;
+    GameObject sparks = Instantiate(shootSparks, armoRayTransform.position, armoRayTransform.rotation) as GameObject;
+    sparks.transform.parent = armoRayTransform;
     AudioSource thisAudio = GetComponent<AudioSource>();
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();
@@ -227,8 +227,7 @@ public class CharacterBase : MonoBehaviour
       }      
     }
     thisAnimator.SetTrigger("Shoot");    
-    pistolAnimator.Play("Shoot");
-    
+    pistolAnimator.Play("Shoot");    
     go = false;
     thisAnimator.SetBool("Go", false);
     
@@ -250,7 +249,7 @@ public class CharacterBase : MonoBehaviour
     {
       ReturnFireIdleAnimation();
     }
-    Invoke("ArmoReload", armo.ReloadTime);
+    Invoke("EndReload", reloadClip.length); 
   }
 
   private void ReturnFireIdleAnimation()
@@ -266,20 +265,15 @@ public class CharacterBase : MonoBehaviour
       go = false;
       thisAnimator.SetBool("Go", false);
     }
-    pistolAnimator.Play("Idle");      
-    
+    pistolAnimator.Play("Idle");     
   }
 
-  private void ArmoReload()
+  private void EndReload()
   {
-    Invoke("ReturnFireIdleAnimation", reloadClip.length);
+    ReturnFireIdleAnimation();
     armo.Reload();
     if (patronsIndicator != null)
       patronsIndicator.text = armo.Patrons.ToString();
-  }
-
-  private void ExitArmoReload()
-  {
   }
 
   public virtual void ReduceHelth(bool isHead)
@@ -358,7 +352,7 @@ public class CharacterBase : MonoBehaviour
   {
     int layerMask = 1 << 8;
     RaycastHit[] hits;
-    hits = Physics.RaycastAll(armo.transform.position, armo.transform.forward, 100, layerMask);
+    hits = Physics.RaycastAll(armoRayTransform.position, armoRayTransform.forward, 100, layerMask);
     int i = 0;
     rayLength = 100;
     toHead = false;
@@ -418,7 +412,6 @@ public class CharacterBase : MonoBehaviour
       {
         mainCamera.transform.position = Vector3.Lerp(startCameraPosition, handBone.transform.position, time);
         mainCamera.transform.rotation = Quaternion.Lerp(startCameraLocalRotation, handBone.transform.rotation, time);
-
       }
       else
       {
