@@ -8,20 +8,14 @@ public class CharacterBase : MonoBehaviour
   [SerializeField] private AnimationClip reloadClip = null;
   [SerializeField] private AnimationClip schootClip = null;
   [SerializeField] private Transform spineBone = null;
-  [SerializeField] private GameObject shootSparks = null;
-  [SerializeField] private GameObject buttonRestart = null;
-  [SerializeField] private Text helthIndicator = null;
-  [SerializeField] private Text patronsIndicator = null;  
-  [SerializeField] protected CharacterBase enemyCharacterBase = null;
+  [SerializeField] private GameObject shootSparks = null;  
   [SerializeField] private AudioClip shootAudioClip = null;
   [SerializeField] private float moveSpeed = 2;
   [SerializeField] private float helthStep = 50;
   [SerializeField] private float rotatingSpeed = 2;
   [SerializeField] private float stabilityTime = 1;
   [SerializeField] private float maxAngle = 4;
-  [SerializeField] private float shootAiInterval = 1;
-  private Animator pistolAnimator = null;
-  [SerializeField] protected NetworkManager networkManager = null;
+  [SerializeField] private float shootAiInterval = 1;  
   [SerializeField] private PlayerSync playerSync = null;
   [SerializeField] private Camera demoCamera = null;
   [SerializeField] private Camera mainCamera = null;
@@ -32,6 +26,13 @@ public class CharacterBase : MonoBehaviour
   [HideInInspector] public bool CanRotating = true;
   [HideInInspector] public bool CanShoot = false;
   [HideInInspector] public bool IsMine = false;
+
+  private NetworkManager networkManager = null;
+  private GameObject buttonRestart = null;
+  private Text helthIndicator = null;
+  private Text patronsIndicator = null;
+  private CharacterBase enemyCharacterBase = null;
+  private Animator pistolAnimator = null;
   private bool ai = false;
   protected float rayLength = 0.1f;
   protected bool isUpdateDone = false;
@@ -87,8 +88,6 @@ public class CharacterBase : MonoBehaviour
     networkManager = FindObjectOfType<NetworkManager>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
-    if (pistolAnimator != null)
-      pistolAnimator.speed = 0;
     currentReductionTime = armo.ReductionTime;
     Joistick joistick = FindObjectOfType<Joistick>();    
     if (IsMine)
@@ -267,10 +266,8 @@ public class CharacterBase : MonoBehaviour
       go = false;
       thisAnimator.SetBool("Go", false);
     }
-    if (pistolAnimator != null)
-    {
-      pistolAnimator.Play("Idle");      
-    }
+    pistolAnimator.Play("Idle");      
+    
   }
 
   private void ArmoReload()
