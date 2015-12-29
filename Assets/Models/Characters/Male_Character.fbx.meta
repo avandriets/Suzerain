@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 3efd6ba79a6716648848319d5fb052f9
-timeCreated: 1450880299
+guid: f21c57a9118e9654bbc3f386c272513b
+timeCreated: 1451407519
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -34,29 +34,26 @@ ModelImporter:
     100052: Male.001
     100054: //RootNode
     100056: neck
-    100058: priklad.001
-    100060: r_Collar
-    100062: r_Foot
-    100064: r_ForeArm
-    100066: r_ForeArm1
-    100068: r_Hand
-    100070: r_Index1
-    100072: r_Index2
-    100074: r_Mid1
-    100076: r_Mid2
-    100078: r_Pinky1
-    100080: r_Pinky2
-    100082: r_Ring1
-    100084: r_Ring2
-    100086: r_Shin
-    100088: r_Shldr
-    100090: r_Shldr1
-    100092: r_Thigh
-    100094: r_Thumb1
-    100096: r_Thumb2
-    100098: r_Toe
-    100100: stvol.000
-    100102: zatvor.001
+    100058: r_Collar
+    100060: r_Foot
+    100062: r_ForeArm
+    100064: r_ForeArm1
+    100066: r_Hand
+    100068: r_Index1
+    100070: r_Index2
+    100072: r_Mid1
+    100074: r_Mid2
+    100076: r_Pinky1
+    100078: r_Pinky2
+    100080: r_Ring1
+    100082: r_Ring2
+    100084: r_Shin
+    100086: r_Shldr
+    100088: r_Shldr1
+    100090: r_Thigh
+    100092: r_Thumb1
+    100094: r_Thumb2
+    100096: r_Toe
     400000: abdomen2
     400002: Armature.001
     400004: Character
@@ -86,49 +83,36 @@ ModelImporter:
     400052: Male.001
     400054: //RootNode
     400056: neck
-    400058: priklad.001
-    400060: r_Collar
-    400062: r_Foot
-    400064: r_ForeArm
-    400066: r_ForeArm1
-    400068: r_Hand
-    400070: r_Index1
-    400072: r_Index2
-    400074: r_Mid1
-    400076: r_Mid2
-    400078: r_Pinky1
-    400080: r_Pinky2
-    400082: r_Ring1
-    400084: r_Ring2
-    400086: r_Shin
-    400088: r_Shldr
-    400090: r_Shldr1
-    400092: r_Thigh
-    400094: r_Thumb1
-    400096: r_Thumb2
-    400098: r_Toe
-    400100: stvol.000
-    400102: zatvor.001
-    2300000: priklad.001
-    2300002: stvol.000
-    2300004: zatvor.001
-    3300000: priklad.001
-    3300002: stvol.000
-    3300004: zatvor.001
-    4300000: priklad.001
-    4300002: stvol.000
-    4300004: zatvor.001
-    4300006: Male.001
-    7400000: ArmoUp
-    7400002: Reload
+    400058: r_Collar
+    400060: r_Foot
+    400062: r_ForeArm
+    400064: r_ForeArm1
+    400066: r_Hand
+    400068: r_Index1
+    400070: r_Index2
+    400072: r_Mid1
+    400074: r_Mid2
+    400076: r_Pinky1
+    400078: r_Pinky2
+    400080: r_Ring1
+    400082: r_Ring2
+    400084: r_Shin
+    400086: r_Shldr
+    400088: r_Shldr1
+    400090: r_Thigh
+    400092: r_Thumb1
+    400094: r_Thumb2
+    400096: r_Toe
+    4300000: Male.001
+    7400000: Reload
+    7400002: ArmoUp
     7400004: Shoot
     7400006: Win
     7400008: Walk
-    7400010: Schock
-    7400012: WalkUp
-    7400014: ArmoDown
+    7400010: WalkUp
+    7400012: ArmoDown
+    7400014: Schock
     9500000: //RootNode
-    11100000: //RootNode
     13700000: Male.001
   materials:
     importMaterials: 1
@@ -139,12 +123,12 @@ ModelImporter:
     bakeSimulation: 0
     resampleRotations: 1
     optimizeGameObjects: 0
-    motionNodeName: Armature.001
+    motionNodeName: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 1
-    animationCompression: 3
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -155,7 +139,7 @@ ModelImporter:
       name: Reload
       takeName: Scene
       firstFrame: 0
-      lastFrame: 235
+      lastFrame: 470
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -165,32 +149,15 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves:
-      - name: Curve
-        curve:
-          serializedVersion: 2
-          curve:
-          - time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          - time: 1
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-          preInfinity: 3
-          postInfinity: 3
-          rotationOrder: 0
+      curves: []
       events: []
       transformMask:
       - path: 
@@ -307,266 +274,8 @@ ModelImporter:
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000000000000000000000000000000000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Armature.001
-        weight: 1
-      - path: Armature.001/Character
-        weight: 1
-      - path: Armature.001/Character/hip
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
-        weight: 1
-      - path: Male.001
-        weight: 0
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Shoot
-      takeName: Scene
-      firstFrame: 315
-      lastFrame: 340
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Armature.001
-        weight: 1
-      - path: Armature.001/Character
-        weight: 1
-      - path: Armature.001/Character/hip
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
-        weight: 1
-      - path: Male.001
-        weight: 1
-      - path: priklad.001
-        weight: 1
-      - path: priklad.001/stvol.000
-        weight: 1
-      - path: priklad.001/zatvor.001
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Win
-      takeName: Scene
-      firstFrame: 360
-      lastFrame: 416
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
@@ -675,11 +384,257 @@ ModelImporter:
         weight: 1
       - path: Male.001
         weight: 1
-      - path: priklad.001
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Shoot
+      takeName: Scene
+      firstFrame: 315
+      lastFrame: 340
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
         weight: 1
-      - path: priklad.001/stvol.000
+      - path: Armature.001
         weight: 1
-      - path: priklad.001/zatvor.001
+      - path: Armature.001/Character
+        weight: 1
+      - path: Armature.001/Character/hip
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
+        weight: 1
+      - path: Male.001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Win
+      takeName: Scene
+      firstFrame: 360
+      lastFrame: 416
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature.001
+        weight: 1
+      - path: Armature.001/Character
+        weight: 1
+      - path: Armature.001/Character/hip
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
+        weight: 1
+      - path: Male.001
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
@@ -806,145 +761,7 @@ ModelImporter:
       - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
         weight: 1
       - path: Male.001
-        weight: 0
-      - path: priklad.001
-        weight: 0
-      - path: priklad.001/stvol.000
-        weight: 0
-      - path: priklad.001/zatvor.001
-        weight: 0
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Schock
-      takeName: Scene
-      firstFrame: 470
-      lastFrame: 490
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
         weight: 1
-      - path: Armature.001
-        weight: 1
-      - path: Armature.001/Character
-        weight: 1
-      - path: Armature.001/Character/hip
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
-        weight: 1
-      - path: Male.001
-        weight: 0
-      - path: priklad.001
-        weight: 0
-      - path: priklad.001/stvol.000
-        weight: 0
-      - path: priklad.001/zatvor.001
-        weight: 0
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
@@ -960,139 +777,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
-      loopBlendOrientation: 1
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Armature.001
-        weight: 1
-      - path: Armature.001/Character
-        weight: 1
-      - path: Armature.001/Character/hip
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
-        weight: 1
-      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
-        weight: 1
-      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
-        weight: 1
-      - path: Male.001
-        weight: 0
-      - path: priklad.001
-        weight: 0
-      - path: priklad.001/stvol.000
-        weight: 0
-      - path: priklad.001/zatvor.001
-        weight: 0
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: ArmoDown
-      takeName: Scene
-      firstFrame: 240
-      lastFrame: 245
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
@@ -1202,7 +887,259 @@ ModelImporter:
       - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
         weight: 1
       - path: Male.001
-        weight: 0
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: ArmoDown
+      takeName: Scene
+      firstFrame: 240
+      lastFrame: 245
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature.001
+        weight: 1
+      - path: Armature.001/Character
+        weight: 1
+      - path: Armature.001/Character/hip
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
+        weight: 1
+      - path: Male.001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Schock
+      takeName: Scene
+      firstFrame: 470
+      lastFrame: 490
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature.001
+        weight: 1
+      - path: Armature.001/Character
+        weight: 1
+      - path: Armature.001/Character/hip
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Index1/l_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Mid1/l_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Pinky1/l_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Ring1/l_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/l_Collar/l_Shldr/l_Shldr1/l_ForeArm/l_ForeArm1/l_Hand/l_Thumb1/l_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/neck/head
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Index1/r_Index2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Mid1/r_Mid2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Pinky1/r_Pinky2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Ring1/r_Ring2
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1
+        weight: 1
+      - path: Armature.001/Character/hip/abdomen2/chest/r_Collar/r_Shldr/r_Shldr1/r_ForeArm/r_ForeArm1/r_Hand/r_Thumb1/r_Thumb2
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/l_Thigh/l_Shin/l_Foot/l_Toe
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot
+        weight: 1
+      - path: Armature.001/Character/hip/r_Thigh/r_Shin/r_Foot/r_Toe
+        weight: 1
+      - path: Male.001
+        weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
