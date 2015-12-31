@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviour {
@@ -28,12 +27,7 @@ public class NetworkManager : MonoBehaviour {
   [SerializeField] Transform serverPosition = null;
   [SerializeField] Transform clientPosition = null;
   [SerializeField] GameObject serverPanel = null;
-  //ChatSystem chatSys;
-  //private NetworkReachability networkReachability;
-  //===========
-  // This is where we check NAT settings
-  // Check http://docs.unity3d.com/Documentation/ScriptReference/Network.TestConnection.html for more information
-
+  [HideInInspector] public bool HasInternet = false;
   [SerializeField] Text testMessage;
   [HideInInspector] public bool IsServer = false;
 	string testMessageText = "Test in progress.";
@@ -55,45 +49,57 @@ public class NetworkManager : MonoBehaviour {
 
   void Start()
   {
-    MasterServer.ClearHostList();
-    hostList = MasterServer.PollHostList();
-    RefreshHostList();
+    HasInternet = Application.internetReachability != NetworkReachability.NotReachable;
+    Debug.LogWarning("HasInternet = " + HasInternet);
+
+    if (!HasInternet)
+    {
+      PlayOffline();
+      infoText.text = "Offline";
+    }
+    else
+    {
+      MasterServer.ClearHostList();
+      hostList = MasterServer.PollHostList();
+      RefreshHostList();
+    }
   }
 
   private void StartAsServerOrClient()
   {
     if (hostList.Length > 0)
     {
-        if (hostList[hostList.Length -1].connectedPlayers < 2 && hostList[hostList.Length - 1].playerLimit > 1)
-        {          
-          advancedSettings.serverPort = (int.Parse(advancedSettings.serverPort) + hostList.Length - 1).ToString("f0");
-          JoinServer(hostList.Length - 1);
-          infoText.text = "Client " + (hostList.Length - 1).ToString();
-        }
-        else
-        {
-          advancedSettings.serverPort = (int.Parse(advancedSettings.serverPort) + hostList.Length).ToString("f0");
-          StartServer();
-          infoText.text = "Server " + (hostList.Length).ToString();          
-        }      
+      if (hostList[hostList.Length - 1].connectedPlayers < 2 && hostList[hostList.Length - 1].playerLimit > 1)
+      {
+        advancedSettings.serverPort = (int.Parse(advancedSettings.serverPort) + hostList.Length - 1).ToString("f0");
+        JoinServer(hostList.Length - 1);
+        infoText.text = "Client " + (hostList.Length - 1).ToString();
+      }
+      else
+      {
+        advancedSettings.serverPort = (int.Parse(advancedSettings.serverPort) + hostList.Length).ToString("f0");
+        StartServer();
+        infoText.text = "Server " + (hostList.Length).ToString();
+      }
     }
     else
-    {      
+    {
       StartServer();
-      infoText.text = "Server " + (hostList.Length).ToString();      
-    }    
+      infoText.text = "Server " + (hostList.Length).ToString();
+    }        
   }
 
   void Update ()
 	{
 		testMessage.text = testMessageText;
-		if (!doneTesting)
+		if (!doneTesting && HasInternet)
 		{
 			TestConnection();
     }    
   }
 
-	public void StartServer() {
+	public void StartServer()
+  {
 		// This is where we start creating the server
 		
 		// All these 'else if' statements are just to warn the player that a field is incorrectly filled
@@ -118,7 +124,8 @@ public class NetworkManager : MonoBehaviour {
 		{
 			errorText.text = "Error: "+"Invalid Password\n"+errorText.text;
 		}
-		else{
+		else
+    {
 			Debug.Log("U: " + advancedSettings.username + ", SN: " + advancedSettings.serverName);
 			if (advancedSettings.password != "" && advancedSettings.passwordProtected)
 			{
@@ -133,16 +140,11 @@ public class NetworkManager : MonoBehaviour {
 				Network.InitializeServer(int.Parse(advancedSettings.maxPlayers) - 1, int.Parse(advancedSettings.serverPort), useNat);
 				MasterServer.RegisterHost(advancedSettings.gameName, advancedSettings.serverName);
 			}
-			//If server creation successful, set the username in the ChatSystem
-			//chatSys.username = advancedSettings.username;
 		}    
 	}
 	
 	void OnServerInitialized()
-  {
-		// Once the server is created, check if we are dedicated or not;
-		// If we're dedicated, don't spawn a player, instead show the admin menu. Otherwise, spawn the player
-		
+  {		
 		Debug.Log("Server Initialized");
 		if (advancedSettings.dedicated)
 		{
@@ -168,8 +170,7 @@ public class NetworkManager : MonoBehaviour {
 			else
 			{
 				Network.Connect(hostList[serverNumber]);
-			}
-			//chatSys.username = advancedSettings.username;
+			}			
 		}
 		else
 		{
@@ -194,8 +195,7 @@ public class NetworkManager : MonoBehaviour {
 	}
 
   void OnPlayerConnected(NetworkPlayer player)
-  {
-    //Debug.Log("Player " + playerCount++ + " connected from " + player.ipAddress + ":" + player.port);
+  {    
     Invoke("StartDuel", 0.1f);
   }
 
@@ -209,31 +209,20 @@ public class NetworkManager : MonoBehaviour {
     networkPlayer.GetComponentInChildren<CharacterBase>().IsMine = true;
     networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
     Debug.LogWarning("Player was spawn");
-	}
-
-  
+	}  
 
   public void RefreshHostList()
-	{
-		// When invoked, clear out the host list of previous data, and get a fresh list
+	{		
 		MasterServer.ClearHostList();
     try
     {
-      MasterServer.RequestHostList(advancedSettings.gameName);
+      if (HasInternet)
+        MasterServer.RequestHostList(advancedSettings.gameName);
     }
     catch (UnityException)
     {
       Debug.Log("Internet is not available.");
-    }
-
-		if (hostList != null)
-		{
-			Debug.Log("Hostlist != null, length = " + hostList.Length);			
-		}
-		else
-		{
-			Debug.Log("Hostlist = null");
-		}
+    }		
 	}	
 
 	void OnMasterServerEvent(MasterServerEvent msEvent)
@@ -251,12 +240,6 @@ public class NetworkManager : MonoBehaviour {
 		errorText.text = "Error: "+error.ToString()+"\n" +errorText.text;
     Debug.LogWarning(" OnFailedToConnect");
 	}
-
-  void OnFailedToConnectToMasterServer(NetworkConnectionError info)
-  {
-    Debug.Log("Could not connect to master server: " + info);
-    Debug.LogWarning(" OnFailedToConnect Master server");
-  }
 
   void OnPlayerDisconnected(NetworkPlayer player){
 		// When a player disconnects, we clean up after the player by doing the following
@@ -309,7 +292,8 @@ public class NetworkManager : MonoBehaviour {
 		advancedSettings.maxPlayers = sMax;
 	}
 
-	void TestConnection () {
+	void TestConnection ()
+  {
 		float timer = Time.time;
 		// Start/Poll the connection test, report the results in a label and 
 		// react to the results accordingly
@@ -414,29 +398,3 @@ public class NetworkManager : MonoBehaviour {
     Network.maxConnections = 0;
   }
 }
-
-//	===== GNINFO =====	//
-//
-//	It is important to note, that any other Unity Game that uses the same Game Name as this
-//	will also be displayed, though connection may not be possible. I recommend changing this
-//	as soon as possible, to something with more obscurity. EG/ if your game were named Dario,
-//	something like Dario2014Alpha01131a would be obscure enough that the chances of someone else
-//	using it would be astronomically low. I personally use the convention GameNameDateVersion due to the high obscurity
-//	
-//	==================	//
-
-
-//	===== MPINFO =====	//
-//
-//	While maxPlayers is set to X, it actually has 1 subtracted from
-//	that value when used; this is because it actually treats the number
-//	as an array index (where Object 1 is indexed at 0)
-//	
-//	Because most players would reasonably assume that making a server only
-//	1 slot would mean only 1 player is allowed (instead of 1 slot for 2 players),
-//	this caters to a perfectly reasonable assumption.
-//
-//	It's important to know this when either customizing this script, or creating one from scratch,
-//	to prevent unwanted server issues
-//
-//	==================	//

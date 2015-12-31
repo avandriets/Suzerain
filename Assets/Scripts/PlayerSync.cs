@@ -1,13 +1,4 @@
 ﻿using UnityEngine;
-
-	/// <summary>
-	/// This script is attached to the player and it
-	/// ensures that every players position, rotation, and scale,
-	/// are kept up to date across the network.
-	///
-	/// This script is closely based on a script written by M2H,
-	/// and edited by AnthonyB28 ( https://github.com/AnthonyB28/FPS_Unity/blob/master/MovementUpdate.cs )
-	/// </summary>
     
 public class PlayerSync : MonoBehaviour
 {
@@ -18,34 +9,33 @@ public class PlayerSync : MonoBehaviour
   NetworkView networkView;
   Vector3 targetSpineRotation;
 	[SerializeField] float rotThreshold = 5f;
-  [SerializeField] private CharacterBase characterBase = null;  
+  [SerializeField] private CharacterBase characterBase = null;
+  private NetworkManager networkManager = null;  
   public bool IsMine = false;
 
-  void Start ()
+  private void Start ()
 	{
     networkView = GetComponent<NetworkView>();
+    networkManager = networkManager = FindObjectOfType<NetworkManager>();
     myTransform = transform;
   }  
-  	
-	[RPC]
-	void SetUsername (string name)
-	{
-		gameObject.name = name;
-	}	
 	
-	void Update ()
+	private void Update ()
 	{
+    if (networkManager.HasInternet)
+    {
       if (IsMine)
-	    {
-		    SendMovement();
-	    }
-	    else
-	    {
-		    ApplyMovement();
-	    }
+      {
+        SendMovement();
+      }
+      else
+      {
+        ApplyMovement();
+      }
+    }
 	}
 	
-	void SendMovement()
+	private void SendMovement()
 	{
     if (Vector2.Angle(characterBase.SpineBoneJoystickAngle, lastSpineRotation) >= rotThreshold)
     {
@@ -54,13 +44,13 @@ public class PlayerSync : MonoBehaviour
     }
   }
 	
-	void ApplyMovement ()
+	private void ApplyMovement ()
 	{
 		characterBase.SpineBoneNetworkAngle = Vector3.Lerp(characterBase.SpineBoneJoystickAngle, targetSpineRotation, 0.5f);
   }
 	
 	[RPC]
-	void UpdateMovement (Vector3 newPosition, Quaternion newRotation, Vector3 newSpineRotation)
+	private void UpdateMovement (Vector3 newPosition, Quaternion newRotation, Vector3 newSpineRotation)
 	{
 		targetSpineRotation = newSpineRotation;    
 	}
