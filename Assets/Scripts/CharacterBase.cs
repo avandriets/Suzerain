@@ -3,13 +3,14 @@ using UnityEngine.UI;
 
 public class CharacterBase : MonoBehaviour
 {
-  [SerializeField] private Armo armo = null;
+  public int ArmoType = 0;
+  [SerializeField] private Armo[] armos = null;
+  private Armo currentArmo = null;
   [SerializeField] private Transform armoRayTransform = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
   [SerializeField] private AnimationClip schootClip = null;
   [SerializeField] private Transform spineBone = null;
-  [SerializeField] private GameObject shootSparks = null;  
   [SerializeField] private AudioClip shootAudioClip = null;
   [SerializeField] private float moveSpeed = 2;
   [SerializeField] private float helthStep = 50;
@@ -85,11 +86,17 @@ public class CharacterBase : MonoBehaviour
   private void Start () 
   {
     thisAnimator = GetComponent<Animator>();
-    pistolAnimator = armo.GetComponent<Animator>();
-    //networkManager = FindObjectOfType<NetworkManager>();
+    currentArmo = armos[ArmoType];
+    int i = 0;
+    foreach (var armo in armos)
+    {
+      armo.gameObject.SetActive(i == ArmoType);
+      i++;
+    }
+    pistolAnimator = currentArmo.GetComponent<Animator>();
     guiController = FindObjectOfType<GUIController>();
     Time.timeScale = 1;
-    currentReductionTime = armo.ReductionTime;
+    currentReductionTime = currentArmo.ReductionTime;
     Joistick joistick = FindObjectOfType<Joistick>();    
     if (IsMine)
     {
@@ -102,7 +109,7 @@ public class CharacterBase : MonoBehaviour
       helthIndicator = guiController.EnemyHelth;
       patronsIndicator = guiController.EnemyPatrons;
     }
-    patronsIndicator.text = armo.Patrons.ToString();
+    patronsIndicator.text = currentArmo.Patrons.ToString();
     demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
     buttonRestart = FindObjectOfType<GUIController>().ButtonRestart; 
   }
@@ -138,7 +145,7 @@ public class CharacterBase : MonoBehaviour
     transform.parent.Translate(0, 0, currentMoveSpeed * Time.deltaTime*4);
     currentReductionTime -= Time.deltaTime;
     if (currentReductionTime < 0)
-      currentReductionTime = armo.ReductionTime;
+      currentReductionTime = currentArmo.ReductionTime;
     currentRotatingSpeed = Mathf.Max(currentRotatingSpeed - Time.deltaTime * rotatingSpeed/stabilityTime, 0);
     if (Input.GetKeyDown(KeyCode.Escape))
     {
@@ -148,7 +155,7 @@ public class CharacterBase : MonoBehaviour
 
   private void LateUpdate()
   {
-    float reductionKoeff = currentReductionTime/armo.ReductionTime;
+    float reductionKoeff = currentReductionTime/currentArmo.ReductionTime;
     if (rotatingRight)
     {
       currentBoneAngle -= Time.deltaTime * currentRotatingSpeed * reductionKoeff;
@@ -199,7 +206,7 @@ public class CharacterBase : MonoBehaviour
 
   public void TryShoot(bool canReduceHelth)
   {
-    if (CanShoot && !isShooting && !isDead && armo.Patrons > 0)
+    if (CanShoot && !isShooting && !isDead && currentArmo.Patrons > 0)
     {
       Shoot(canReduceHelth);
     }
@@ -208,11 +215,11 @@ public class CharacterBase : MonoBehaviour
   private void Shoot(bool canReduceHelth)
   {
     isShooting = true;
-    --armo.Patrons;
-    thisAnimator.SetBool("Reload", armo.Patrons == 0);    
+    --currentArmo.Patrons;
+    thisAnimator.SetBool("Reload", currentArmo.Patrons == 0);    
     if (patronsIndicator != null)
-      patronsIndicator.text = armo.Patrons.ToString();
-    GameObject sparks = Instantiate(shootSparks, armoRayTransform.position, armoRayTransform.rotation) as GameObject;
+      patronsIndicator.text = currentArmo.Patrons.ToString();
+    GameObject sparks = Instantiate(currentArmo.ParticlesPrefab, armoRayTransform.position, armoRayTransform.rotation) as GameObject;
     sparks.transform.parent = armoRayTransform;
     AudioSource thisAudio = GetComponent<AudioSource>();
     thisAudio.clip = shootAudioClip;
@@ -239,8 +246,8 @@ public class CharacterBase : MonoBehaviour
 
   private void EndShoot()
   {    
-    currentReductionTime = armo.ReductionTime;
-    if (armo.Patrons == 0)
+    currentReductionTime = currentArmo.ReductionTime;
+    if (currentArmo.Patrons == 0)
     {
       thisAnimator.SetTrigger("Reload");      
       pistolAnimator.Play("Reload");
@@ -271,9 +278,9 @@ public class CharacterBase : MonoBehaviour
   private void EndReload()
   {
     ReturnFireIdleAnimation();
-    armo.Reload();
+    currentArmo.Reload();
     if (patronsIndicator != null)
-      patronsIndicator.text = armo.Patrons.ToString();
+      patronsIndicator.text = currentArmo.Patrons.ToString();
   }
 
   public virtual void ReduceHelth(bool isHead)
@@ -291,7 +298,7 @@ public class CharacterBase : MonoBehaviour
       if (Helth > 0)
         Invoke("ReturnShock", shockClip.length);
     }
-    currentReductionTime = armo.ReductionTime;
+    currentReductionTime = currentArmo.ReductionTime;
     if (IsMine)
     {
       isCameraMoving = true;
