@@ -3,7 +3,7 @@
 public class Joistick : MonoBehaviour
 {
   [SerializeField] private Transform joystick = null;
-  public CharacterBase Character = null;
+  public Character Character = null;
   [SerializeField] private float size = 200;
   [SerializeField] private float sensitivityX = 4f;
   [SerializeField] private float sensitivityY = 0.2f;

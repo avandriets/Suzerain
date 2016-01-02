@@ -9,7 +9,7 @@ public class PlayerSync : MonoBehaviour
   NetworkView networkView;
   Vector3 targetSpineRotation;
 	[SerializeField] float rotThreshold = 5f;
-  [SerializeField] private CharacterBase characterBase = null;
+  [SerializeField] private Character characterBase = null;
   private NetworkManager networkManager = null;  
   public bool IsMine = false;
 

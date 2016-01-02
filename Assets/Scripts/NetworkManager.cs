@@ -181,7 +181,7 @@ public class NetworkManager : MonoBehaviour {
   void StartDuel()
   {
     serverPanel.SetActive(false);
-    CharacterBase[] characterBases = FindObjectsOfType<CharacterBase>();
+    Character[] characterBases = FindObjectsOfType<Character>();
     foreach (var _characterBase in characterBases)
     {
       _characterBase.StartDuel();
@@ -206,7 +206,7 @@ public class NetworkManager : MonoBehaviour {
       networkPlayer = Network.Instantiate(playerObject, serverPosition.position, serverPosition.rotation, 0) as GameObject;
     else
       networkPlayer = Network.Instantiate(playerObject, clientPosition.position, clientPosition.rotation, 0) as GameObject;
-    networkPlayer.GetComponentInChildren<CharacterBase>().IsMine = true;
+    networkPlayer.GetComponentInChildren<Character>().IsMine = true;
     networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
     Debug.LogWarning("Player was spawn");
 	}  
@@ -385,15 +385,15 @@ public class NetworkManager : MonoBehaviour {
   {
     offlineMode = true;
     GameObject networkPlayer = null;
-    CharacterBase[] characterBases = FindObjectsOfType<CharacterBase>();
+    Character[] characterBases = FindObjectsOfType<Character>();
     if (characterBases.Length == 0)
     {
       networkPlayer = Instantiate(playerObject, serverPosition.position, serverPosition.rotation) as GameObject;
-      networkPlayer.GetComponentInChildren<CharacterBase>().IsMine = true;
+      networkPlayer.GetComponentInChildren<Character>().IsMine = true;
       networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
     }
     networkPlayer = Instantiate(playerObject, clientPosition.position, clientPosition.rotation) as GameObject;
-    networkPlayer.GetComponentInChildren<CharacterBase>().Ai = true;
+    networkPlayer.GetComponentInChildren<Character>().Ai = true;
     StartDuel();
     Network.maxConnections = 0;
   }

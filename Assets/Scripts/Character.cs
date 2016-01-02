@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterBase : MonoBehaviour
+public class Character : MonoBehaviour
 {
   public int ArmoType = 0;
-  [SerializeField] private Armo[] armos = null;
-  private Armo currentArmo = null;
+  [SerializeField] private Armo[] armos = null;  
   [SerializeField] private Transform armoRayTransform = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
@@ -28,12 +27,11 @@ public class CharacterBase : MonoBehaviour
   [HideInInspector] public bool CanRotating = true;
   [HideInInspector] public bool CanShoot = false;
   [HideInInspector] public bool IsMine = false;
-
-  //private NetworkManager networkManager = null;
+  private Armo currentArmo = null;
   private GameObject buttonRestart = null;
   private Text helthIndicator = null;
   private Text patronsIndicator = null;
-  private CharacterBase enemyCharacterBase = null;
+  private Character enemyCharacterBase = null;
   private Animator pistolAnimator = null;
   private bool ai = false;
   protected float rayLength = 0.1f;
@@ -117,7 +115,7 @@ public class CharacterBase : MonoBehaviour
   public void StartDuel()
   {
     Invoke("UpArmo", 1.5f);
-    CharacterBase[] characterBases = FindObjectsOfType<CharacterBase>();
+    Character[] characterBases = FindObjectsOfType<Character>();
     foreach (var _characterBase in characterBases)
     {
       if (_characterBase != this)
@@ -194,6 +192,7 @@ public class CharacterBase : MonoBehaviour
     float dist = 50;
     Gizmos.DrawRay(armoRayTransform.position, armoRayTransform.forward * dist);
   }
+
   public void NetworkTryShoot(bool hasTarget, bool _toHead)
   {
     if (!IsMine)
@@ -232,7 +231,7 @@ public class CharacterBase : MonoBehaviour
       {
         enemyCharacterBase.ReduceHelth(toHead);
       }      
-    }
+    }    
     thisAnimator.SetTrigger("Shoot");    
     pistolAnimator.Play("Shoot");    
     go = false;
@@ -249,7 +248,6 @@ public class CharacterBase : MonoBehaviour
     currentReductionTime = currentArmo.ReductionTime;
     if (currentArmo.Patrons == 0)
     {
-      thisAnimator.SetTrigger("Reload");      
       pistolAnimator.Play("Reload");
     }
     else
@@ -305,7 +303,6 @@ public class CharacterBase : MonoBehaviour
       CanRotating = false;
       time = 0;
       moveToPistol = false;
-
       startCameraPosition = mainCamera.transform.position;
       finishCameraPosition = cameraDeadPosition.position;
       startCameraLocalRotation = mainCamera.transform.rotation;
