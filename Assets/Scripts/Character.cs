@@ -19,9 +19,8 @@ public class Character : MonoBehaviour
   [SerializeField] private float shootAiInterval = 1;  
   [SerializeField] private PlayerSync playerSync = null;
   [SerializeField] private Camera demoCamera = null;
-  [SerializeField] private Camera mainCamera = null;
-  [SerializeField] private Transform cameraDeadPosition = null;
-  [SerializeField] private float cameraMovingTime = 0.3f;
+  [SerializeField] private FlyToPoint mainCamera = null;
+  [SerializeField] private Transform cameraDeadPosition = null;  
   [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;
   [HideInInspector] public bool CanRotating = true;
@@ -34,29 +33,22 @@ public class Character : MonoBehaviour
   private Character enemyCharacterBase = null;
   private Animator pistolAnimator = null;
   private bool ai = false;
-  protected float rayLength = 0.1f;
-  protected bool isUpdateDone = false;
-  protected Animator thisAnimator = null;
+  private float rayLength = 0.1f;
+  private bool isUpdateDone = false;
+  private Animator thisAnimator = null;
   private float currentMoveSpeed = 0;
   private float currentBoneAngle = 0;
   private bool isShooting = false;
-  protected bool go = false;
+  private bool go = false;
   private bool isDead = false;
   private float helth = 100;
   private bool toHead = false;
   private bool rotatingRight = false;
   private float currentReductionTime = 0;
   private float currentRotatingSpeed = 0;   
-  private GUIController guiController = null;
-  private Transform handBone = null;
-  private bool isCameraMoving = false;
-  private Vector3 startCameraPosition = Vector3.zero;
-  private Quaternion startCameraLocalRotation = Quaternion.identity;
-  private Vector3 finishCameraPosition = Vector3.zero;
-  private Quaternion finishCameraLocalRotation = Quaternion.identity;
-  private float time = 0;
-  private bool moveToPistol = false;
+  private GUIController guiController = null;  
   private bool isNearBarrier = false;
+  private Transform cameraParent = null;
 
   public float Helth
   {
@@ -65,9 +57,7 @@ public class Character : MonoBehaviour
     {
       helth = Mathf.Max(0, value);
       if (helthIndicator != null)
-        helthIndicator.text = helth.ToString("f0")+"%";
-      if (helth <= 0)
-        Dead();
+        helthIndicator.text = helth.ToString("f0")+"%";      
     }
   }
 
@@ -100,12 +90,14 @@ public class Character : MonoBehaviour
     {
       joistick.Character = this;
       helthIndicator = guiController.MyHelth;
-      patronsIndicator = guiController.MyPatrons;      
+      patronsIndicator = guiController.MyPatrons;
+      cameraParent = mainCamera.transform.parent;
     }
     else
     {
       helthIndicator = guiController.EnemyHelth;
       patronsIndicator = guiController.EnemyPatrons;
+      Destroy(mainCamera.gameObject);
     }
     patronsIndicator.text = currentArmo.Patrons.ToString();
     demoCamera = GameObject.Find("DemoCamera").GetComponent<Camera>();
@@ -132,8 +124,7 @@ public class Character : MonoBehaviour
   {
     go = true;    
     CanShoot = true;
-    Invoke("ChangeCamera", 1);
-    handBone = mainCamera.transform.parent;
+    Invoke("ChangeCamera", 1);    
   }
 
   private void Update()
@@ -147,7 +138,10 @@ public class Character : MonoBehaviour
     currentRotatingSpeed = Mathf.Max(currentRotatingSpeed - Time.deltaTime * rotatingSpeed/stabilityTime, 0);
     if (Input.GetKeyDown(KeyCode.Escape))
     {
-      Helth = 0;
+      if (!IsMine)
+      {
+        enemyCharacterBase.ReduceHelth(false);
+      }
     }
   }
 
@@ -169,12 +163,8 @@ public class Character : MonoBehaviour
     if (!isDead)
     {
       if (IsMine)
-        spineBone.rotation = Quaternion.Euler(spineBone.eulerAngles.x - SpineBoneJoystickAngle.y, spineBone.eulerAngles.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineBone.eulerAngles.z);
-      //spineBone.rotation = Quaternion.Euler(spineRotation.x - SpineBoneJoystickAngle.y, spineRotation.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineRotation.z);      
-      //else
-      //  spineBone.rotation = Quaternion.Euler(spineRotation.x, spineRotation.y + currentBoneAngle, spineRotation.z);
-    }
-    CameraMoving();
+        spineBone.rotation = Quaternion.Euler(spineBone.eulerAngles.x - SpineBoneJoystickAngle.y, spineBone.eulerAngles.y + currentBoneAngle + SpineBoneJoystickAngle.x, spineBone.eulerAngles.z);      
+    }    
   }
 
   private void FixedUpdate()
@@ -238,7 +228,7 @@ public class Character : MonoBehaviour
     thisAnimator.SetBool("Go", false);
     
     if (IsMine)
-        playerSync.TryNetworkShoot(rayLength < 70, toHead);
+      playerSync.TryNetworkShoot(rayLength < 100, toHead);
 
     Invoke("EndShoot", schootClip.length);
   }
@@ -281,7 +271,7 @@ public class Character : MonoBehaviour
       patronsIndicator.text = currentArmo.Patrons.ToString();
   }
 
-  public virtual void ReduceHelth(bool isHead)
+  public void ReduceHelth(bool isHead)
   {
     Helth -= helthStep; 
     currentMoveSpeed = 0;
@@ -295,26 +285,24 @@ public class Character : MonoBehaviour
       thisAnimator.SetTrigger("Shock");
       if (Helth > 0)
         Invoke("ReturnShock", shockClip.length);
+      else
+        Dead();
     }
     currentReductionTime = currentArmo.ReductionTime;
+    
     if (IsMine)
     {
-      isCameraMoving = true;
+      mainCamera.StartFly(cameraDeadPosition);
+      Time.timeScale = 0.3f;
       CanRotating = false;
-      time = 0;
-      moveToPistol = false;
-      startCameraPosition = mainCamera.transform.position;
-      finishCameraPosition = cameraDeadPosition.position;
-      startCameraLocalRotation = mainCamera.transform.rotation;
-      finishCameraLocalRotation = cameraDeadPosition.rotation;
-      mainCamera.transform.parent = null;
     }
   }
 
-  protected virtual void ReturnShock()
+  private void ReturnShock()
   {
-    Invoke("EnableShoot", 0.7f);
-    Invoke("ParentingCameraToPistol", 0.90f);
+    Invoke("EnableShoot", 0.5f);
+    if (IsMine)
+      mainCamera.StartFly(cameraParent);
   }
 
   private void EnableShoot()
@@ -323,7 +311,7 @@ public class Character : MonoBehaviour
     enemyCharacterBase.CanShoot = true;
   }
 
-  protected virtual void Dead()
+  private void Dead()
   {
     if (!isDead)
     {
@@ -333,10 +321,7 @@ public class Character : MonoBehaviour
       go = false;
       Invoke("ShowButtonRestart", 3);
     }
-    CanRotating = false;
-    mainCamera.transform.parent = null;
-    mainCamera.transform.position = cameraDeadPosition.position;
-    mainCamera.transform.rotation = cameraDeadPosition.rotation;
+    CanRotating = false;    
   }
 
   private void OnTriggerEnter(Collider other)
@@ -394,47 +379,5 @@ public class Character : MonoBehaviour
       demoCamera.gameObject.SetActive(false);
     if (IsMine)
       mainCamera.gameObject.SetActive(true);
-  }
-
-  private void CameraMoving()
-  {
-    if (isCameraMoving)
-    {
-      time += Time.deltaTime / cameraMovingTime;
-      if (time > 1)
-      {
-        time = 1;
-        isCameraMoving = false;
-        if (moveToPistol)
-        {
-          mainCamera.transform.parent = handBone;
-          Time.timeScale = 1;
-          CanRotating = true;
-        }
-      }
-      if (moveToPistol)
-      {
-        mainCamera.transform.position = Vector3.Lerp(startCameraPosition, handBone.transform.position, time);
-        mainCamera.transform.rotation = Quaternion.Lerp(startCameraLocalRotation, handBone.transform.rotation, time);
-      }
-      else
-      {
-        mainCamera.transform.position = Vector3.Lerp(startCameraPosition, finishCameraPosition, time);
-        mainCamera.transform.rotation = Quaternion.Lerp(startCameraLocalRotation, finishCameraLocalRotation, time);
-      }
-    }
-  }
-
-  private void ParentingCameraToPistol()
-  {
-    if (Helth > 0)
-    {
-      isCameraMoving = true;
-      CanRotating = false;
-      moveToPistol = true;
-      time = 0;
-      startCameraPosition = mainCamera.transform.position;
-      startCameraLocalRotation = mainCamera.transform.localRotation;
-    }
-  }
+  }  
 }

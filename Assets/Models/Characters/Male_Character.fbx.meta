@@ -769,8 +769,8 @@ ModelImporter:
     - serializedVersion: 16
       name: WalkUp
       takeName: Scene
-      firstFrame: 294
-      lastFrame: 295
+      firstFrame: 233
+      lastFrame: 235
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
