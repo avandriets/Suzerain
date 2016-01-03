@@ -16,7 +16,7 @@ public class PlayerSync : MonoBehaviour
   private void Start ()
 	{
     networkView = GetComponent<NetworkView>();
-    networkManager = networkManager = FindObjectOfType<NetworkManager>();
+    networkManager = FindObjectOfType<NetworkManager>();
     myTransform = transform;
   }  
 	
@@ -57,7 +57,8 @@ public class PlayerSync : MonoBehaviour
 
   public void TryNetworkShoot(bool hasTarget, bool toHead)
   {
-    networkView.RPC("NetworkShoot", RPCMode.OthersBuffered, hasTarget, toHead);
+    if (networkManager.HasInternet)
+      networkView.RPC("NetworkShoot", RPCMode.OthersBuffered, hasTarget, toHead);
   }
 
   [RPC]
