@@ -6,7 +6,7 @@ public class PlayerSync : MonoBehaviour
 	Quaternion lastRotation;
   Vector3 lastSpineRotation;
   Transform myTransform;
-  NetworkView networkView;
+  NetworkView thisNetworkView;
   Vector3 targetSpineRotation;
 	[SerializeField] float rotThreshold = 5f;
   [SerializeField] private Character characterBase = null;
@@ -15,7 +15,7 @@ public class PlayerSync : MonoBehaviour
 
   private void Start ()
 	{
-    networkView = GetComponent<NetworkView>();
+    thisNetworkView = GetComponent<NetworkView>();
     networkManager = FindObjectOfType<NetworkManager>();
     myTransform = transform;
   }  
@@ -40,7 +40,7 @@ public class PlayerSync : MonoBehaviour
     if (Vector2.Angle(characterBase.SpineBoneJoystickAngle, lastSpineRotation) >= rotThreshold)
     {
       lastSpineRotation = characterBase.SpineBoneJoystickAngle;
-      networkView.RPC("UpdateMovement", RPCMode.OthersBuffered, myTransform.position, myTransform.rotation, characterBase.SpineBoneJoystickAngle);      
+      thisNetworkView.RPC("UpdateMovement", RPCMode.OthersBuffered, myTransform.position, myTransform.rotation, characterBase.SpineBoneJoystickAngle);      
     }
   }
 	
@@ -58,7 +58,7 @@ public class PlayerSync : MonoBehaviour
   public void TryNetworkShoot(bool hasTarget, bool toHead)
   {
     if (networkManager.HasInternet)
-      networkView.RPC("NetworkShoot", RPCMode.OthersBuffered, hasTarget, toHead);
+      thisNetworkView.RPC("NetworkShoot", RPCMode.OthersBuffered, hasTarget, toHead);
   }
 
   [RPC]

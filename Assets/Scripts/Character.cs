@@ -22,8 +22,7 @@ public class Character : MonoBehaviour
   [SerializeField] private FlyToPoint mainCamera = null;
   [SerializeField] private Transform cameraDeadPosition = null;  
   [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
-  [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;
-  [HideInInspector] public bool CanRotating = true;
+  [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;  
   [HideInInspector] public bool CanShoot = false;
   [HideInInspector] public bool IsMine = false;
   private Armo currentArmo = null;
@@ -272,30 +271,28 @@ public class Character : MonoBehaviour
   }
 
   public void ReduceHelth(bool isHead)
-  {
-    Helth -= helthStep; 
+  {    
     currentMoveSpeed = 0;
-    CanShoot = false;
+    currentReductionTime = currentArmo.ReductionTime;
+    CanShoot = false;    
     enemyCharacterBase.CanShoot = false;
     Time.timeScale = 0.2f;
+
     if (isHead)
       Helth = 0;
     else
+      Helth -= helthStep;
+
+    if (Helth > 0)
     {
       thisAnimator.SetTrigger("Shock");
-      if (Helth > 0)
-        Invoke("ReturnShock", shockClip.length);
-      else
-        Dead();
+      Invoke("ReturnShock", shockClip.length);
     }
-    currentReductionTime = currentArmo.ReductionTime;
+    else
+      Dead();    
     
-    if (IsMine)
-    {
-      mainCamera.StartFly(cameraDeadPosition);
-      Time.timeScale = 0.3f;
-      CanRotating = false;
-    }
+    if (IsMine)    
+      mainCamera.StartFly(cameraDeadPosition);     
   }
 
   private void ReturnShock()
@@ -307,7 +304,7 @@ public class Character : MonoBehaviour
 
   private void EnableShoot()
   {
-    CanShoot = true;
+    CanShoot = true;    
     enemyCharacterBase.CanShoot = true;
   }
 
@@ -320,8 +317,8 @@ public class Character : MonoBehaviour
       currentRotatingSpeed = 0;
       go = false;
       Invoke("ShowButtonRestart", 3);
-    }
-    CanRotating = false;    
+    }    
+    CanShoot = false;    
   }
 
   private void OnTriggerEnter(Collider other)

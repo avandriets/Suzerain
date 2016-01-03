@@ -1,25 +1,16 @@
 ﻿using UnityEngine;
 
 public class FlyToPoint : MonoBehaviour
-{
-  private Transform targetTransform = null;
-  [SerializeField] private float cameraMovingTime = 0.3f;
-  private bool isCameraMoving = false;
-  private Vector3 startCameraPosition = Vector3.zero;
-  private Quaternion startCameraLocalRotation = Quaternion.identity;
-  private Vector3 finishCameraPosition = Vector3.zero;
-  private Quaternion finishCameraLocalRotation = Quaternion.identity;
-  //private Transform handBone = null;
-  private float time = 0;
-  //private bool moveToPistol = false;
-  
-
-  private void Start ()
-  {
-	
-	}
-	
-	private void LateUpdate ()
+{ 
+  public float MovingTime = 0.3f;
+  private Transform targetTransform = null;  
+  private Vector3 startPosition = Vector3.zero;
+  private Quaternion startRotation = Quaternion.identity;
+  private Vector3 finishPosition = Vector3.zero;
+  private Quaternion finishRotation = Quaternion.identity;
+  private float time = 0;  
+  	
+	private void Update ()
   {
     CameraMoving();
   }
@@ -27,43 +18,25 @@ public class FlyToPoint : MonoBehaviour
   public void StartFly(Transform _target)
   {
     targetTransform = _target;
-    //handBone = transform.parent;
-    isCameraMoving = true;    
-    time = 0;
-    //moveToPistol = false;
-    startCameraPosition = transform.position;
-    finishCameraPosition = targetTransform.position;
-    startCameraLocalRotation = transform.rotation;
-    finishCameraLocalRotation = targetTransform.rotation;
-    transform.parent = null;
+    enabled = true;
+    time = 0;    
+    startPosition = transform.position;
+    finishPosition = targetTransform.position;
+    startRotation = transform.rotation;
+    finishRotation = targetTransform.rotation;
+    transform.parent = null;    
   }
 
   private void CameraMoving()
   {
-    if (isCameraMoving)
+    time += Time.deltaTime / MovingTime;
+    if (time > 1)
     {
-      time += Time.deltaTime / cameraMovingTime;
-      if (time > 1)
-      {
-        time = 1;
-        isCameraMoving = false;
-        transform.parent = targetTransform;          
-      }
-      transform.position = Vector3.Lerp(startCameraPosition, finishCameraPosition, time);
-      transform.rotation = Quaternion.Lerp(startCameraLocalRotation, finishCameraLocalRotation, time);     
+      time = 1;
+      enabled = false;
+      transform.parent = targetTransform;
     }
-  }
-
-  /*private void ParentingCameraToPistol()
-  {
-    if (Helth > 0)
-    {
-      isCameraMoving = true;
-      CanRotating = false;
-      moveToPistol = true;
-      time = 0;
-      startCameraPosition = transform.position;
-      startCameraLocalRotation = transform.localRotation;
-    }
-  }*/
+    transform.position = Vector3.Lerp(startPosition, finishPosition, time);
+    transform.rotation = Quaternion.Lerp(startRotation, finishRotation, time);
+  }       
 }
