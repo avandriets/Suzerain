@@ -316,6 +316,7 @@ public class Character : MonoBehaviour
       thisAnimator.enabled = false;
       currentRotatingSpeed = 0;
       go = false;
+      thisAnimator.SetTrigger("Dead");
       Invoke("ShowButtonRestart", 3);
     }    
     CanShoot = false;    
