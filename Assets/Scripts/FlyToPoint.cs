@@ -6,8 +6,6 @@ public class FlyToPoint : MonoBehaviour
   private Transform targetTransform = null;  
   private Vector3 startPosition = Vector3.zero;
   private Quaternion startRotation = Quaternion.identity;
-  private Vector3 finishPosition = Vector3.zero;
-  private Quaternion finishRotation = Quaternion.identity;
   private float time = 0;  
   	
 	private void Update ()
@@ -19,24 +17,26 @@ public class FlyToPoint : MonoBehaviour
   {
     targetTransform = _target;
     enabled = true;
-    time = 0;    
+    time = 0;
+    transform.parent = null;
     startPosition = transform.position;
-    finishPosition = targetTransform.position;
-    startRotation = transform.rotation;
-    finishRotation = targetTransform.rotation;
-    transform.parent = null;    
+    startRotation = transform.rotation;       
   }
 
   private void CameraMoving()
   {
     time += Time.deltaTime / MovingTime;
     if (time > 1)
-    {
-      time = 1;
-      enabled = false;
+    {       
       transform.parent = targetTransform;
+      transform.localPosition = Vector3.zero;
+      transform.localRotation = Quaternion.identity;
+      enabled = false;
     }
-    transform.position = Vector3.Lerp(startPosition, finishPosition, time);
-    transform.rotation = Quaternion.Lerp(startRotation, finishRotation, time);
+    else
+    {
+      transform.position = Vector3.Lerp(startPosition, targetTransform.position, time);
+      transform.rotation = Quaternion.Lerp(startRotation, targetTransform.rotation, time);
+    }
   }       
 }

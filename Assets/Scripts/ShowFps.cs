@@ -32,7 +32,7 @@ public class ShowFps : MonoBehaviour
       if (fps > LowFPS) {Step += 1;};
       if (fps < LowFPS) {Step -= 1;};
 
-      uILabel.text = /*"FPS: " +*/ fps.ToString("f0");
+      uILabel.text = "FPS: " + fps.ToString("f0");
 
       timeleft = updateInterval;
       accum = 0.0F;

@@ -216,13 +216,12 @@ public class Character : MonoBehaviour
     currentRotatingSpeed = rotatingSpeed;
     if (canReduceHelth)
     {      
-      if (rayLength < 70)
+      if (rayLength < 100)
       {
         enemyCharacterBase.ReduceHelth(toHead);
       }      
     }    
-    thisAnimator.SetTrigger("Shoot");    
-    pistolAnimator.Play("Shoot");    
+    thisAnimator.SetTrigger("Shoot");         
     go = false;
     thisAnimator.SetBool("Go", false);
     
@@ -238,27 +237,19 @@ public class Character : MonoBehaviour
     if (currentArmo.Patrons == 0)
     {
       pistolAnimator.Play("Reload");
+      Invoke("EndReload", reloadClip.length); 
     }
     else
     {
       ReturnFireIdleAnimation();
-    }
-    Invoke("EndReload", reloadClip.length); 
+    }    
   }
 
   private void ReturnFireIdleAnimation()
   {
-    isShooting = false;
-    if (!isNearBarrier)
-    {
-      go = true;
-      thisAnimator.SetBool("Go", true);
-    }
-    else
-    {
-      go = false;
-      thisAnimator.SetBool("Go", false);
-    }
+    isShooting = false;    
+    go = !isNearBarrier;
+    thisAnimator.SetBool("Go", !isNearBarrier);    
     pistolAnimator.Play("Idle");     
   }
 
@@ -276,8 +267,7 @@ public class Character : MonoBehaviour
     currentReductionTime = currentArmo.ReductionTime;
     CanShoot = false;    
     enemyCharacterBase.CanShoot = false;
-    Time.timeScale = 0.2f;
-
+    Time.timeScale = 0.2f;    
     if (isHead)
       Helth = 0;
     else
@@ -296,7 +286,7 @@ public class Character : MonoBehaviour
   }
 
   private void ReturnShock()
-  {
+  {    
     Invoke("EnableShoot", 0.5f);
     if (IsMine)
       mainCamera.StartFly(cameraParent);
@@ -306,14 +296,15 @@ public class Character : MonoBehaviour
   {
     CanShoot = true;    
     enemyCharacterBase.CanShoot = true;
+    Time.timeScale = 1;
   }
 
   private void Dead()
   {
     if (!isDead)
     {
-      isDead = true;
-      thisAnimator.enabled = false;
+      Time.timeScale = 1;
+      isDead = true;      
       currentRotatingSpeed = 0;
       go = false;
       thisAnimator.SetTrigger("Dead");

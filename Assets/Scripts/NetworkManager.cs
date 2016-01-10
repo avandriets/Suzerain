@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class NetworkManager : MonoBehaviour {
+public class NetworkManager : MonoBehaviour
+{
 
 	[SerializeField] public ServerSettings advancedSettings;
 	
