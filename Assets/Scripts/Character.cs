@@ -3,9 +3,11 @@ using UnityEngine.UI;
 
 public class Character : MonoBehaviour
 {
+  [SerializeField] private PlayerSync playerSync = null;
   public int ArmoType = 0;
   [SerializeField] private Armo[] armos = null;  
   [SerializeField] private Transform armoRayTransform = null;
+  [SerializeField] private FlyToPoint mainCamera = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
   [SerializeField] private AnimationClip schootClip = null;
@@ -16,10 +18,9 @@ public class Character : MonoBehaviour
   [SerializeField] private float rotatingSpeed = 2;
   [SerializeField] private float stabilityTime = 1;
   [SerializeField] private float maxAngle = 4;
-  [SerializeField] private float shootAiInterval = 1;  
-  [SerializeField] private PlayerSync playerSync = null;
+  [SerializeField] private float shootAiInterval = 1; 
   [SerializeField] private Camera demoCamera = null;
-  [SerializeField] private FlyToPoint mainCamera = null;
+  
   [SerializeField] private Transform cameraDeadPosition = null;  
   [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;  
@@ -48,6 +49,7 @@ public class Character : MonoBehaviour
   private GUIController guiController = null;  
   private bool isNearBarrier = false;
   private Transform cameraParent = null;
+  private bool startEnemyReduceHelth = false;
 
   public float Helth
   {
@@ -130,7 +132,7 @@ public class Character : MonoBehaviour
   {
     isUpdateDone = true;
     currentMoveSpeed = go && CanShoot ? Mathf.Min(currentMoveSpeed + Time.deltaTime, moveSpeed) : 0f;
-    transform.parent.Translate(0, 0, currentMoveSpeed * Time.deltaTime*4);
+    playerSync.transform.Translate(0, 0, currentMoveSpeed * Time.deltaTime * 4);
     currentReductionTime -= Time.deltaTime;
     if (currentReductionTime < 0)
       currentReductionTime = currentArmo.ReductionTime;
@@ -141,6 +143,11 @@ public class Character : MonoBehaviour
       {
         enemyCharacterBase.ReduceHelth(false);
       }
+    }
+    if (startEnemyReduceHelth)
+    {
+      startEnemyReduceHelth = false;
+      enemyCharacterBase.ReduceHelth(false);
     }
   }
 
@@ -218,7 +225,8 @@ public class Character : MonoBehaviour
     {      
       if (rayLength < 100)
       {
-        enemyCharacterBase.ReduceHelth(toHead);
+        //enemyCharacterBase.ReduceHelth(toHead);
+        startEnemyReduceHelth = true;
       }      
     }    
     thisAnimator.SetTrigger("Shoot");         
@@ -276,13 +284,16 @@ public class Character : MonoBehaviour
     if (Helth > 0)
     {
       thisAnimator.SetTrigger("Shock");
-      Invoke("ReturnShock", shockClip.length);
+      Invoke("ReturnShock", shockClip.length + 0.5f);
     }
     else
-      Dead();    
-    
-    if (IsMine)    
-      mainCamera.StartFly(cameraDeadPosition);     
+      Dead();
+
+    if (IsMine)
+    {
+      Debug.LogWarning("StartFly position from Character = " + mainCamera.transform.position);
+      mainCamera.StartFly(cameraDeadPosition);
+    }    
   }
 
   private void ReturnShock()
@@ -356,7 +367,7 @@ public class Character : MonoBehaviour
   {
     if (enemyCharacterBase.Helth > 0)
     {
-      if (rayLength < 60 || Random.value < 0.4f)
+      if (rayLength < 100 || Random.value < 0.4f)
         TryShoot(true);
       Invoke("RunAiShoot", shootAiInterval);
     }
