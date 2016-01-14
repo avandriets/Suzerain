@@ -33,7 +33,7 @@ public class Joistick : MonoBehaviour
       isTouch = false;
     }
 
-    if (Input.GetMouseButton(0) && isTouch && Character.CanShoot)
+    if (Input.GetMouseButton(0) && isTouch && Character != null && Character.CanShoot)
     {
       float x = Mathf.Clamp(Input.mousePosition.x - startPressPosition.x, transform.position.x - size, transform.position.x + size);
       float y = Mathf.Clamp(Input.mousePosition.y - startPressPosition.y, transform.position.y - size, transform.position.y + size);

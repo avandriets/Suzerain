@@ -49,7 +49,6 @@ public class Character : MonoBehaviour
   private GUIController guiController = null;  
   private bool isNearBarrier = false;
   private Transform cameraParent = null;
-  private bool startEnemyReduceHelth = false;
 
   public float Helth
   {
@@ -131,7 +130,7 @@ public class Character : MonoBehaviour
   private void Update()
   {
     isUpdateDone = true;
-    currentMoveSpeed = go && CanShoot ? Mathf.Min(currentMoveSpeed + Time.deltaTime, moveSpeed) : 0f;
+    currentMoveSpeed = go && CanShoot ? Mathf.Min(currentMoveSpeed + Time.deltaTime*0.1f, moveSpeed) : 0f;
     playerSync.transform.Translate(0, 0, currentMoveSpeed * Time.deltaTime * 4);
     currentReductionTime -= Time.deltaTime;
     if (currentReductionTime < 0)
@@ -143,12 +142,7 @@ public class Character : MonoBehaviour
       {
         enemyCharacterBase.ReduceHelth(false);
       }
-    }
-    if (startEnemyReduceHelth)
-    {
-      startEnemyReduceHelth = false;
-      enemyCharacterBase.ReduceHelth(false);
-    }
+    }    
   }
 
   private void LateUpdate()
@@ -225,8 +219,7 @@ public class Character : MonoBehaviour
     {      
       if (rayLength < 100)
       {
-        //enemyCharacterBase.ReduceHelth(toHead);
-        startEnemyReduceHelth = true;
+        enemyCharacterBase.ReduceHelth(toHead);
       }      
     }    
     thisAnimator.SetTrigger("Shoot");         
@@ -289,11 +282,8 @@ public class Character : MonoBehaviour
     else
       Dead();
 
-    if (IsMine)
-    {
-      Debug.LogWarning("StartFly position from Character = " + mainCamera.transform.position);
-      mainCamera.StartFly(cameraDeadPosition);
-    }    
+    if (IsMine)    
+      mainCamera.StartFly(cameraDeadPosition);        
   }
 
   private void ReturnShock()

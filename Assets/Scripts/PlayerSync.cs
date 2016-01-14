@@ -22,7 +22,7 @@ public class PlayerSync : MonoBehaviour
 	
 	private void Update ()
 	{
-    if (networkManager.HasInternet)
+    if (networkManager.HasInternet && networkManager.IsConnectToMasterServer)
     {
       if (IsMine)
       {

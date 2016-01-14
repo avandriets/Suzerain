@@ -38,14 +38,15 @@ public class NetworkManager : MonoBehaviour
 	ConnectionTesterStatus connectionTestResult = ConnectionTesterStatus.Undetermined;
 	bool useNat = false;
   private bool offlineMode = false;
+  public bool IsConnectToMasterServer = false;
 	//===========
 
 	void Awake()
 	{
     advancedSettings.username = Random.value.ToString("f6");
     advancedSettings.password = Random.value.ToString("f6");    
-		MasterServer.ClearHostList();
-		testMessage.text = "Testing network connection capabilities.";      
+		//MasterServer.ClearHostList();
+		//testMessage.text = "Testing network connection capabilities.";      
   }
 
   void Start()
@@ -87,7 +88,8 @@ public class NetworkManager : MonoBehaviour
     {
       StartServer();
       infoText.text = "Server " + (hostList.Length).ToString();
-    }        
+    }
+    IsConnectToMasterServer = true;
   }
 
   void Update ()
@@ -161,23 +163,22 @@ public class NetworkManager : MonoBehaviour
 	
 	public void JoinServer (int serverNumber)
 	{
-		//Only join if we have a username
-		if (advancedSettings.username != "")
-		{
-			if (hostList[serverNumber].passwordProtected)
-			{
-				Network.Connect(hostList[serverNumber], advancedSettings.password);
-			}
-			else
-			{
-				Network.Connect(hostList[serverNumber]);
-			}			
-		}
-		else
-		{
-			errorText.text = "Invalid Username\n"+errorText.text;
-		}
-	}
+    if (advancedSettings.username != "")
+    {
+      if (hostList[serverNumber].passwordProtected)
+      {
+        Network.Connect(hostList[serverNumber], advancedSettings.password);
+      }
+      else
+      {
+        Network.Connect(hostList[serverNumber]);
+      }
+    }
+    else
+    {
+      errorText.text = "Invalid Username\n" + errorText.text;
+    }    
+  }
 
   void StartDuel()
   {
@@ -209,7 +210,6 @@ public class NetworkManager : MonoBehaviour
       networkPlayer = Network.Instantiate(playerObject, clientPosition.position, clientPosition.rotation, 0) as GameObject;
     networkPlayer.GetComponentInChildren<Character>().IsMine = true;
     networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
-    Debug.LogWarning("Player was spawn");
 	}  
 
   public void RefreshHostList()
@@ -233,10 +233,21 @@ public class NetworkManager : MonoBehaviour
       hostList = MasterServer.PollHostList();
       StartAsServerOrClient();
       Debug.LogWarning("HostListReceived");
-		}    
-	}
+		}
 
-	void OnFailedToConnect (NetworkConnectionError error){
+    if (msEvent == MasterServerEvent.RegistrationSucceeded)
+    {
+      Debug.LogWarning("MasterServerEvent.RegistrationFailedNoServer");
+    }
+  }
+
+  void OnFailedToConnectToMasterServer(NetworkConnectionError info)
+  {
+    Debug.Log("Could not connect to master server: " + info);
+  }
+
+  void OnFailedToConnect (NetworkConnectionError error)
+  {
 		// If we can't connect, tell the user why
 		errorText.text = "Error: "+error.ToString()+"\n" +errorText.text;
     Debug.LogWarning(" OnFailedToConnect");
