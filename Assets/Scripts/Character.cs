@@ -19,8 +19,7 @@ public class Character : MonoBehaviour
   [SerializeField] private float stabilityTime = 1;
   [SerializeField] private float maxAngle = 4;
   [SerializeField] private float shootAiInterval = 1; 
-  [SerializeField] private Camera demoCamera = null;
-  
+  [SerializeField] private Camera demoCamera = null;  
   [SerializeField] private Transform cameraDeadPosition = null;  
   [HideInInspector] public Vector3 SpineBoneJoystickAngle = Vector3.zero;
   [HideInInspector] public Vector3 SpineBoneNetworkAngle = Vector3.zero;  
@@ -217,7 +216,7 @@ public class Character : MonoBehaviour
     currentRotatingSpeed = rotatingSpeed;
     if (canReduceHelth)
     {      
-      if (rayLength < 100)
+      if (rayLength < 80)
       {
         enemyCharacterBase.ReduceHelth(toHead);
       }      
@@ -227,7 +226,7 @@ public class Character : MonoBehaviour
     thisAnimator.SetBool("Go", false);
     
     if (IsMine)
-      playerSync.TryNetworkShoot(rayLength < 100, toHead);
+      playerSync.TryNetworkShoot(rayLength < 80, toHead);
 
     Invoke("EndShoot", schootClip.length);
   }
