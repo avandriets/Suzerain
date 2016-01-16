@@ -57,7 +57,7 @@ public class PlayerSync : MonoBehaviour
 
   public void TryNetworkShoot(bool hasTarget, bool toHead)
   {
-    if (networkManager.HasInternet)
+    if (networkManager.HasInternet && networkManager.IsConnectToMasterServer)
       thisNetworkView.RPC("NetworkShoot", RPCMode.OthersBuffered, hasTarget, toHead);
   }
 
