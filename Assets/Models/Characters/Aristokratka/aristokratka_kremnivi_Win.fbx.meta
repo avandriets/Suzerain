@@ -135,7 +135,7 @@ ModelImporter:
     4300002: kremnivi_mesh
     4300004: patron_mesh
     4300006: gilza_mesh
-    7400000: Scene
+    7400000: Win
     9500000: //RootNode
     13700000: gilza_mesh
     13700002: kremnivi_mesh
@@ -161,7 +161,161 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Win
+      takeName: Scene
+      firstFrame: 890
+      lastFrame: 970
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: kremnivi_mesh
+        weight: 1
+      - path: kremnivi_mesh/gilza_mesh
+        weight: 1
+      - path: kremnivi_mesh/patron_mesh
+        weight: 1
+      - path: main_bone
+        weight: 1
+      - path: main_bone/hips
+        weight: 1
+      - path: main_bone/hips/spine
+        weight: 1
+      - path: main_bone/hips/spine/bone_patron
+        weight: 1
+      - path: main_bone/hips/spine/chest
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/neck
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/neck/head
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L/f_index.02.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_index.01.L/f_index.02.L/f_index.03.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L/f_middle.02.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_middle.01.L/f_middle.02.L/f_middle.03.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L/f_pinky.02.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_pinky.01.L/f_pinky.02.L/f_pinky.03.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L/f_ring.02.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/f_ring.01.L/f_ring.02.L/f_ring.03.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L/thumb.02.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.L/upper_arm.L/forearm.L/hand.L/thumb.01.L/thumb.02.L/thumb.03.L
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol/bone_gilza
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_zatvor
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R/f_index.02.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_index.01.R/f_index.02.R/f_index.03.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R/f_middle.02.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_middle.01.R/f_middle.02.R/f_middle.03.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R/f_pinky.02.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_pinky.01.R/f_pinky.02.R/f_pinky.03.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R/f_ring.02.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/f_ring.01.R/f_ring.02.R/f_ring.03.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R/thumb.02.R
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/thumb.01.R/thumb.02.R/thumb.03.R
+        weight: 1
+      - path: main_bone/hips/thigh.L
+        weight: 1
+      - path: main_bone/hips/thigh.L/shin.L
+        weight: 1
+      - path: main_bone/hips/thigh.L/shin.L/foot.L
+        weight: 1
+      - path: main_bone/hips/thigh.L/shin.L/foot.L/toe.L
+        weight: 1
+      - path: main_bone/hips/thigh.R
+        weight: 1
+      - path: main_bone/hips/thigh.R/shin.R
+        weight: 1
+      - path: main_bone/hips/thigh.R/shin.R/foot.R
+        weight: 1
+      - path: main_bone/hips/thigh.R/shin.R/foot.R/toe.R
+        weight: 1
+      - path: main_mesh
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

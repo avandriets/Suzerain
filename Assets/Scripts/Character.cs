@@ -219,6 +219,10 @@ public class Character : MonoBehaviour
       if (rayLength < 80)
       {
         enemyCharacterBase.ReduceHelth(toHead);
+        if (enemyCharacterBase.Helth <= 0)
+        {          
+          Win();
+        }
       }      
     }    
     thisAnimator.SetTrigger("Shoot");         
@@ -236,7 +240,6 @@ public class Character : MonoBehaviour
     currentReductionTime = currentArmo.ReductionTime;
     if (currentArmo.Patrons == 0)
     {
-      //pistolAnimator.Play("Reload");
       Invoke("EndReload", reloadClip.length); 
     }
     else
@@ -249,8 +252,7 @@ public class Character : MonoBehaviour
   {
     isShooting = false;    
     go = !isNearBarrier;
-    thisAnimator.SetBool("Go", !isNearBarrier);    
-    //pistolAnimator.Play("Idle");     
+    thisAnimator.SetBool("Go", !isNearBarrier);          
   }
 
   private void EndReload()
@@ -368,5 +370,12 @@ public class Character : MonoBehaviour
       demoCamera.gameObject.SetActive(false);
     if (IsMine)
       mainCamera.gameObject.SetActive(true);
-  }  
+  }
+
+  private void Win()
+  {
+    if (IsMine)
+      mainCamera.StartFly(cameraDeadPosition);
+    thisAnimator.SetTrigger("Win");
+  }
 }
