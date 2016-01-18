@@ -236,7 +236,7 @@ public class Character : MonoBehaviour
     currentReductionTime = currentArmo.ReductionTime;
     if (currentArmo.Patrons == 0)
     {
-      pistolAnimator.Play("Reload");
+      //pistolAnimator.Play("Reload");
       Invoke("EndReload", reloadClip.length); 
     }
     else
@@ -250,7 +250,7 @@ public class Character : MonoBehaviour
     isShooting = false;    
     go = !isNearBarrier;
     thisAnimator.SetBool("Go", !isNearBarrier);    
-    pistolAnimator.Play("Idle");     
+    //pistolAnimator.Play("Idle");     
   }
 
   private void EndReload()

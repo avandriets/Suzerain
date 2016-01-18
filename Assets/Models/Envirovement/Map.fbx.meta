@@ -233,6 +233,12 @@ ModelImporter:
     100450: Timber_8
     100452: Timber_9
     100454: Timbers
+    100456: Road1
+    100458: Road2
+    100460: Terrain1
+    100462: Terrain2
+    100464: TerrainMiddle
+    100466: TerrainRight
     400000: Fence
     400002: Fence_Section_1_L
     400004: Fence_Section_1_L_1
@@ -461,6 +467,12 @@ ModelImporter:
     400450: Timber_8
     400452: Timber_9
     400454: Timbers
+    400456: Road1
+    400458: Road2
+    400460: Terrain1
+    400462: Terrain2
+    400464: TerrainMiddle
+    400466: TerrainRight
     2300000: Fence_Section_1_L
     2300002: Fence_Section_1_L_1
     2300004: Fence_Section_1_L_11
@@ -684,6 +696,12 @@ ModelImporter:
     2300440: Timber_7
     2300442: Timber_8
     2300444: Timber_9
+    2300446: Road1
+    2300448: Road2
+    2300450: Terrain1
+    2300452: Terrain2
+    2300454: TerrainMiddle
+    2300456: TerrainRight
     3300000: Fence_Section_1_L
     3300002: Fence_Section_1_L_1
     3300004: Fence_Section_1_L_11
@@ -907,6 +925,12 @@ ModelImporter:
     3300440: Timber_7
     3300442: Timber_8
     3300444: Timber_9
+    3300446: Road1
+    3300448: Road2
+    3300450: Terrain1
+    3300452: Terrain2
+    3300454: TerrainMiddle
+    3300456: TerrainRight
     4300000: Grass_3_27
     4300002: Grass_3_26
     4300004: Grass_1_22
@@ -1130,6 +1154,12 @@ ModelImporter:
     4300440: Road_small_1
     4300442: Road
     4300444: Terrain_L_1
+    4300446: Road1
+    4300448: Road2
+    4300450: TerrainMiddle
+    4300452: Terrain1
+    4300454: Terrain2
+    4300456: TerrainRight
   materials:
     importMaterials: 1
     materialName: 0
