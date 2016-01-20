@@ -333,9 +333,9 @@ public class Character : MonoBehaviour
   {
     int layerMask = 1 << 8;
     RaycastHit[] hits;
-    hits = Physics.RaycastAll(armoRayTransform.position, armoRayTransform.forward, 100, layerMask);
+    hits = Physics.RaycastAll(armoRayTransform.position, armoRayTransform.forward, 150, layerMask);
     int i = 0;
-    rayLength = 100;
+    rayLength = 150;
     toHead = false;
     while (i < hits.Length)
     {
@@ -359,7 +359,7 @@ public class Character : MonoBehaviour
   {
     if (enemyCharacterBase.Helth > 0)
     {
-      if (rayLength < 100 || Random.value < 0.4f)
+      if (rayLength < 150 || Random.value < 0.4f)
         TryShoot(true);
       Invoke("RunAiShoot", shootAiInterval);
     }

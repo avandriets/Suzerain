@@ -15,11 +15,11 @@ public class Trace : MonoBehaviour
 
   private void Update ()
   {
-    currentWay += 100 * Time.deltaTime;
+    currentWay += 200 * Time.deltaTime;
     if (!hasTarget)
     {
       if (currentWay < WayLength)
-        transform.Translate(0, 0, 100 * Time.deltaTime);      
+        transform.Translate(0, 0, 200 * Time.deltaTime);      
       else
       {
         hasTarget = true;
