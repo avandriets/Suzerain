@@ -337,7 +337,7 @@ ModelImporter:
     4300006: Bullet3
     4300008: Bullet4
     4300010: Volcanic_Pistol
-    7400000: Take 001
+    7400000: ShootVolcano
     7400002: Take 002
     9500000: //RootNode
     13700000: Bullet1
@@ -368,10 +368,10 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: ShootVolcano
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 180
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

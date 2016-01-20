@@ -209,6 +209,7 @@ public class Character : MonoBehaviour
       patronsIndicator.text = currentArmo.Patrons.ToString();
     GameObject sparks = Instantiate(currentArmo.ParticlesPrefab, armoRayTransform.position, armoRayTransform.rotation) as GameObject;
     sparks.transform.parent = armoRayTransform;
+    sparks.GetComponentInChildren<Trace>().WayLength = rayLength;    
     AudioSource thisAudio = GetComponent<AudioSource>();
     thisAudio.clip = shootAudioClip;
     thisAudio.Play();

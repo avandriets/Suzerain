@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviour
 	}
 
 	HostData[] hostList;							// This is where the list of servers will be stored later
-	[SerializeField] private GameObject playerObject;	
+	[SerializeField] private GameObject[] playerObjects;	
   [SerializeField] Text errorText;
   [SerializeField] Text infoText;
   [SerializeField] Transform serverPosition = null;
@@ -44,9 +44,7 @@ public class NetworkManager : MonoBehaviour
 	void Awake()
 	{
     advancedSettings.username = Random.value.ToString("f6");
-    advancedSettings.password = Random.value.ToString("f6");    
-		//MasterServer.ClearHostList();
-		//testMessage.text = "Testing network connection capabilities.";      
+    advancedSettings.password = Random.value.ToString("f6"); 	  
   }
 
   void Start()
@@ -205,9 +203,9 @@ public class NetworkManager : MonoBehaviour
   {
     GameObject networkPlayer = null;
     if (IsServer)
-      networkPlayer = Network.Instantiate(playerObject, serverPosition.position, serverPosition.rotation, 0) as GameObject;
+      networkPlayer = Network.Instantiate(playerObjects[Mathf.FloorToInt(Random.value * 2)], serverPosition.position, serverPosition.rotation, 0) as GameObject;
     else
-      networkPlayer = Network.Instantiate(playerObject, clientPosition.position, clientPosition.rotation, 0) as GameObject;
+      networkPlayer = Network.Instantiate(playerObjects[Mathf.FloorToInt(Random.value * 2)], clientPosition.position, clientPosition.rotation, 0) as GameObject;
     networkPlayer.GetComponentInChildren<Character>().IsMine = true;
     networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
 	}  
@@ -400,11 +398,11 @@ public class NetworkManager : MonoBehaviour
     Character[] characterBases = FindObjectsOfType<Character>();
     if (characterBases.Length == 0)
     {
-      networkPlayer = Instantiate(playerObject, serverPosition.position, serverPosition.rotation) as GameObject;
+      networkPlayer = Instantiate(playerObjects[Mathf.FloorToInt(Random.value * 2)], serverPosition.position, serverPosition.rotation) as GameObject;
       networkPlayer.GetComponentInChildren<Character>().IsMine = true;
       networkPlayer.GetComponentInChildren<PlayerSync>().IsMine = true;
     }
-    networkPlayer = Instantiate(playerObject, clientPosition.position, clientPosition.rotation) as GameObject;
+    networkPlayer = Instantiate(playerObjects[Mathf.FloorToInt(Random.value * 2)], clientPosition.position, clientPosition.rotation) as GameObject;
     networkPlayer.GetComponentInChildren<Character>().Ai = true;
     StartDuel();
     Network.maxConnections = 0;

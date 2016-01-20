@@ -78,6 +78,96 @@ ModelImporter:
     100140: Triger_3
     100142: Triger_4
     100144: Volcanic_Pistol
+    100146: Bullet1_1_2
+    100148: Bullet1_2_2
+    100150: Bullet2_1_2
+    100152: Bullet2_2_2
+    100154: Bullet3
+    100156: Bullet4
+    100158: Character_Ctrl_ChestEndEffector
+    100160: Character_Ctrl_ChestOriginEffector
+    100162: Character_Ctrl_Head
+    100164: Character_Ctrl_HeadEffector
+    100166: Character_Ctrl_Hips
+    100168: Character_Ctrl_HipsEffector
+    100170: Character_Ctrl_LeftAnkleEffector
+    100172: Character_Ctrl_LeftArm
+    100174: Character_Ctrl_LeftArmRoll
+    100176: Character_Ctrl_LeftElbowEffector
+    100178: Character_Ctrl_LeftFoot
+    100180: Character_Ctrl_LeftFootExtraFinger1
+    100182: Character_Ctrl_LeftFootExtraFingerEffector
+    100184: Character_Ctrl_LeftForeArm
+    100186: Character_Ctrl_LeftForeArmRoll
+    100188: Character_Ctrl_LeftHand
+    100190: Character_Ctrl_LeftHandIndex1
+    100192: Character_Ctrl_LeftHandIndex2
+    100194: Character_Ctrl_LeftHandIndex3
+    100196: Character_Ctrl_LeftHandIndexEffector
+    100198: Character_Ctrl_LeftHandMiddle1
+    100200: Character_Ctrl_LeftHandMiddle2
+    100202: Character_Ctrl_LeftHandMiddle3
+    100204: Character_Ctrl_LeftHandMiddleEffector
+    100206: Character_Ctrl_LeftHandPinky1
+    100208: Character_Ctrl_LeftHandPinky2
+    100210: Character_Ctrl_LeftHandPinky3
+    100212: Character_Ctrl_LeftHandPinkyEffector
+    100214: Character_Ctrl_LeftHandRing1
+    100216: Character_Ctrl_LeftHandRing2
+    100218: Character_Ctrl_LeftHandRing3
+    100220: Character_Ctrl_LeftHandRingEffector
+    100222: Character_Ctrl_LeftHandThumb1
+    100224: Character_Ctrl_LeftHandThumb2
+    100226: Character_Ctrl_LeftHandThumb3
+    100228: Character_Ctrl_LeftHandThumbEffector
+    100230: Character_Ctrl_LeftHipEffector
+    100232: Character_Ctrl_LeftKneeEffector
+    100234: Character_Ctrl_LeftLeg
+    100236: Character_Ctrl_LeftShoulder
+    100238: Character_Ctrl_LeftShoulderEffector
+    100240: Character_Ctrl_LeftUpLeg
+    100242: Character_Ctrl_LeftWristEffector
+    100244: Character_Ctrl_Neck
+    100246: Character_Ctrl_Reference
+    100248: Character_Ctrl_RightAnkleEffector
+    100250: Character_Ctrl_RightArm
+    100252: Character_Ctrl_RightArmRoll
+    100254: Character_Ctrl_RightElbowEffector
+    100256: Character_Ctrl_RightFoot
+    100258: Character_Ctrl_RightFootExtraFinger1
+    100260: Character_Ctrl_RightFootExtraFingerEffector
+    100262: Character_Ctrl_RightForeArm
+    100264: Character_Ctrl_RightForeArmRoll
+    100266: Character_Ctrl_RightHand
+    100268: Character_Ctrl_RightHandIndex1
+    100270: Character_Ctrl_RightHandIndex2
+    100272: Character_Ctrl_RightHandIndex3
+    100274: Character_Ctrl_RightHandIndexEffector
+    100276: Character_Ctrl_RightHandMiddle1
+    100278: Character_Ctrl_RightHandMiddle2
+    100280: Character_Ctrl_RightHandMiddle3
+    100282: Character_Ctrl_RightHandMiddleEffector
+    100284: Character_Ctrl_RightHandPinky1
+    100286: Character_Ctrl_RightHandPinky2
+    100288: Character_Ctrl_RightHandPinky3
+    100290: Character_Ctrl_RightHandPinkyEffector
+    100292: Character_Ctrl_RightHandRing1
+    100294: Character_Ctrl_RightHandRing2
+    100296: Character_Ctrl_RightHandRing3
+    100298: Character_Ctrl_RightHandRingEffector
+    100300: Character_Ctrl_RightHandThumb1
+    100302: Character_Ctrl_RightHandThumb2
+    100304: Character_Ctrl_RightHandThumb3
+    100306: Character_Ctrl_RightHandThumbEffector
+    100308: Character_Ctrl_RightHipEffector
+    100310: Character_Ctrl_RightKneeEffector
+    100312: Character_Ctrl_RightLeg
+    100314: Character_Ctrl_RightShoulder
+    100316: Character_Ctrl_RightShoulderEffector
+    100318: Character_Ctrl_RightUpLeg
+    100320: Character_Ctrl_RightWristEffector
+    100322: Character_Ctrl_Spine
+    100324: Character_Ctrl_Spine1
     400000: abdomen2
     400002: Bullet1
     400004: Bullet1_1
@@ -151,15 +241,109 @@ ModelImporter:
     400140: Triger_3
     400142: Triger_4
     400144: Volcanic_Pistol
+    400146: Bullet1_1_2
+    400148: Bullet1_2_2
+    400150: Bullet2_1_2
+    400152: Bullet2_2_2
+    400154: Bullet3
+    400156: Bullet4
+    400158: Character_Ctrl_ChestEndEffector
+    400160: Character_Ctrl_ChestOriginEffector
+    400162: Character_Ctrl_Head
+    400164: Character_Ctrl_HeadEffector
+    400166: Character_Ctrl_Hips
+    400168: Character_Ctrl_HipsEffector
+    400170: Character_Ctrl_LeftAnkleEffector
+    400172: Character_Ctrl_LeftArm
+    400174: Character_Ctrl_LeftArmRoll
+    400176: Character_Ctrl_LeftElbowEffector
+    400178: Character_Ctrl_LeftFoot
+    400180: Character_Ctrl_LeftFootExtraFinger1
+    400182: Character_Ctrl_LeftFootExtraFingerEffector
+    400184: Character_Ctrl_LeftForeArm
+    400186: Character_Ctrl_LeftForeArmRoll
+    400188: Character_Ctrl_LeftHand
+    400190: Character_Ctrl_LeftHandIndex1
+    400192: Character_Ctrl_LeftHandIndex2
+    400194: Character_Ctrl_LeftHandIndex3
+    400196: Character_Ctrl_LeftHandIndexEffector
+    400198: Character_Ctrl_LeftHandMiddle1
+    400200: Character_Ctrl_LeftHandMiddle2
+    400202: Character_Ctrl_LeftHandMiddle3
+    400204: Character_Ctrl_LeftHandMiddleEffector
+    400206: Character_Ctrl_LeftHandPinky1
+    400208: Character_Ctrl_LeftHandPinky2
+    400210: Character_Ctrl_LeftHandPinky3
+    400212: Character_Ctrl_LeftHandPinkyEffector
+    400214: Character_Ctrl_LeftHandRing1
+    400216: Character_Ctrl_LeftHandRing2
+    400218: Character_Ctrl_LeftHandRing3
+    400220: Character_Ctrl_LeftHandRingEffector
+    400222: Character_Ctrl_LeftHandThumb1
+    400224: Character_Ctrl_LeftHandThumb2
+    400226: Character_Ctrl_LeftHandThumb3
+    400228: Character_Ctrl_LeftHandThumbEffector
+    400230: Character_Ctrl_LeftHipEffector
+    400232: Character_Ctrl_LeftKneeEffector
+    400234: Character_Ctrl_LeftLeg
+    400236: Character_Ctrl_LeftShoulder
+    400238: Character_Ctrl_LeftShoulderEffector
+    400240: Character_Ctrl_LeftUpLeg
+    400242: Character_Ctrl_LeftWristEffector
+    400244: Character_Ctrl_Neck
+    400246: Character_Ctrl_Reference
+    400248: Character_Ctrl_RightAnkleEffector
+    400250: Character_Ctrl_RightArm
+    400252: Character_Ctrl_RightArmRoll
+    400254: Character_Ctrl_RightElbowEffector
+    400256: Character_Ctrl_RightFoot
+    400258: Character_Ctrl_RightFootExtraFinger1
+    400260: Character_Ctrl_RightFootExtraFingerEffector
+    400262: Character_Ctrl_RightForeArm
+    400264: Character_Ctrl_RightForeArmRoll
+    400266: Character_Ctrl_RightHand
+    400268: Character_Ctrl_RightHandIndex1
+    400270: Character_Ctrl_RightHandIndex2
+    400272: Character_Ctrl_RightHandIndex3
+    400274: Character_Ctrl_RightHandIndexEffector
+    400276: Character_Ctrl_RightHandMiddle1
+    400278: Character_Ctrl_RightHandMiddle2
+    400280: Character_Ctrl_RightHandMiddle3
+    400282: Character_Ctrl_RightHandMiddleEffector
+    400284: Character_Ctrl_RightHandPinky1
+    400286: Character_Ctrl_RightHandPinky2
+    400288: Character_Ctrl_RightHandPinky3
+    400290: Character_Ctrl_RightHandPinkyEffector
+    400292: Character_Ctrl_RightHandRing1
+    400294: Character_Ctrl_RightHandRing2
+    400296: Character_Ctrl_RightHandRing3
+    400298: Character_Ctrl_RightHandRingEffector
+    400300: Character_Ctrl_RightHandThumb1
+    400302: Character_Ctrl_RightHandThumb2
+    400304: Character_Ctrl_RightHandThumb3
+    400306: Character_Ctrl_RightHandThumbEffector
+    400308: Character_Ctrl_RightHipEffector
+    400310: Character_Ctrl_RightKneeEffector
+    400312: Character_Ctrl_RightLeg
+    400314: Character_Ctrl_RightShoulder
+    400316: Character_Ctrl_RightShoulderEffector
+    400318: Character_Ctrl_RightUpLeg
+    400320: Character_Ctrl_RightWristEffector
+    400322: Character_Ctrl_Spine
+    400324: Character_Ctrl_Spine1
     4300000: Nobelman
     4300002: Bullet1
     4300004: Bullet2
     4300006: Volcanic_Pistol
+    4300008: Bullet3
+    4300010: Bullet4
     9500000: //RootNode
     13700000: Bullet1
     13700002: Bullet2
     13700004: Nobelman
     13700006: Volcanic_Pistol
+    13700008: Bullet3
+    13700010: Bullet4
   materials:
     importMaterials: 1
     materialName: 0
