@@ -7,12 +7,14 @@ public class Character : MonoBehaviour
   public int ArmoType = 0;
   [SerializeField] private Armo[] armos = null;  
   [SerializeField] private Transform armoRayTransform = null;
+  [SerializeField] private Transform reloadSmokePosition = null;
   [SerializeField] private FlyToPoint mainCamera = null;
   [SerializeField] private AnimationClip shockClip = null;
   [SerializeField] private AnimationClip reloadClip = null;
   [SerializeField] private AnimationClip schootClip = null;
   [SerializeField] private Transform spineBone = null;
   [SerializeField] private AudioClip shootAudioClip = null;
+  [SerializeField] private GameObject reloadSmoke = null;
   [SerializeField] private float moveSpeed = 2;
   [SerializeField] private float helthStep = 50;
   [SerializeField] private float rotatingSpeed = 2;
@@ -222,7 +224,7 @@ public class Character : MonoBehaviour
         enemyCharacterBase.ReduceHelth(toHead);
         if (enemyCharacterBase.Helth <= 0)
         {          
-          Win();
+          Invoke("Win", 2);
         }
       }      
     }    
@@ -378,5 +380,11 @@ public class Character : MonoBehaviour
     if (IsMine)
       mainCamera.StartFly(cameraDeadPosition);
     thisAnimator.SetTrigger("Win");
+  }
+
+  private void CreateReloadSmoke()
+  {
+    GameObject reloadSmokeObject = Instantiate(reloadSmoke, reloadSmokePosition.position, reloadSmokePosition.rotation) as GameObject;
+    reloadSmokeObject.transform.parent = reloadSmokePosition;
   }
 }

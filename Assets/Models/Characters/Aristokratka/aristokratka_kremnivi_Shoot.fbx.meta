@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: fddee32c9848da847a9837a7afd70940
-timeCreated: 1453129321
+timeCreated: 1453386221
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -165,7 +165,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Shoot
       takeName: Scene
-      firstFrame: 460
+      firstFrame: 465
       lastFrame: 509
       wrapMode: 0
       orientationOffsetY: 0
@@ -200,8 +200,6 @@ ModelImporter:
       - path: main_bone/hips
         weight: 1
       - path: main_bone/hips/spine
-        weight: 1
-      - path: main_bone/hips/spine/bone_patron
         weight: 1
       - path: main_bone/hips/spine/chest
         weight: 1
@@ -262,6 +260,8 @@ ModelImporter:
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol
         weight: 1
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol/bone_gilza
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol/bone_patron
         weight: 1
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_zatvor
         weight: 1

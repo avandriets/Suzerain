@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e98d174013d2fe147afed7a9f3486fd9
-timeCreated: 1453129320
+timeCreated: 1453386221
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -201,8 +201,6 @@ ModelImporter:
         weight: 1
       - path: main_bone/hips/spine
         weight: 1
-      - path: main_bone/hips/spine/bone_patron
-        weight: 1
       - path: main_bone/hips/spine/chest
         weight: 1
       - path: main_bone/hips/spine/chest/chest-1
@@ -262,6 +260,8 @@ ModelImporter:
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol
         weight: 1
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol/bone_gilza
+        weight: 1
+      - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_stvol/bone_patron
         weight: 1
       - path: main_bone/hips/spine/chest/chest-1/shoulder.R/upper_arm.R/forearm.R/hand.R/Bone_priklad/Bone_zatvor
         weight: 1
