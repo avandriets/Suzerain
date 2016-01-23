@@ -382,7 +382,7 @@ public class Character : MonoBehaviour
     thisAnimator.SetTrigger("Win");
   }
 
-  private void CreateReloadSmoke()
+  public void CreateReloadSmoke()
   {
     GameObject reloadSmokeObject = Instantiate(reloadSmoke, reloadSmokePosition.position, reloadSmokePosition.rotation) as GameObject;
     reloadSmokeObject.transform.parent = reloadSmokePosition;

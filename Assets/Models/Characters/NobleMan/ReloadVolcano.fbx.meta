@@ -381,7 +381,15 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.08636903
+        functionName: CreateReloadSmoke
+        data: 
+        objectReferenceParameter: {fileID: 108684, guid: d8afd80211e7c5c44b2df002aebfe9e3,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
