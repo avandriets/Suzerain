@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e0a197f1a5042dc8fb2cd6ad519b70, type: 3}
+  m_Name: SoomlaEditorScript
+  m_EditorClassIdentifier: 
+  SoomlaSettings:
+    values:
+    - name: SoomlaSecret
+      value: SET ONLY ONCE
+    - name: DebugUnityMessages
+      value: True
+    - name: Soomla.Store.GPlayBP
+      value: True
+    - name: Soomla.Store.AmazonBP
+      value: 
+    - name: Soomla.Core.SoomlaSecret
+      value: 7659ed4a-b434-42d6-88ee-6daf3711dca6
+    - name: Soomla.Core.DebugMessages
+      value: True
+    - name: Soomla.Core.DebugUnityMessages
+      value: 
+    - name: Soomla.Store.NoneBP
+      value: 
+    - name: Soomla.Store.AndroidPublicKey
+      value: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkNjx1jARk+nsqrJGnFEdVgCFd/xKRjTZ2L3I8/a0k+ZbBxSAc4tm3qmy5LmsEoGe8//Y4QgZ293HT0cv7/Qt+g6LUrxBSDNxPIuq4UMZeHcx/MyNv9SWvyQpKAV2JpvYI82Bndd9PoswTpa3LeqPdeV9Wj8CBTHfEgWIBKQ4a158YMIjyMgfKOXoyaKbHq9qfiVpNrHcmYmN9hxj7+DkqSIGB8UFN5UWZcT57zW87ZxpHrzFCGAQqsFqztDkkmmuLgsPlL4FwkHGfQ3VGkZjn1d9zwoPdSjLxlKhIg+Gfwd2VwUpTVLQkIZPjwF2bHE98D5+1uksF8GkP8Bf1ImX/wIDAQAB
+    - name: Soomla.Store.AndroidTestPurchases
+      value: False
+    - name: Soomla.Store.PlaySsvValidation
+      value: 
+    - name: Soomla.Store.IosSSV
+      value: False
+    - name: Soomla.Store.WP8SimulatorBuild
+      value: 
+    - name: Soomla.Store.WP8TestMode
+      value: 
+    - name: Soomla.Store.IosVerifyOnServerFailure
+      value: 

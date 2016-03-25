@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+	<English>
+		<string name="save_profile_label">Saving profile ...</string>
+		<string name="@save">Save</string>
+		<string name="@maim_menu">Main menu</string>
+		<string name="@volume">Volume</string>
+		<string name="@player_name">Player name</string>
+		<string name="@male">Male</string>
+		<string name="@female">Female</string>
+		<string name="@password">Password</string>
+		<string name="@geolocation_doesnt_swith_on">You dont have permission for geolocation</string>
+		<string name="@time_out">Timed out</string>
+		<string name="@cannot_find_location">Unable to determine device location</string>
+		<string name="@registration">Registration ...</string>
+		<string name="@registration_success">Registration success</string>
+		<string name="@registration_user_exists">User already exists</string>
+		<string name="@registration_error">Registration error</string>
+		<string name="@reflex">Reflex</string>
+		<string name="@wisdom">Wisdom</string>
+		<string name="@intelligence">Intelligence</string>
+		<string name="@knowledge">Knowledge</string>
+		<string name="@intuition">Intuition</string>
+		<string name="@memory">Memory</string>
+		<string name="@fortune">Fortune</string>
+		<string name="@connecting">Connecting to game server ...</string>
+		<string name="@connection_error">Connecting error</string>
+		<string name="@cancel">Cancel</string>
+		<string name="@tofight">Let me ask you to FIGHT</string>
+		<string name="@server_side_error">Server side error</string>
+		<string name="@fight_finished_by_server">Fight was finished</string>
+		<string name="@global_rating">Global rating</string>
+		<string name="@local_rating">Local rating</string>
+		<string name="@expert">Expert</string>
+		<string name="@scientist">Scientist</string>
+		<string name="@wizard">Wizard</string>
+		<string name="@predtor">Predator</string>
+		<string name="@lucky">Lucky</string>
+		<string name="@keeper">Keeper</string>
+		<string name="@prophet">Prophet</string>
+		<string name="@play">Play</string>
+		<string name="@your_opponent">Your opponent</string>
+		<string name="@round">Game</string>
+		<string name="@find_result">Waiting for result ...</string>
+		<string name="@fight_canceled">Fight was canceled ...</string>
+		<string name="@right_answer">your answer is correct</string>
+		<string name="@not_right_answer">your answer is not correct</string>
+		<string name="@wrong_opponent_answer">Opponent answered wrong</string>
+		<string name="@you_answered_faster">You answered faster</string>
+		<string name="@you_answered_incorrect">You answered wrong</string>
+		<string name="@opponent_answered_faster">Opponent answered faster</string>
+		<string name="@both_answer_incottect">You both answered wrong</string>
+	</English>
+
+	<Russian>
+		<string name="save_profile_label">Сохранение профилия ...</string>
+		<string name="@save">Сохранить</string>
+		<string name="@maim_menu">Главное меню</string>
+		<string name="@volume">Громкость</string>
+		<string name="@player_name">имя игрока</string>
+		<string name="@male">Муж</string>
+		<string name="@female">Жен</string>
+		<string name="@password">Пароль</string>
+		<string name="@geolocation_doesnt_swith_on">Нет доступа к геолокации</string>
+		<string name="@time_out">Время ожидания истекло</string>
+		<string name="@cannot_find_location">Невозможно определить ваше положение</string>
+		<string name="@registration">Регистрация ....</string>
+		<string name="@registration_success">Регистрация прошла успешно</string>
+		<string name="@registration_user_exists">Пользователь с таким именем существует</string>
+		<string name="@registration_error">Ошибка при регистрации, попробуйте еще раз</string>
+		<string name="@reflex">Рефлексы</string>
+		<string name="@wisdom">Мудрость</string>
+		<string name="@intelligence">Логика</string>
+		<string name="@knowledge">Знания</string>
+		<string name="@intuition">Интуиция</string>
+		<string name="@memory">Память</string>
+		<string name="@fortune">Удача</string>
+		<string name="@connecting">Подключение к игровому серверу ...</string>
+		<string name="@connection_error">Ошибка соединения с игровым сервером.</string>
+		<string name="@cancel">Отмена</string>
+		<string name="@tofight">Вызываю на поединок</string>
+		<string name="@server_side_error">Ошибка игрового сервера</string>
+		<string name="@fight_finished_by_server">Бой расформирован</string>
+		<string name="@global_rating">Глобальный рейтинг</string>
+		<string name="@local_rating">Локальный рейтинг </string>
+		<string name="@expert">Знаток</string>
+		<string name="@scientist">Ученый</string>
+		<string name="@wizard">Мудрец</string>
+		<string name="@predtor">Хищник</string>
+		<string name="@lucky">Счастливчик</string>
+		<string name="@keeper">Хранитель</string>
+		<string name="@prophet">Пророк</string>
+		<string name="@play">Играть</string>
+		<string name="@your_opponent">Ваш противник</string>
+		<string name="@round">Раунд</string>
+		<string name="@find_result">Обработка результата ...</string>
+		<string name="@fight_canceled">Бой расформирован ...</string>
+		<string name="@right_answer">вы ответили верно</string>
+		<string name="@not_right_answer">вы ответили неверно</string>
+		<string name="@wrong_opponent_answer">Противник ответил неверно</string>
+		<string name="@you_answered_faster">Вы ответили быстрее</string>
+		<string name="@you_answered_incorrect">Вы ответили неверно</string>
+		<string name="@opponent_answered_faster">Противник ответил быстрее</string>
+		<string name="@both_answer_incottect">Вы и противник ответили неверно</string>
+	</Russian>
+
+</languages>

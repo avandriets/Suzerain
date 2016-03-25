@@ -1,0 +1,6 @@
+Android plugin path: /Users/AVAndriets/Suzerain/Assets/Plugins/Android/
+Android adjust path: /Users/AVAndriets/Suzerain/Assets/Adjust/Android/
+has adjust install referrer receiver?: True
+has internet permission?: True
+has wifi permission?: False
+Android manifest used in unity did not had all the changes adjust SDK needs. Please build again the package.

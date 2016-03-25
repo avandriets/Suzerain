@@ -1,0 +1,73 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class MainScreenManager : MonoBehaviour {
+
+	private WaitPanel	waitPanel = null;
+	private ErrorPanel	errorPanel = null;
+
+	UserController 	user_controller = null;
+	ScreensManager	screensManager	= null;
+
+	void OnEnable(){
+
+		InitUser ();
+	}
+
+	public void onClickClearSettings()
+	{
+		PlayerPrefs.DeleteAll ();
+		Application.Quit ();
+	}
+
+	public void InitUser(){
+
+		user_controller	= UserController.instance;
+		screensManager	= ScreensManager.instance;
+
+		if (UserController.registered) {
+
+			if(!UserController.authenticated){
+
+				waitPanel = screensManager.ShowWaitDialog("Подключение к игровому серверу ...");
+
+				user_controller.LogIn (InitLabels);
+			}else{
+				InitLabels(false,"","");
+			}
+
+		} else {
+			screensManager.ShowRegistrationScreen();			
+		}
+
+	}
+
+	public void InitLabels(bool error, string source_error, string error_text){
+
+		if(waitPanel != null)
+			screensManager.CloseWaitPanel (waitPanel);
+
+		if (error == false) {
+			//Init user interface
+			
+		} else {
+			if(source_error == Constants.LOGIN_ERROR){
+				errorPanel = screensManager.ShowErrorDialog("Ошибка соединения с игровым сервером.", OnErrorButtonClick);
+			}else{
+				errorPanel = screensManager.ShowErrorDialog(error_text, OnErrorButtonClick);
+			}
+		}
+	}
+
+	public void OnErrorButtonClick(){
+
+		GameObject.Destroy(errorPanel.gameObject);
+		errorPanel = null;
+
+		if (!UserController.registered) {
+			Application.Quit();
+		}
+
+	}
+
+}

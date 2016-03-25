@@ -1,0 +1,283 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using System;
+using SimpleJSON;
+using UnityEngine.Events;
+
+public class RegistrationScreenManager : MonoBehaviour {
+
+	InputField iUserName;
+	InputField ieMail;
+	InputField iuserPassword;
+	Dropdown	ddwCountry;
+
+	Toggle		male;
+	Toggle		english;
+
+	WaitPanel	waitPanel 	= null;
+	ErrorPanel	errorPanel 	= null;
+	
+	float longitude = 0;
+	float lattitude = 0;
+
+	ScreensManager	screensManager	= null;
+
+	void Start () {
+
+		screensManager	= ScreensManager.instance;
+
+		GameObject inputFieldGo = GameObject.Find("UserName");
+		iUserName = inputFieldGo.GetComponent<InputField>();
+		
+		inputFieldGo = GameObject.Find("email");
+		ieMail = inputFieldGo.GetComponent<InputField>();
+		
+		inputFieldGo = GameObject.Find("Password");
+		iuserPassword = inputFieldGo.GetComponent<InputField>();
+
+		var gameObj = GameObject.Find("Toggle_Malchick");
+		
+		gameObj = GameObject.Find("Toggle_devochka");
+		male = gameObj.GetComponent<Toggle>();
+
+		
+		gameObj = GameObject.Find("Toggle_english");
+		english = gameObj.GetComponent<Toggle>();
+
+		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения ...");
+
+		StartCoroutine( GetLocation () );
+		
+		RestoreUsersSettingsFromPrefs ();
+	}
+	
+	public void finishError(){
+		GameObject.Destroy(errorPanel.gameObject);
+		errorPanel = null;
+	}
+	
+	public void finishRegistration()
+	{
+		GameObject.Destroy(errorPanel.gameObject);
+		errorPanel = null;
+		screensManager.ShowMainScreen ();
+	}
+	
+	public IEnumerator GetLocation()
+	{
+
+		string resultText;
+
+		if (!Input.location.isEnabledByUser) {
+			resultText = "Disabled by user";
+			Debug.Log("Disabled by user");
+
+			screensManager.CloseWaitPanel(waitPanel);
+
+			errorPanel = screensManager.ShowErrorDialog("Нет доступа к геолокации.", finishError);
+
+			yield break;
+		}
+		
+		// Start service before querying location
+		Input.location.Start();
+		
+		// Wait until service initializes
+		int maxWait = 20;
+		while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
+		{
+			resultText = "Waiting";
+			Debug.Log("Waiting");
+			yield return new WaitForSeconds(1);
+			maxWait--;
+		}
+		
+		// Service didn't initialize in 20 seconds
+		if (maxWait < 1)
+		{
+			resultText = "Timed out";
+			Debug.Log("Timed out");
+
+			errorPanel = screensManager.ShowErrorDialog("Время ожидания истекло.", finishError);
+
+			screensManager.CloseWaitPanel(waitPanel);
+
+			yield break;
+		}
+		
+		// Connection has failed
+		if (Input.location.status == LocationServiceStatus.Failed)
+		{
+			resultText = "Unable to determine device location";
+			Debug.Log("Unable to determine device location");
+
+			errorPanel = screensManager.ShowErrorDialog("Невозможно определить ваше положение.", finishError);
+
+			screensManager.CloseWaitPanel(waitPanel);
+
+			yield break;
+		}
+		else
+		{
+			// Access granted and location value could be retrieved
+			resultText = "Location: latitude " + Input.location.lastData.latitude + "\n longitude  " + Input.location.lastData.longitude + "\n altitude " + Input.location.lastData.altitude + "\n horizontalAccuracy " + Input.location.lastData.horizontalAccuracy + "\n lastData.timestamp " + Input.location.lastData.timestamp;
+			
+			longitude = Input.location.lastData.longitude;
+			lattitude = Input.location.lastData.latitude;
+		}
+		
+		// Stop service if there is no need to query location updates continuously
+		Input.location.Stop();
+
+		screensManager.CloseWaitPanel(waitPanel);
+		
+	}
+	
+	private void RestoreUsersSettingsFromPrefs()
+	{
+
+		if (PlayerPrefs.HasKey ("username"))
+			iUserName.text = PlayerPrefs.GetString("username");
+		
+		if (PlayerPrefs.HasKey ("email"))
+			ieMail.text = PlayerPrefs.GetString("email");
+		
+		if (PlayerPrefs.HasKey ("password"))
+			iuserPassword.text = PlayerPrefs.GetString("password");
+	}
+	
+	private void SaveUserPrefs()
+	{
+		PlayerPrefs.SetString ("username", 	iUserName.text);
+		PlayerPrefs.SetString ("email", 	ieMail.text);
+		PlayerPrefs.SetString ("password", 	iuserPassword.text);
+	}
+	
+	public int getSex()
+	{
+		if (male.isOn) {
+			return 1; 
+		} else {
+			return 0;
+		}
+	}
+	
+	public void onClickSubmitRegistration()
+	{
+		registerUser (iUserName.text
+		              ,ieMail.text
+		              ,iuserPassword.text
+		              ,getSex().ToString()
+		              ,getLanguageCode().ToString()
+		              , "102"
+		              ,lattitude.ToString()
+		              ,longitude.ToString()
+		              );
+	}
+	
+	public int getLanguageCode()
+	{
+		if (english.isOn)
+			return 1;
+		return 2;
+	}
+	
+	public int getCountryCode(string countryName)
+	{
+		switch (countryName) {
+		case "Украина":
+			return 102;
+		case "Россия":
+			return 88;
+		}
+		return -1;
+	}
+	
+	private void registerUser(string pUserName, string pEmail, string pPassword, string pSex, string pLanguageId, string pCountry, string pLatitude, string pLongitude){
+		
+		Debug.Log ("Registration process");
+		
+		var postScoreURL = Utility.SERVICE_BASE_URL;		
+		var method = Utility.REGISTER_USER_URL;
+		
+		var userName 		= "userName=";
+		var eMail 			= "eMail=";
+		var userPassword 	= "userPassword=";
+		var sex 			= "sex=";
+		var languageId 		= "languageId=";
+		var countryId 		= "countryId=";
+		var latitude 		= "latitude=";
+		var longitude 		= "longitude=";
+		var name 			= "name=";
+		var id 				= "id=";
+		
+		postScoreURL = postScoreURL + method + "?" 
+			+ userName + pUserName + "&"
+				+ eMail + pEmail + "&"
+				+ sex + pSex + "&"
+				+ userPassword + pPassword + "&"
+				+ languageId + pLanguageId + "&"
+				+ countryId + pCountry + "&"
+				+ latitude + pLatitude + "&"
+				+ longitude + pLongitude + "&"
+				+ name + "hello" + "&"
+				+ id + "333"
+				;
+		
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+		
+		//var encoding = new System.Text.UTF8Encoding();
+		
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add("Content-Type", "text/json");
+		
+		var request = new WWW(postScoreURL, null, dictHeader);
+
+		waitPanel = screensManager.ShowWaitDialog ("Регистрация ....");
+
+		StartCoroutine(WaitForRequest(request));
+		
+	}
+	
+	IEnumerator WaitForRequest(WWW www)
+	{
+		yield return www;
+		
+		// check for errors
+		if (www.error == null)
+		{
+			Debug.Log("WWW Ok!: " + www.text);
+			try{
+
+				User newUser = Utility.ParseGetUserResponse(www.text);
+				UserController.currentUser 	= newUser;
+				UserController.registered 	= true;
+				SaveUserPrefs();
+				
+				screensManager.CloseWaitPanel(waitPanel);
+
+				errorPanel = screensManager.ShowErrorDialog("Регистрация прошла успешно", finishRegistration);
+
+			}
+			catch(Exception e)
+			{
+				screensManager.CloseWaitPanel(waitPanel);
+				errorPanel = screensManager.ShowErrorDialog(e.Message, finishError);
+			}
+			
+		} else {
+
+			screensManager.CloseWaitPanel(waitPanel);
+
+			if(www.error.Contains("409")){
+				errorPanel = screensManager.ShowErrorDialog("Пользователь с таким именем " + iUserName.text + " существует, попробуйте другое имя.", finishError);
+			}else{
+				errorPanel = screensManager.ShowErrorDialog("Ошибка при регистрации", finishError);
+			}
+
+			Debug.Log("WWW Error: "+ www.error);
+		}    
+	}  
+}

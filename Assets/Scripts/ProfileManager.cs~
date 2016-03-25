@@ -1,0 +1,29 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SocialPlatforms;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using SimpleJSON;
+
+public class ProfileManager : MonoBehaviour {
+
+	public Slider soundSlider;
+
+	// Use this for initialization
+	void OnEnable() {
+	
+		if(PlayerPrefs.HasKey("Volume")){
+			soundSlider.value = SetAudioLevels.volumeSize;
+		}
+
+	}
+
+	void OnDisable(){
+
+		PlayerPrefs.SetFloat ("Volume",  soundSlider.value);
+		SetAudioLevels.volumeSize = soundSlider.value;
+
+	}
+
+}

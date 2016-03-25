@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+	<English>
+		<string name="save_profile_label">Saving profile ...</string>
+		<string name="@save">Save</string>
+		<string name="@maim_menu">Main menu</string>
+		<string name="@volume">Volume</string>
+		<string name="@player_name">Player name</string>
+		<string name="@male">Male</string>
+		<string name="@female">Female</string>
+		<string name="@password">Password</string>
+		<string name="@geolocation_doesnt_swith_on">You dont have permission for geolocation</string>
+		<string name="@time_out">Timed out</string>
+		<string name="@cannot_find_location">Unable to determine device location</string>
+		<string name="@registration">Registration ...</string>
+		<string name="@registration_success">Registration success</string>
+		<string name="@registration_user_exists">User already exists</string>
+		<string name="@registration_error">Registration error</string>
+	</English>
+
+	<Russian>
+		<string name="save_profile_label">Сохранение профилия ...</string>
+		<string name="@save">Сохранить</string>
+		<string name="@maim_menu">Главное меню</string>
+		<string name="@volume">Громкость</string>
+		<string name="@player_name">имя игрока</string>
+		<string name="@male">Муж</string>
+		<string name="@female">Жен</string>
+		<string name="@password">Пароль</string>
+		<string name="@geolocation_doesnt_swith_on">Нет доступа к геолокации</string>
+		<string name="@time_out">Время ожидания истекло</string>
+		<string name="@cannot_find_location">Невозможно определить ваше положение</string>
+		<string name="@registration">Регистрация ....</string>
+		<string name="@registration_success">Регистрация прошла успешно</string>
+		<string name="@registration_user_exists">Пользователь с таким именем существует</string>
+		<string name="@registration_error">Ошибка при регистрации</string>
+	</Russian>
+</languages>
