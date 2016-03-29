@@ -454,6 +454,7 @@
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-sv\location_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-ja\location_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-km-rKH\location_strings.xml" />
+     <None Include="Assets\Resources\adjustSettings.txt" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-lv\common_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-fi\common_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-vi\common_strings.xml" />
