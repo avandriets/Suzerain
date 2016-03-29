@@ -66,7 +66,7 @@
 		<string name="@cannot_find_location">Невозможно определить ваше положение</string>
 		<string name="@registration">Регистрация ....</string>
 		<string name="@registration_success">Регистрация прошла успешно</string>
-		<string name="@registration_user_exists">Пользователь с таким именем существует</string>
+		<string name="@registration_user_exists">Игрок с таким именем уже существует. Пожалуйста, попробуйте ввести другое имя.</string>
 		<string name="@registration_error">Ошибка при регистрации, попробуйте еще раз</string>
 		<string name="@reflex">Рефлексы</string>
 		<string name="@wisdom">Мудрость</string>

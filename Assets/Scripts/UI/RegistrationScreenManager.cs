@@ -26,6 +26,10 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 	ScreensManager	screensManager	= null;
 
+	void Start(){
+		SoundManager.MusicOFF (true);	
+	}
+
 	void OnEnable() {
 	
 		screensManager	= ScreensManager.instance;
@@ -56,6 +60,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 		StartCoroutine( GetLocation () );
 
+		//SoundManager.MusicOFF (true);
 		//RestoreUsersSettingsFromPrefs ();
 	}
 
@@ -84,6 +89,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 	{
 		GameObject.Destroy(errorPanel.gameObject);
 		errorPanel = null;
+		SoundManager.MusicOFF (false);
 		screensManager.ShowMainScreen ();
 	}
 	
@@ -360,7 +366,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 			screensManager.CloseWaitPanel(waitPanel);
 
-			if(www.error.Contains("409")){
+			if(www.error.Contains("409") || www.error.Contains("conflict") || www.error.Contains("Conflict")){
 				//"Пользователь с таким именем " + iUserName.text + " существует, попробуйте другое имя."
 
 				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString("@registration_user_exists"), finishError);

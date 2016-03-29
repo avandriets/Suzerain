@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/TestCANDrop.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/UI/RegistrationScreenManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/UI/MainScreenManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/MainScreenManager.cs" Line="169" Column="28" />
       <File FileName="Assets/Scripts/Utils/Utility.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/GameObjects/Rose.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/UI/ProfileManager.cs" Line="1" Column="1" />
@@ -11,11 +11,42 @@
       <File FileName="Assets/Scripts/ClockObject.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Dialogs/InstructionDialog.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/BuyItems.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/TestCANDrop.cs" Line="8" Column="18" />
+      <File FileName="Assets/Scripts/TestCANDrop.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/UI/RegistrationScreenManager.cs" Line="380" Column="2" />
+      <File FileName="Assets/Scripts/Utils/SoundManager.cs" Line="24" Column="32" />
+      <File FileName="Assets/Scripts/ScreensManager.cs" Line="150" Column="47" />
+      <File FileName="Assets/Scripts/Utils/SetAudioLevels.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Suzerain" expanded="True">
+            <Node name="Assembly-CSharp" expanded="True">
+              <Node name="Resources" expanded="True" />
+              <Node name="Scripts" expanded="True">
+                <Node name="UI" expanded="True">
+                  <Node name="RegistrationScreenManager.cs" selected="True" />
+                </Node>
+                <Node name="Utils" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State name="__root__">
+          <Node name="Suzerain" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/AVAndriets/Suzerain/Assets/Scripts/UI/RegistrationScreenManager.cs" line="30" column="32" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

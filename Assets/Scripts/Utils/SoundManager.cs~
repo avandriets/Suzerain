@@ -21,10 +21,15 @@ public class SoundManager : MonoBehaviour {
 					musicSource.mute = musicOff;
 				}
 			} else {
-				musicOff = false;
-				musicSource.mute = musicOff;
+				musicOff = musicSource.mute;
+				//musicOff = false;
+				//musicSource.mute = musicOff;
 			}
 		}
+	}
+
+	public static void MusicOFF(bool state){
+		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.mute = state;
 	}
 
 	public void OnMuteButtonClick(){
