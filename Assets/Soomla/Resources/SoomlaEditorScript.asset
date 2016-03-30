@@ -24,7 +24,7 @@ MonoBehaviour:
     - name: Soomla.Core.SoomlaSecret
       value: 7659ed4a-b434-42d6-88ee-6daf3711dca6
     - name: Soomla.Core.DebugMessages
-      value: True
+      value: 
     - name: Soomla.Core.DebugUnityMessages
       value: 
     - name: Soomla.Store.NoneBP
@@ -32,14 +32,6 @@ MonoBehaviour:
     - name: Soomla.Store.AndroidPublicKey
       value: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkNjx1jARk+nsqrJGnFEdVgCFd/xKRjTZ2L3I8/a0k+ZbBxSAc4tm3qmy5LmsEoGe8//Y4QgZ293HT0cv7/Qt+g6LUrxBSDNxPIuq4UMZeHcx/MyNv9SWvyQpKAV2JpvYI82Bndd9PoswTpa3LeqPdeV9Wj8CBTHfEgWIBKQ4a158YMIjyMgfKOXoyaKbHq9qfiVpNrHcmYmN9hxj7+DkqSIGB8UFN5UWZcT57zW87ZxpHrzFCGAQqsFqztDkkmmuLgsPlL4FwkHGfQ3VGkZjn1d9zwoPdSjLxlKhIg+Gfwd2VwUpTVLQkIZPjwF2bHE98D5+1uksF8GkP8Bf1ImX/wIDAQAB
     - name: Soomla.Store.AndroidTestPurchases
-      value: False
+      value: 
     - name: Soomla.Store.PlaySsvValidation
-      value: 
-    - name: Soomla.Store.IosSSV
-      value: False
-    - name: Soomla.Store.WP8SimulatorBuild
-      value: 
-    - name: Soomla.Store.WP8TestMode
-      value: 
-    - name: Soomla.Store.IosVerifyOnServerFailure
       value: 
