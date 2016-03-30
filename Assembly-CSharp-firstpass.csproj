@@ -228,7 +228,6 @@
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-pt-rBR\common_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\proguard.txt" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-az-rAZ\location_strings.xml" />
-     <None Include="Assets\Adjust\Android\AdjustAndroidManifest.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-pt-rPT\location_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-fi\wallet_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-pt\common_strings.xml" />
@@ -463,7 +462,6 @@
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-sv\location_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-ja\location_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-km-rKH\location_strings.xml" />
-     <None Include="Assets\Resources\adjustSettings.txt" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-lv\common_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-fi\common_strings.xml" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-vi\common_strings.xml" />
@@ -513,15 +511,6 @@
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="AdjustUnityWP">
- <HintPath>/Users/AVAndriets/Suzerain/Assets/Adjust/AdjustUnityWP.dll</HintPath>
- </Reference>
- <Reference Include="AdjustUnityWS">
- <HintPath>/Users/AVAndriets/Suzerain/Assets/Adjust/AdjustUnityWS.dll</HintPath>
- </Reference>
- <Reference Include="LitJson">
- <HintPath>/Users/AVAndriets/Suzerain/Assets/Mixpanel/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
  <HintPath>/Users/AVAndriets/Suzerain/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
