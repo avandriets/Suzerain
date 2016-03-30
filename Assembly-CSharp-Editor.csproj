@@ -47,6 +47,13 @@
   <ItemGroup>
      <Compile Include="Assets\GoogleMobileAds\Editor\CocoaPodHelper.cs" />
      <Compile Include="Assets\GoogleMobileAds\Editor\PostProcessor.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\AdMobDependencies.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\DefaultResolver.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\IResolver.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\PlayServicesResolver.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\ResolverVer1_1.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\SampleDependencies.cs" />
+     <Compile Include="Assets\PlayServicesResolver\Editor\SettingsDialog.cs" />
      <Compile Include="Assets\Soomla\Editor\SoomlaPostBuild.cs" />
      <Compile Include="Assets\Soomla\Editor\SoomlaSettingsEditor.cs" />
      <None Include="Assets\plugins\Android\google-play-services_lib\res\values-kn-rIN\common_strings.xml" />
@@ -431,6 +438,9 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="JarResolverLib">
+ <HintPath>/Users/AVAndriets/Suzerain/Assets/PlayServicesResolver/Editor/JarResolverLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
