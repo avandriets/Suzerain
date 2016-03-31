@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour {
 
 	public static void MusicOFF(bool state){
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.mute = state;
+		musicOff = true;
 	}
 
 	public void OnMuteButtonClick(){
