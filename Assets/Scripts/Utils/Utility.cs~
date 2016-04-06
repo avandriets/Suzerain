@@ -27,9 +27,8 @@ public static class Utility {
 	public static bool StopCoroutine = true;
 
 	public static bool	TESTING_MODE = true;
-	//public static string SERVICE_BASE_URL	= "http://cloudcraftt1.cloudapp.net:8062/SuzerainWcfService/SuzerainService/";
 	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
-	//public static string SERVICE_BASE_URL	= "http://192.168.0.108:8062/SuzerainWcfService/SuzerainService/";
+	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
 	public static string LOGIN_URL			= "Login";
 	public static string LETSFIGHT_URL		= "LetsFight";
 	public static string STATE_FIGTS_URL	= "GetUserStats";

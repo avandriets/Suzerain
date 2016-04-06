@@ -36,12 +36,15 @@ public class MainScreenManager : MonoBehaviour {
 	bool firstStart = false;
 
 	InterstitialAd interstitial;
-	public GoogleAnalyticsV4 googleAnalytics;
+	public static GoogleAnalyticsV4 googleAnalytics;
 
 	public GameObject spr1;
 	public GameObject spr2;
 
 	void OnEnable(){
+
+		googleAnalytics = GameObject.Find("GAv4").GetComponent<GoogleAnalyticsV4>();
+		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 
 		InitUser ();
 		StartCoroutine(	RotateRings ());
@@ -213,9 +216,9 @@ public class MainScreenManager : MonoBehaviour {
 			//Init user interface
 
 			//if (!Utility.StopCoroutine) {
-				googleAnalytics.LogScreen ("Main Menu");
+				//googleAnalytics.LogScreen ("Main Menu");
 				//Builder Hit with all App View parameters (all parameters required):
-				googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
+				//googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 			//}
 			
 			TextNickName.text	= UserController.currentUser.UserName;
