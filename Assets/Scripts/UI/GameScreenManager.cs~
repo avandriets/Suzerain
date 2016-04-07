@@ -52,6 +52,9 @@ public class GameScreenManager : MonoBehaviour {
 	}
 
 	void OnEnable(){
+
+		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Game screen"));
+
 		Texture2D texture = null;
 
 		if (spriteDraft == null) {

@@ -8,11 +8,12 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource musicSource;
 	public AudioClip[] musicClips;
 
-	public void Start(){
-	
+	void OnEnable()
+	{
+
 		if (true) {
 			if (PlayerPrefs.HasKey ("soundoff")) {
-			
+
 				if (PlayerPrefs.GetInt ("soundoff") == 1) {
 					musicOff = true;
 					musicSource.mute = musicOff;
@@ -21,10 +22,37 @@ public class SoundManager : MonoBehaviour {
 					musicSource.mute = musicOff;
 				}
 			} else {
+				//musicOff = musicSource.mute;
 				musicOff = false;
 				musicSource.mute = musicOff;
 			}
 		}
+
+	}
+
+	public void Start(){
+	
+//		if (true) {
+//			if (PlayerPrefs.HasKey ("soundoff")) {
+//			
+//				if (PlayerPrefs.GetInt ("soundoff") == 1) {
+//					musicOff = true;
+//					musicSource.mute = musicOff;
+//				} else {
+//					musicOff = false;
+//					musicSource.mute = musicOff;
+//				}
+//			} else {
+//				//musicOff = musicSource.mute;
+//				musicOff = false;
+//				musicSource.mute = musicOff;
+//			}
+//		}
+	}
+
+	public static void MusicOFF(bool state){
+		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.mute = state;
+		musicOff = state;
 	}
 
 	public void OnMuteButtonClick(){

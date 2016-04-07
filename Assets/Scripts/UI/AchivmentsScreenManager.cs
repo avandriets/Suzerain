@@ -33,6 +33,7 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 	void OnEnable(){
 
+		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Achivment screen"));
 
 		StartCoroutine(	RotateRings ());
 

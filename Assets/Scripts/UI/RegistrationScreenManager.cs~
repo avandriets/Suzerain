@@ -26,8 +26,14 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 	ScreensManager	screensManager	= null;
 
+	void Start(){
+		SoundManager.MusicOFF (true);	
+	}
+
 	void OnEnable() {
 	
+		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Registration screen"));
+
 		screensManager	= ScreensManager.instance;
 
 		GameObject inputFieldGo = GameObject.Find("UserName");
@@ -56,6 +62,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 		StartCoroutine( GetLocation () );
 
+		//SoundManager.MusicOFF (true);
 		//RestoreUsersSettingsFromPrefs ();
 	}
 
@@ -82,8 +89,22 @@ public class RegistrationScreenManager : MonoBehaviour {
 	
 	public void finishRegistration()
 	{
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+		AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+		AndroidJavaObject app = activity.Call<AndroidJavaObject>("getApplicationContext");
+
+		AndroidJavaClass AdWordsConversionReporter = new AndroidJavaClass("com.google.ads.conversiontracking.AdWordsConversionReporter");
+		AdWordsConversionReporter.CallStatic("reportWithConversionId", app, "925668342", "-0GECLO2-mQQ9qeyuQM", "0", true);
+		#endif
+
+		MainScreenManager.googleAnalytics.LogEvent(new EventHitBuilder()
+			.SetEventCategory("game")
+			.SetEventAction("Registration success"));
+		
 		GameObject.Destroy(errorPanel.gameObject);
 		errorPanel = null;
+		SoundManager.MusicOFF (false);
 		screensManager.ShowMainScreen ();
 	}
 	
@@ -346,9 +367,8 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 				screensManager.CloseWaitPanel(waitPanel);
 				screensManager.InitLanguage();
-
+				
 				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString("@registration_success") , finishRegistration);
-
 			}
 			catch(Exception e)
 			{
@@ -360,12 +380,20 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 			screensManager.CloseWaitPanel(waitPanel);
 
-			if(www.error.Contains("409")){
+			if(www.error.Contains("409") || www.error.Contains("conflict") || www.error.Contains("Conflict")){
 				//"Пользователь с таким именем " + iUserName.text + " существует, попробуйте другое имя."
 
+				MainScreenManager.googleAnalytics.LogEvent(new EventHitBuilder()
+					.SetEventCategory("game")
+					.SetEventAction("Registration error user exests"));
+				
 				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString("@registration_user_exists"), finishError);
 			}else{				
 				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString("@registration_error") , finishError);
+
+				MainScreenManager.googleAnalytics.LogEvent(new EventHitBuilder()
+					.SetEventCategory("game")
+					.SetEventAction("Registration error unknown"));
 			}
 
 			Debug.Log("WWW Error: "+ www.error);

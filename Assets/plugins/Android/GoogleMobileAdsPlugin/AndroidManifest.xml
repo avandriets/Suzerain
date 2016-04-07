@@ -26,5 +26,13 @@ required for displaying ads.
     <!-- InAppPurchase Activity -->
     <activity android:name="com.google.android.gms.ads.purchase.InAppPurchaseActivity"
         android:theme="@style/Theme.IAPTheme"/>
+
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+<receiver android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+          android:exported="true" >
+  <intent-filter>
+    <action android:name="com.android.vending.INSTALL_REFERRER" />
+  </intent-filter>
+</receiver>
   </application>
 </manifest>

@@ -21,3 +21,5 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/wp-store.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/soomla-wp-core.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/LitJson.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/AdjustUnityWP.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/AdjustUnityWS.dll

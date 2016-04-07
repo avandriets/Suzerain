@@ -33,6 +33,8 @@ public class ProfileManager : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable() {
 	
+		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Profile screen"));
+
 		screenManager = ScreensManager.instance;
 
 		if(PlayerPrefs.HasKey("Volume")){
