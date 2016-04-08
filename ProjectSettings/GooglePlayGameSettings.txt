@@ -1,9 +1,10 @@
-lastUpgrade=00931
+lastUpgrade=00932
 proj.AppId=489051386383
 and.BundleId=com.gcgamecore.suzerain
 proj.classDir=Assets
 proj.ConstantsClassName=GPGSids
 and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3c%21--%0aGoogle+Play+game+services+IDs.%0aSave+this+file+as+res%2fvalues%2fgames-ids.xml+in+your+project.%0a--%3e%0a%3cresources%3e%0a++%3cstring+name%3d%22app_id%22%3e489051386383%3c%2fstring%3e%0a++%3cstring+name%3d%22package_name%22%3ecom.gcgamecore.suzerain%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_achivment1%22%3eCgkIj-Tv7Z0OEAIQAQ%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_achivment2%22%3eCgkIj-Tv7Z0OEAIQAg%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_achivment3%22%3eCgkIj-Tv7Z0OEAIQAw%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_achivment4%22%3eCgkIj-Tv7Z0OEAIQBA%3c%2fstring%3e%0a++%3cstring+name%3d%22achievement_achivment5%22%3eCgkIj-Tv7Z0OEAIQBQ%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_leaderboard1%22%3eCgkIj-Tv7Z0OEAIQBg%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_leaderboard2%22%3eCgkIj-Tv7Z0OEAIQBw%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_leaderboard3%22%3eCgkIj-Tv7Z0OEAIQCA%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_leaderboard4%22%3eCgkIj-Tv7Z0OEAIQCQ%3c%2fstring%3e%0a++%3cstring+name%3d%22leaderboard_leaderboard5%22%3eCgkIj-Tv7Z0OEAIQCg%3c%2fstring%3e%0a%3c%2fresources%3e
 and.ClientId=489051386383-cfdhtrtv8betrlidkdedpath4dqob9lt.apps.googleusercontent.com
-proj.requireGPlus=false
+proj.requireGPlus=true
 android.SetupDone=true
+proj.pluginVersion=0.9.32

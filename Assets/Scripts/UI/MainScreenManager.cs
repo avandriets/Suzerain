@@ -43,6 +43,8 @@ public class MainScreenManager : MonoBehaviour {
 
 	void OnEnable(){
 
+		GooglePlayGames.PlayGamesPlatform.Activate();
+
 		googleAnalytics = GameObject.Find("GAv4").GetComponent<GoogleAnalyticsV4>();
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 

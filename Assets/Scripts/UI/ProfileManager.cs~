@@ -7,6 +7,9 @@ using System;
 using SimpleJSON;
 using System.IO;
 using Soomla.Store;
+using UnityEngine.SocialPlatforms;
+using GooglePlayGames;
+
 
 public class ProfileManager : MonoBehaviour {
 
@@ -29,10 +32,12 @@ public class ProfileManager : MonoBehaviour {
 	public Text TextRank;
 	public Image avatar;
 	public PaidVersinDialog buyDialog;
+	bool wasGetEmail = false;
 
 	// Use this for initialization
 	void OnEnable() {
 	
+		wasGetEmail = false;
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Profile screen"));
 
 		screenManager = ScreensManager.instance;
@@ -276,4 +281,45 @@ public class ProfileManager : MonoBehaviour {
 		screenManager.CloseInstructionPanel (instDialog);
 		instDialog = null;
 	}
+
+	public void GoogleGetToken(){
+
+		if (!Social.localUser.authenticated) {
+			// Authenticate
+			waitP = screenManager.ShowWaitDialog("Authenticating...");
+
+			Social.localUser.Authenticate((bool success) => {
+				
+				if (success) {
+					wasGetEmail = false;
+					//StartCoroutine(getTokenInThread());
+									
+				} else {
+					errP = screenManager.ShowErrorDialog("Authentication failed." ,LoginErrorAction);
+				}
+			});
+		} else {
+			// Sign out!
+			errP = screenManager.ShowErrorDialog("Signing out." ,LoginErrorAction);
+			((GooglePlayGames.PlayGamesPlatform) Social.Active).SignOut();
+		}
+	}
+
+	void Update(){		
+		if (((PlayGamesLocalUser)Social.localUser).Email != null && wasGetEmail == false) {
+			if(((PlayGamesLocalUser)Social.localUser).Email.Length > 0 && ((PlayGamesLocalUser)Social.localUser).accessToken.Length > 0 ){
+
+				screenManager.CloseWaitPanel (waitP);
+				wasGetEmail = true;
+
+				string mStatusText = "Welcome " + Social.localUser.userName;
+				mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
+
+				mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
+				mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
+				errP = screenManager.ShowErrorDialog(mStatusText ,LoginErrorAction);
+			}
+		}
+	}
+
 }
