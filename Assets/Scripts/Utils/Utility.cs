@@ -18,6 +18,7 @@ public delegate void ParseFightsDelegate(string fightsList);
 public delegate void TimerStopDelegate();
 
 public delegate void CancelFightByServerDelegate();
+public delegate void CancelFightDelegate(Fight pFight);
 public delegate void CancelFughtByUserDelegate();
 public delegate void ReadyToFight();
 public delegate void ErrorToFight();
@@ -27,8 +28,8 @@ public static class Utility {
 	public static bool StopCoroutine = true;
 
 	public static bool	TESTING_MODE = true;
-	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
-	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
+	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
+	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
 	public static string LOGIN_URL			= "Login";
 	public static string LETSFIGHT_URL		= "LetsFight";
 	public static string STATE_FIGTS_URL	= "GetUserStats";
@@ -52,6 +53,41 @@ public static class Utility {
 	public static string SET_RANGE_ANSWER_URL	= "SetTestAnswer";
 	public static string GET_ROUND_STATE_URL	= "GetRoundState";
 	public static string FIGHT_REJECT_URL	= "RejectFight";
+
+
+	public static List<Friend> ParseFriendsJsonList(string pJsonStr, string nameOfCollection){
+
+		var N = JSON.Parse(pJsonStr);
+		var mGetResult = N[nameOfCollection].AsArray;
+		List<Friend> newObj = new List<Friend> ();
+
+		foreach (var item in mGetResult) {
+			Friend newItem = ParseGetFriendResponse(item.ToString());
+			newObj.Add(newItem);
+		}
+
+		return newObj;
+	}
+
+	public static List<Friend> GetListOfFriends(string pJsonStr){
+
+		return ParseFriendsJsonList(pJsonStr,"GetFriendsResult" );
+	}
+
+	public static Friend ParseGetFriendResponse(string pJsonStr){
+
+		var mGetResult = JSON.Parse(pJsonStr);
+
+		Friend newObj = new Friend ();
+
+		newObj.UserId		= mGetResult ["UserId"].AsInt;
+		newObj.UserName		= mGetResult ["UserName"];
+		newObj.Result		= mGetResult ["Result"].AsDouble;
+		newObj.State 		= mGetResult ["State"].AsInt;
+		newObj.Rank 		= mGetResult ["Rank"].AsInt;
+
+		return newObj;
+	}
 
 	public static List<FightStat> GetListOfFightsStates(string pJsonStr){
 
@@ -194,6 +230,35 @@ public static class Utility {
 		return newObj;
 	}
 
+
+	public static Fight ParseFightWthFriendResponse(string pJsonStr){
+
+		var N = JSON.Parse(pJsonStr);
+		var mLetsFightResult = N["LetsFightWithFriendResult"];
+
+		Fight fightObj = new Fight ();
+
+		fightObj.Id					= mLetsFightResult ["Id"].AsInt;
+		fightObj.InitiatorId		= mLetsFightResult ["InitiatorId"].AsInt;
+		fightObj.FightState			= mLetsFightResult ["FightState"].AsInt;
+		fightObj.FightTypeId		= mLetsFightResult ["FightTypeId"].AsInt;
+		fightObj.TaskId				= mLetsFightResult ["TaskId"].AsInt;
+		fightObj.OpponentId			= mLetsFightResult ["OpponentId"].AsInt;
+		fightObj.InitiatorScore		= mLetsFightResult ["InitiatorScore"].AsInt;
+		fightObj.InitiatorAnswer	= mLetsFightResult ["InitiatorAnswer"].AsInt; 
+		fightObj.OpponentScore 		= mLetsFightResult ["OpponentScore"].AsInt;
+		fightObj.OpponentAnswer		= mLetsFightResult ["OpponentAnswer"].AsInt;
+		fightObj.Winner 			= mLetsFightResult ["Winner"].AsInt;
+		fightObj.Looser 			= mLetsFightResult ["Looser"].AsInt;
+		fightObj.IsDraw				= mLetsFightResult ["IsDraw"].AsBool;
+
+		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
+		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+
+		return fightObj;
+	}
+
+
 	public static Fight ParseFightResponse(string pJsonStr){
 
 		var N = JSON.Parse(pJsonStr);
@@ -252,6 +317,33 @@ public static class Utility {
 
 		var N = JSON.Parse(pJsonStr);
 		var mLetsFightResult = N["GetFightStateResult"];
+
+		Fight fightObj = new Fight ();
+
+		fightObj.Id					= mLetsFightResult ["Id"].AsInt;
+		fightObj.InitiatorId		= mLetsFightResult ["InitiatorId"].AsInt;
+		fightObj.FightState			= mLetsFightResult ["FightState"].AsInt;
+		fightObj.FightTypeId		= mLetsFightResult ["FightTypeId"].AsInt;
+		fightObj.TaskId				= mLetsFightResult ["TaskId"].AsInt;
+		fightObj.OpponentId			= mLetsFightResult ["OpponentId"].AsInt;
+		fightObj.InitiatorScore		= mLetsFightResult ["InitiatorScore"].AsInt;
+		fightObj.InitiatorAnswer	= mLetsFightResult ["InitiatorAnswer"].AsInt; 
+		fightObj.OpponentScore 		= mLetsFightResult ["OpponentScore"].AsInt;
+		fightObj.OpponentAnswer		= mLetsFightResult ["OpponentAnswer"].AsInt;
+		fightObj.Winner 			= mLetsFightResult ["Winner"].AsInt;
+		fightObj.Looser 			= mLetsFightResult ["Looser"].AsInt;
+		fightObj.IsDraw				= mLetsFightResult ["IsDraw"].AsBool;
+
+		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
+		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+
+		return fightObj;
+	}
+
+	public static Fight ParseFightStateResponseByNode(string pJsonStr, string nodeName){
+
+		var N = JSON.Parse(pJsonStr);
+		var mLetsFightResult = N[nodeName];
 
 		Fight fightObj = new Fight ();
 
@@ -469,6 +561,35 @@ public static class Utility {
 		}
 	}
 
+	public static void setAvatarByState(Image imgAvatar, double fightStat){
+
+		string image = "1";
+
+		if (fightStat * 100 <= 29) {
+					image = "1";
+		} else if (fightStat*100 <= 39 && fightStat*100 > 29) {
+					image = "2";
+		}else if (fightStat*100 <= 49 && fightStat*100 > 39) {
+					image = "3";
+		}else if (fightStat*100 <= 59 && fightStat*100 > 49) {
+					image = "4";
+		}else if (fightStat*100 <= 69 && fightStat*100 > 59) {
+					image = "5";
+		}else if (fightStat*100 <= 79 && fightStat*100 > 69) {
+					image = "6";
+		}else if (fightStat*100 <= 100 && fightStat*100 > 79) {
+					image = "7";
+		}
+
+		Sprite spr = null;
+		Texture2D tex = (Texture2D)Resources.Load(image);
+		if (tex != null) {
+			spr = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
+
+			imgAvatar.sprite = spr;
+		}
+	}
+
 	public static string GetDifference(User user, List<FightStat> fightStat){
 
 		double maxResult = -1;
@@ -482,6 +603,11 @@ public static class Utility {
 				}
 			}
 		}
+
+		return getRunkByNumber (FightType);
+	}
+
+	public static string getRunkByNumber(int FightType){
 
 		switch (FightType) {
 		case 1:
@@ -498,7 +624,7 @@ public static class Utility {
 			return "@keeper";
 		case 7:
 			return "@prophet";
-			default:
+		default:
 			return "";
 		}
 

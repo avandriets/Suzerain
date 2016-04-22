@@ -27,7 +27,7 @@ public class GameType3 : GameBase {
 
 		string answer = getRightWord();
 
-		string[] arrLett = new string[14];
+		string[] arrLett = new string[9];
 
 		//Create letters array
 		for (int k = 0; k < arrLett.Length; k++) {
@@ -129,21 +129,33 @@ public class GameType3 : GameBase {
 			}
 		}
 
-		//item.Letter.gameObject.SetActive (false);
-
 		Debug.Log (item.item.ItemName);
 	}
 
 	public void onCardFinishClick(Game3TemplateButton item){
 
 		if (item.item != null) {
-			//item.HideImage ();
 			item.item = null;
 			item.Letter.gameObject.SetActive (false);
 			item.relateButton.Letter.gameObject.SetActive (true);
 		}
 
-		//Debug.Log (item.item.ItemName);
+	}
+
+	public void OnBackSpaceClick(){
+
+		for (int i = finishLettersList.Count - 1; i >= 0; i--) {
+			
+			if (finishLettersList [i].item != null) {
+				
+				if (finishLettersList [i].Letter.gameObject.activeSelf) {
+					finishLettersList [i].item = null;
+					finishLettersList [i].Letter.gameObject.SetActive (false);
+					finishLettersList [i].relateButton.Letter.gameObject.SetActive (true);
+					break;
+				}
+			}
+		}
 	}
 
 	protected override int GetAnswer(){

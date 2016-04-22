@@ -13,11 +13,6 @@ public class ClockObject : MonoBehaviour {
 
 	private bool inProcess = false;
 
-//	public Image ImgSec1;
-//	public Image ImgSec2;
-//	public Image ImgMillSec1;
-//	public Image ImgMillSec2;
-
 	public SpriteRenderer SR_ImgSec1;
 	public SpriteRenderer SR_ImgSec2;
 	public SpriteRenderer SR_ImgMillSec1;
@@ -34,7 +29,13 @@ public class ClockObject : MonoBehaviour {
 	private Sprite num8;
 	private Sprite num9;
 
+	public GameObject blamba;
+
 	TimeEndDelegate timeEndDelegate;
+
+	[HideInInspector]
+	public int		GameType 	= 0;
+	public float	targetTime 	= 0;
 
 	public void initClockImages(){
 
@@ -125,6 +126,12 @@ public class ClockObject : MonoBehaviour {
 
 			showTime = finishTime - startingTime;
 
+			if (GameType == 4 && showTime > targetTime - 3f && showTime < targetTime + 3f && !blamba.activeSelf)
+				blamba.SetActive (true);
+
+			if (GameType == 4 && showTime < targetTime - 3f && blamba.activeSelf)
+				blamba.SetActive (false);
+
 			sec1 = (int)showTime / 10;
 			sec2 = (int)showTime - sec1*10;
 			partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
@@ -157,6 +164,8 @@ public class ClockObject : MonoBehaviour {
 			yield return null;
 		}
 
+		blamba.SetActive (false);
+		
 		if (inProcess == true) {
 			timeEndDelegate (true);
 		}

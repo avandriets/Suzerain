@@ -164,4 +164,20 @@ public class GameType2 : GameBase {
 
 		return word.ToUpper();
 	}
+
+	public void OnBackSpaceClick(){
+
+		for (int i = finishLettersList.Count - 1; i >= 0; i--) {
+
+			if (finishLettersList [i].item != null) {
+
+				if (finishLettersList [i].Letter.gameObject.activeSelf) {
+					finishLettersList [i].item = null;
+					finishLettersList [i].Letter.gameObject.SetActive (false);
+					finishLettersList [i].relateButton.Letter.gameObject.SetActive (true);
+					break;
+				}
+			}
+		}
+	}
 }

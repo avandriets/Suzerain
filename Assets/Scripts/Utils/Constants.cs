@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Constants : MonoBehaviour {
 
+	public static int RANDOM_GAME = 1;
+	public static int FRIENDS_GAME = 2;
+
 	public static string BANNER_ID_KEY_ANDROID = "ca-app-pub-6013004568754454/5818318921";
 	public static string FULL_SIZE_BANNER_ID_KEY_ANDROID = "ca-app-pub-6013004568754454/7295052127";
 

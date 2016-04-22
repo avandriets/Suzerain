@@ -5,15 +5,17 @@ using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using UnityEngine.Events;
 using Soomla.Store;
+using Facebook.Unity;
 
-public class MainScreenManager : MonoBehaviour {
+public class MainScreenManager : MonoBehaviour
+{
 
-	private WaitPanel	waitPanel  = null;
+	private WaitPanel	waitPanel = null;
 	private ErrorPanel	errorPanel = null;
-	private WaitOpponentDialog		waitForOpponentPanel	= null;
-	private InstructionDialog		instDialog = null;
+	private WaitOpponentDialog waitForOpponentPanel	= null;
+	private InstructionDialog instDialog = null;
 
-	UserController 	user_controller = null;
+	UserController user_controller = null;
 	ScreensManager	screensManager	= null;
 
 	public RectTransform firstRing;
@@ -41,22 +43,92 @@ public class MainScreenManager : MonoBehaviour {
 	public GameObject spr1;
 	public GameObject spr2;
 
-	void OnEnable(){
+	private int CurrentTypeGame = Constants.RANDOM_GAME;
+	public Text GameTypeCaption;
 
-		GooglePlayGames.PlayGamesPlatform.Activate();
+	BannerView bannerView = null;
 
-		googleAnalytics = GameObject.Find("GAv4").GetComponent<GoogleAnalyticsV4>();
+	public LiveMessenger	messengerLive;
+
+	public AcceptFightWithFriend mAcceptFightDialogWithFriend;
+
+	int currentFightId = -1;
+
+	void Start ()
+	{
+		
+		GooglePlayGames.PlayGamesPlatform.Activate ();
+
+		if (!FB.IsInitialized) {
+			// Initialize the Facebook SDK
+			FB.Init (InitCallback, null);
+		} else {
+			// Already initialized, signal an app activation App Event
+			FB.ActivateApp ();
+		}
+
+		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
+			RequestBanner ();
+		}
+
+	}
+
+	private void RequestBanner ()
+	{
+		#if UNITY_ANDROID
+		string adUnitId = Constants.BANNER_ID_KEY_ANDROID;
+		#elif UNITY_IPHONE
+		string adUnitId = Constants.BANNER_ID_KEY_IOS;
+		#else
+		string adUnitId = "unexpected_platform";
+		#endif
+
+
+		// Create a 320x50 banner at the top of the screen.
+		bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Top);
+
+		bannerView.OnAdLoaded += HandleAdLoaded;
+
+		// Create an empty ad request.
+		AdRequest request = new AdRequest.Builder ()
+		.TagForChildDirectedTreatment (true)
+		.Build ();
+
+		// Load the banner with the request.
+		bannerView.LoadAd (request);
+	}
+
+	public void HandleAdLoaded (object sender, System.EventArgs args)
+	{
+		bannerView.Show ();
+	}
+
+	private void InitCallback ()
+	{
+		if (FB.IsInitialized) {
+			// Signal an app activation App Event
+			FB.ActivateApp ();
+
+		} else {
+			Debug.Log ("Failed to Initialize the Facebook SDK");
+		}
+	}
+
+	void OnEnable ()
+	{
+
+		googleAnalytics = GameObject.Find ("GAv4").GetComponent<GoogleAnalyticsV4> ();
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 
 		InitUser ();
-		StartCoroutine(	RotateRings ());
+		StartCoroutine (RotateRings ());
 
 		if (gameCounts == 0) {
 
 			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
 				
 				//if (!Utility.StopCoroutine) {
-					RequestInterstitial ();
+				RequestInterstitial ();
 				//}
 
 			}
@@ -70,7 +142,7 @@ public class MainScreenManager : MonoBehaviour {
 
 
 		if (!InitMuteState) {
-			soundMan = GameObject.Find("MusicManager").GetComponent<SoundManager>();
+			soundMan = GameObject.Find ("MusicManager").GetComponent<SoundManager> ();
 			InitMuteState = true;
 		}
 
@@ -78,62 +150,113 @@ public class MainScreenManager : MonoBehaviour {
 
 		SoundManager.InitMuteState (muteButton);
 
-		muteButton.onValueChanged.AddListener ( (value) => {   // you are missing this
-			handleCheckbox(value);       // this is just a basic method call within another method
+		muteButton.onValueChanged.AddListener ((value) => {   // you are missing this
+			handleCheckbox (value);       // this is just a basic method call within another method
 		}   // and this one
 		);
+
+		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
+			RequestBanner ();
+		}
 	}
 
-	void handleCheckbox(bool value)
+	void OnDisable() {
+
+		if (bannerView != null) {
+		bannerView.Hide ();
+		bannerView.Destroy();
+		}
+
+	}
+
+	public void SwitchGameLeft ()
+	{
+		if (CurrentTypeGame > 1) {
+			CurrentTypeGame--;
+		}
+		InitTypegame ();
+	}
+
+	public void SwitchGameRight ()
+	{
+		if (CurrentTypeGame < 2) {
+			CurrentTypeGame++;
+		}
+		InitTypegame ();
+	}
+
+	private void InitTypegame ()
+	{
+		
+		if (CurrentTypeGame == Constants.RANDOM_GAME) {
+			GameTypeCaption.text = "Случайный поединок";
+		} else if (CurrentTypeGame == Constants.FRIENDS_GAME) {
+			GameTypeCaption.text = "Поединок с другом";
+		}
+
+	}
+
+	void handleCheckbox (bool value)
 	{
 		soundMan.OnMuteButtonClick ();
 	}
 
-	IEnumerator RotateRings() {
+	IEnumerator RotateRings ()
+	{
 
-			float startingTime = 0;
+		float startingTime = 0;
 
-			while (gameObject.activeSelf) {
+		while (gameObject.activeSelf) {
 
-				startingTime += Time.deltaTime;
+			startingTime += Time.deltaTime;
 
-				spr1.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-				//spr2.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
+			spr1.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
+			//spr2.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
 					
 //				firstRing.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
 //				secondRing.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
 
-				if (startingTime > 360)
-					startingTime = 0;
+			if (startingTime > 360)
+				startingTime = 0;
 			
-				//Debug.Log (" RotateRings RotateRings RotateRings RotateRings RotateRings !!!!!");
-				//yield return new WaitForSeconds(1);
-				yield return null;
-			}
+			//Debug.Log (" RotateRings RotateRings RotateRings RotateRings RotateRings !!!!!");
+			//yield return new WaitForSeconds(1);
+			yield return null;
+		}
 
 	}
 
-	public void OnFightClick(){
+	public void OnFightClick ()
+	{
 
 		// Builder Hit with minimum required Event parameters.
-		googleAnalytics.LogEvent(new EventHitBuilder()
-			.SetEventCategory("game")
-			.SetEventAction("ask for game"));
-		
-		waitForOpponentPanel = screensManager.ShowWaitOpponentDialog("Вызываю на дуэль",CancelFightByUser);
+//		googleAnalytics.LogEvent(new EventHitBuilder()
+//			.SetEventCategory("game")
+//			.SetEventAction("ask for game"));
 
-		OnlineGame ing = OnlineGame.instance;
-		ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest);
+		if (CurrentTypeGame == Constants.RANDOM_GAME) {
+			
+			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
+
+			OnlineGame ing = OnlineGame.instance;
+			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest);
+
+		} else if (CurrentTypeGame == Constants.FRIENDS_GAME) {
+			screensManager.ShowFriendsScreen ();
+		}
+	
 	}
-		
-	public void CancelFightByUser(){
+
+	public void CancelFightByUser ()
+	{
 
 		OnlineGame ing = OnlineGame.instance;
 		ing.CancelFight ();
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void CancelFightByServer(){
+	public void CancelFightByServer (Fight pfight)
+	{
 
 		if (waitForOpponentPanel != null) {
 			waitForOpponentPanel.ClosePanel ();
@@ -141,11 +264,12 @@ public class MainScreenManager : MonoBehaviour {
 			waitForOpponentPanel = null;
 		}
 
-		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@fight_finished_by_server"), ErrorCancelByServer);
+		errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@fight_finished_by_server"), ErrorCancelByServer);
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void ReadyToFight(){
+	public void ReadyToFight ()
+	{
 		
 		if (waitForOpponentPanel != null) {
 			waitForOpponentPanel.ClosePanel ();
@@ -157,30 +281,33 @@ public class MainScreenManager : MonoBehaviour {
 		//SoundManager.ChoosePlayMusic (2);
 	}
 
-	public void ErrorFightRequest(){
+	public void ErrorFightRequest ()
+	{
 		if (waitForOpponentPanel != null) {
 			waitForOpponentPanel.ClosePanel ();
 			GameObject.Destroy (waitForOpponentPanel.gameObject);
 			waitForOpponentPanel = null;
 		}
 
-		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
+		errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void ErrorCancelByServer(){
-		GameObject.Destroy(errorPanel.gameObject);
+	public void ErrorCancelByServer ()
+	{
+		GameObject.Destroy (errorPanel.gameObject);
 		errorPanel = null;
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void onClickClearSettings()
+	public void onClickClearSettings ()
 	{
 		PlayerPrefs.DeleteAll ();
 		Application.Quit ();
 	}
 
-	public void InitUser(){
+	public void InitUser ()
+	{
 
 		user_controller	= UserController.instance;
 		screensManager	= ScreensManager.instance;
@@ -190,37 +317,41 @@ public class MainScreenManager : MonoBehaviour {
 		if (UserController.registered) {
 			
 
-			if(!UserController.authenticated){
+			if (!UserController.authenticated) {
 				
-				waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString ("@connecting"));
+				waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
 
-				user_controller.LogIn (InitLabels, -1 , -1);
-			}else{
-				InitLabels(false,"","");
+				user_controller.LogIn (InitLabels, -1, -1);
+			} else {
+				InitLabels (false, "", "");
 			}
 
 		} else {
 			firstStart = true;
-			screensManager.ShowRegistrationScreen();			
+			screensManager.ShowRegistrationScreen ();			
 		}
 
 	}
 
-	public void InitLabels(bool error, string source_error, string error_text){
+	public void InitLabels (bool error, string source_error, string error_text)
+	{
 
-		if(waitPanel != null)
+		if (waitPanel != null)
 			screensManager.CloseWaitPanel (waitPanel);
 
 		screensManager.InitTranslateList ();
 		screensManager.TranslateUI ();
 
 		if (error == false) {
+
+			messengerLive.StartPulseRequest ();
+
 			//Init user interface
 
 			//if (!Utility.StopCoroutine) {
-				//googleAnalytics.LogScreen ("Main Menu");
-				//Builder Hit with all App View parameters (all parameters required):
-				//googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
+			//googleAnalytics.LogScreen ("Main Menu");
+			//Builder Hit with all App View parameters (all parameters required):
+			//googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 			//}
 			
 			TextNickName.text	= UserController.currentUser.UserName;
@@ -229,7 +360,7 @@ public class MainScreenManager : MonoBehaviour {
 				if (Rose.statList [0].Fights >= Constants.fightsCount) {
 					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
 				} else {
-					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString(); // ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
+					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString (); // ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
 				}
 			}
 
@@ -241,7 +372,7 @@ public class MainScreenManager : MonoBehaviour {
 
 			if (firstStart) {
 				//instDialog.ShowDialog ();
-				instDialog = screensManager.ShowInstructionDialog(closeInstruction);
+				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
 				firstStart = false;
 			}
 
@@ -253,35 +384,39 @@ public class MainScreenManager : MonoBehaviour {
 			}
 
 		} else {
-			if(source_error == Constants.LOGIN_ERROR){				
-				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@connection_error"), OnErrorButtonClick);
-			}else{
-				errorPanel = screensManager.ShowErrorDialog(error_text, OnErrorButtonClick);
+			if (source_error == Constants.LOGIN_ERROR) {				
+				errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@connection_error"), OnErrorButtonClick);
+			} else {
+				errorPanel = screensManager.ShowErrorDialog (error_text, OnErrorButtonClick);
 			}
 		}
 	}
 
-	public void closeInstruction(){
+	public void closeInstruction ()
+	{
 		screensManager.CloseInstructionPanel (instDialog);
 		instDialog = null;
 	}
 
-	public void shielClosedDialog(){
+	public void shielClosedDialog ()
+	{
 	
 	}
 
-	public void OnErrorButtonClick(){
+	public void OnErrorButtonClick ()
+	{
 
-		GameObject.Destroy(errorPanel.gameObject);
+		GameObject.Destroy (errorPanel.gameObject);
 		errorPanel = null;
 
 		//if (!UserController.registered) {
-			Application.Quit();
+		Application.Quit ();
 		//}
 
 	}
 
-	void Update(){
+	void Update ()
+	{
 
 //		if (gameObject.activeSelf) {
 //
@@ -311,7 +446,7 @@ public class MainScreenManager : MonoBehaviour {
 		}
 	}
 
-	private void RequestInterstitial()
+	private void RequestInterstitial ()
 	{
 		if (interstitial != null) {
 			interstitial.Destroy ();
@@ -327,19 +462,19 @@ public class MainScreenManager : MonoBehaviour {
 		#endif
 
 		// Initialize an InterstitialAd.
-		interstitial = new InterstitialAd(adUnitId);
+		interstitial = new InterstitialAd (adUnitId);
 
 		interstitial.OnAdLoaded += HandleOnAdLoaded;
 
 		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder()
-		.TagForChildDirectedTreatment(true)
-		.Build();
+		AdRequest request = new AdRequest.Builder ()
+		.TagForChildDirectedTreatment (true)
+		.Build ();
 		// Load the interstitial with the request.
-		interstitial.LoadAd(request);
+		interstitial.LoadAd (request);
 	}
 
-	public void HandleOnAdLoaded(object sender, System.EventArgs args)
+	public void HandleOnAdLoaded (object sender, System.EventArgs args)
 	{
 		Debug.Log ("AdMOB big was loaded");
 		// Handle the ad loaded event.
@@ -348,4 +483,49 @@ public class MainScreenManager : MonoBehaviour {
 			interstitial.Show ();
 		}
 	}
+
+	public void AskForFightFromFriend (int fightId)
+	{
+
+		currentFightId = fightId;
+		OnlineGame ing = OnlineGame.instance;
+
+		ing.InitGameParameters (true, true);
+
+		StartCoroutine (ing.StateFightRequestWithFriendByID (fightId, CancelFightByServer, ReadyToFightWithFriend, ErrorFightRequest));
+
+	}
+
+	public void ReadyToFightWithFriend ()
+	{
+		mAcceptFightDialogWithFriend.ShowDialog (AcceptFightWithFriend, CancelFightWithFriend);		
+	}
+
+	public void AcceptFightWithFriend(){
+
+		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
+		OnlineGame ing = OnlineGame.instance;
+		StartCoroutine (ing.AcceptFightWithFriendByID (currentFightId, CancelFightByServer, IntoFight, ErrorFightRequest));		
+	}
+
+	public void IntoFight(){
+
+		if (waitPanel != null)
+			screensManager.CloseWaitPanel (waitPanel);
+
+		screensManager.ShowGameScreen ();
+	}
+
+	public void CancelFightWithFriend(){
+
+		if (waitForOpponentPanel != null) {
+			waitForOpponentPanel.ClosePanel ();
+			GameObject.Destroy (waitForOpponentPanel.gameObject);
+			waitForOpponentPanel = null;
+		}
+
+		OnlineGame ing = OnlineGame.instance;
+		ing.CancelFightWithFriend ();
+	}
+
 }

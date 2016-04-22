@@ -38,6 +38,7 @@ public abstract class GameBase : MonoBehaviour {
 
 		clock.stopTime = 0;
 		clock.finishTime = GameDuration;
+		clock.GameType = 0;
 
 		inProgress = false;
 
@@ -52,7 +53,7 @@ public abstract class GameBase : MonoBehaviour {
 
 	public void onAnswer(bool autoAnswer){
 
-		if (inProgress)
+		if (inProgress || isActiveForm == false)
 			return;
 
 		inProgress = true;

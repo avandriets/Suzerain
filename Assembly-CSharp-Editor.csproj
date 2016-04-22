@@ -45,6 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookBuild.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookConsoleEndpoint.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookPostprocess.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookSettingsEditor.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\Utility.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\android\FacebookAndroidUtil.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\android\ManifestMod.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\FixupFiles.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListDict.cs" />
+     <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListParser.cs" />
      <Compile Include="Assets\GoogleMobileAds\Editor\CocoaPodHelper.cs" />
      <Compile Include="Assets\GoogleMobileAds\Editor\PostProcessor.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\CocoaPodHelper.cs" />
@@ -78,6 +88,7 @@
      <Compile Include="Assets\Soomla\Editor\SoomlaPostBuild.cs" />
      <Compile Include="Assets\Soomla\Editor\SoomlaSettingsEditor.cs" />
      <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
+     <None Include="Assets\FacebookSDK\SDK\Editor\android\DefaultAndroidManifest.xml" />
      <None Include="Assets\plugins\Android\Soomla\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\plugins\Android\AndroidManifest.xml" />
@@ -88,6 +99,7 @@
      <None Include="Assets\plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\plugins\Android\GoogleMobileAdsPlugin\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
+     <None Include="Assets\FacebookSDK\SDK\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\JSON Tests\TroubleShoot.txt" />
  <Reference Include="Assembly-UnityScript">
  <HintPath>/Users/AVAndriets/Suzerain/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>

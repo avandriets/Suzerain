@@ -172,6 +172,7 @@
      <Compile Include="Assets\plugins\Soomla\Store\purchaseTypes\PurchaseWithVirtualItem.cs" />
      <Compile Include="Assets\plugins\Soomla\Store\rewards\VirtualItemReward.cs" />
      <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
+     <None Include="Assets\FacebookSDK\SDK\Editor\android\DefaultAndroidManifest.xml" />
      <None Include="Assets\plugins\Android\Soomla\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\plugins\Android\AndroidManifest.xml" />
@@ -182,6 +183,7 @@
      <None Include="Assets\plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\plugins\Android\GoogleMobileAdsPlugin\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
+     <None Include="Assets\FacebookSDK\SDK\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\JSON Tests\TroubleShoot.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

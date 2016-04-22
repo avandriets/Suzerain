@@ -42,7 +42,7 @@ public class FightResultDescription {
 	public static string getExtendetWinDescription(Fight currentFight){
 
 		// Answers & Score
-		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 ) {
+		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 || currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6 ) {
 			if (FightResultDescription.getOponentAnswer (currentFight) < 0 ) {
 				switch (currentFight.FightTypeId) {
 				case 1:
@@ -50,6 +50,10 @@ public class FightResultDescription {
 				case 2:
 					return "Противник ответил неверно";
 				case 3:
+					return "Противник ответил неверно";
+				case 5:
+					return "Противник ответил неверно";
+				case 6:
 					return "Противник ответил неверно";
 				}
 			} else {
@@ -59,6 +63,10 @@ public class FightResultDescription {
 				case 2:
 					return "Вы ответили быстрее";
 				case 3:
+					return "Вы ответили быстрее";
+				case 5:
+					return "Вы ответили быстрее";
+				case 6:
 					return "Вы ответили быстрее";
 				}
 			}
@@ -71,13 +79,13 @@ public class FightResultDescription {
 //				return "Противник был точнее";
 //			}
 		}//Answers
-		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 7 || currentFight.FightTypeId == 6){
+		else if(currentFight.FightTypeId == 7 ){
 
 			switch (currentFight.FightTypeId) {
-				case 5:
-				return "Вы были более удачливы";
-				case 6:
-				return "Ваша память оказалась крепче";
+//				case 5:
+//				return "Вы были более удачливы";
+//				case 6:
+//				return "Ваша память оказалась крепче";
 				case 7:
 				return "Вы были более проницательны";
 			}
@@ -88,7 +96,7 @@ public class FightResultDescription {
 	public static string getExtendetLoseDescription(Fight currentFight){
 
 		// Answers & Score
-		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 ) {
+		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 || currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6) {
 			if (FightResultDescription.getMyAnswer (currentFight) < 0 ) {
 				switch (currentFight.FightTypeId) {
 					case 1:
@@ -96,6 +104,10 @@ public class FightResultDescription {
 					case 2:
 						return "Вы ответили неверно";
 					case 3:
+						return "Вы ответили неверно";
+					case 5:
+						return "Вы ответили неверно";
+					case 6:
 						return "Вы ответили неверно";
 				}
 			} else {
@@ -105,6 +117,10 @@ public class FightResultDescription {
 					case 2:
 						return "Противник ответил быстрее";
 					case 3:
+						return "Противник ответил быстрее";
+					case 5:
+						return "Противник ответил быстрее";
+					case 6:
 						return "Противник ответил быстрее";
 				}
 			}
@@ -119,13 +135,13 @@ public class FightResultDescription {
 //				return "Противник был точнее";
 //			}
 		}//Answers
-		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6 || currentFight.FightTypeId == 7){
+		else if(currentFight.FightTypeId == 7){
 
 			switch (currentFight.FightTypeId) {
-				case 5:
-				return "Противник был более удачлив";
-				case 6:
-				return "Память противника оказалась крепче";
+//				case 5:
+//				return "Противник был более удачлив";
+//				case 6:
+//				return "Память противника оказалась крепче";
 				case 7:
 				return "Противник был более проницателен";
 			}
@@ -136,14 +152,22 @@ public class FightResultDescription {
 
 	public static string getExtendetDraftDescription(Fight currentFight){
 
-		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 ) {
-			return "Ничья";
+		if (currentFight.FightTypeId == 1 || currentFight.FightTypeId == 2 || currentFight.FightTypeId == 3 || currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6) {
+
+			string msg = "";
+
+			if (currentFight.RealOpponentAnswer < 0) {
+				msg = "Оба ответили неверно";
+			} else {
+				msg = "Оба ответили правильно";
+			}
+			return "Ничья \n" + msg;
 		}// Score
 		else if(currentFight.FightTypeId == 4){
 			string msg = "";//"счет (" + (((float)FightResultDescription.getMyScore (currentFight))/1000).ToString("##.##") + " - "+ (((float)FightResultDescription.getOponentScore (currentFight))/1000).ToString("##.##") + ")";
 			return "Ничья \n" + msg;
 		}//Answers
-		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6 || currentFight.FightTypeId == 7){
+		else if(currentFight.FightTypeId == 7){
 			string msg = "";//"счет (" + FightResultDescription.getMyAnswer (currentFight).ToString() + "-"+ FightResultDescription.getOponentAnswer (currentFight).ToString() + ")";
 
 			return "Ничья \n" + msg;
@@ -154,21 +178,29 @@ public class FightResultDescription {
 
 	public static string getScoreBothPlayers(Fight currentFight){
 
-		//System.Math.Round(((double)FightResultDescription.getMyScore (currentFight))/1000,2, System.MidpointRounding.
-		//string msg = string.Format(
-		if (currentFight.FightTypeId == 4) {
+		if (currentFight.FightTypeId == 4) 
+		{
 			float resultMy = 0;
 			float taskScore = (float)currentFight.TaskId;
 			float MyScore 	= ((float)FightResultDescription.getMyScore (currentFight)) / 1000f;
+
+			if (Mathf.Abs (MyScore) > 900)
+				MyScore = (-1)*taskScore;
+			
 			resultMy 			= taskScore + MyScore;
 
 			float resultOpp = 0;
 			float OpponentScore = ((float)FightResultDescription.getOponentScore (currentFight)) / 1000f;
+
+			if (Mathf.Abs (OpponentScore) > 900)
+				OpponentScore = (-1)*taskScore;
+			
 			resultOpp = taskScore + OpponentScore;
 
-			string msg = resultMy.ToString ("00.00") + " - " + resultOpp.ToString ("00.00");
+			string msg = Mathf.Abs(resultMy).ToString ("00.00") + " - " + Mathf.Abs(resultOpp).ToString ("00.00");
 			return msg;
-		} else if (currentFight.FightTypeId == 7) {
+		} else if (currentFight.FightTypeId == 7) 
+		{
 			int MyScore = FightResultDescription.getMyAnswer (currentFight);
 			int OpponentScore = FightResultDescription.getOponentAnswer (currentFight);
 
@@ -180,14 +212,15 @@ public class FightResultDescription {
 				OpponentScore = 0;
 			}
 
-			string msg = MyScore.ToString() + " - "+ OpponentScore.ToString();
+			string msg = Mathf.Abs(MyScore).ToString() + " - "+ Mathf.Abs(OpponentScore).ToString();
 			return msg;
 		}
-		//Answers
-		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6){
-			string msg = FightResultDescription.getMyAnswer (currentFight).ToString() + " - "+ FightResultDescription.getOponentAnswer (currentFight).ToString();
-			return msg;
-		}
+//		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6)
+//		{
+//			string msg = Mathf.Abs(FightResultDescription.getMyAnswer (currentFight)).ToString() + " - "+  Mathf.Abs(FightResultDescription.getOponentAnswer (currentFight)).ToString();
+//			return msg;
+//		}
+
 		return "";
 	}
 }

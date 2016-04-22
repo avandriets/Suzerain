@@ -51,12 +51,15 @@ public class RoundResultDialog : MonoBehaviour {
 				fightsImageList[fight.IndexOf(currentFight)].sprite = spriteLose;
 			}
 		}
+
+		//actionDescription.text = System.Text.RegularExpressions.Regex.Unescape(FightResultDescription.getExtendetLoseDescription (fight[fight.Count-1]));
 			
 		scoreUser.text = FightResultDescription.getScoreBothPlayers (fight[fight.Count-1]);
 
 		roundNumber.text = roundNum.ToString ();
 
 		GameObject.Find("TextRound").GetComponent<Text>().text = ScreensManager.LMan.getString ("@round");
+
 
 	}
 

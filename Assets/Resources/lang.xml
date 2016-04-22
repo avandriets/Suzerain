@@ -73,8 +73,8 @@
 		<string name="@intelligence">Логика</string>
 		<string name="@knowledge">Знания</string>
 		<string name="@intuition">Интуиция</string>
-		<string name="@memory">Память</string>
-		<string name="@fortune">Удача</string>
+		<string name="@memory">Эрудиция</string>
+		<string name="@fortune">Разум</string>
 		<string name="@connecting">Подключение к игровому серверу ...</string>
 		<string name="@connection_error">Ошибка соединения с игровым сервером.</string>
 		<string name="@cancel">Отмена</string>
@@ -93,7 +93,7 @@
 		<string name="@play">Играть</string>
 		<string name="@your_opponent">Ваш противник</string>
 		<string name="@round">Раунд</string>
-		<string name="@find_result">Обработка результата ...</string>
+		<string name="@find_result">Ожидание ответа вашего оппонента ...</string>
 		<string name="@fight_canceled">Бой расформирован ...</string>
 		<string name="@right_answer">вы ответили верно</string>
 		<string name="@not_right_answer">вы ответили неверно</string>

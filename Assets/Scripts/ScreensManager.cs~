@@ -12,6 +12,7 @@ public class ScreensManager : MonoBehaviour {
 	public GameObject mProfileScreenCanvas;
 	public GameObject mGameScreenCanvas;
 	public GameObject mAchivmentScreenCanvas;
+	public GameObject mFriendsScreenCanvas;
 
 	public GameObject	currentScreenCanvas = null;
 
@@ -136,6 +137,19 @@ public class ScreensManager : MonoBehaviour {
 
 		if (!mMainScreenCanvas.activeSelf) {
 			mMainScreenCanvas.SetActive (true);
+		}
+	}
+
+	public void ShowFriendsScreen()
+	{
+		if (currentScreenCanvas != null) {
+			currentScreenCanvas.SetActive(false);
+		}
+
+		currentScreenCanvas = mFriendsScreenCanvas;
+
+		if (!mFriendsScreenCanvas.activeSelf) {
+			mFriendsScreenCanvas.SetActive (true);
 		}
 	}
 
