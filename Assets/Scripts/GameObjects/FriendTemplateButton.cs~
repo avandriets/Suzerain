@@ -9,6 +9,7 @@ public class FriendTemplateButton : MonoBehaviour {
 
 	public Image 	onlineImage;
 	public Image 	shieldImage;
+	public Image 	backGroundMe;
 
 	public Text		number;
 	public Text 	NameUser;

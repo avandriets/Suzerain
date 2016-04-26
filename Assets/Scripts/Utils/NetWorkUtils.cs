@@ -9,7 +9,7 @@ public class NetWorkUtils : MonoBehaviour {
 
 	public static string buildRequestPulse(){
 
-		Debug.Log ("build LogIn URL");
+		//Debug.Log ("build LogIn URL");
 
 		var postScoreURL = Utility.SERVICE_BASE_URL;
 
@@ -24,6 +24,61 @@ public class NetWorkUtils : MonoBehaviour {
 		return postScoreURL;
 	}
 
+	public static string buildRequestToGetTOP100(){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "GetTopTen";
+
+		var userToken 		= "token=";
+
+		postScoreURL = postScoreURL + method + "?" + userToken + UserController.currentUser.Token;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
+
+
+	public static string buildRequestGetNumPlayers(){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "GetNumPlayers";
+
+		var userToken 		= "token=";
+
+		postScoreURL = postScoreURL + method + "?" + userToken + UserController.currentUser.Token;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
+
+	public static string buildRequestGetLocalTopTen(float pLatitude, float pLongitude){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "GetLocalTopTen";
+
+		var userToken 	= "token=";
+		var latitude	= "latitude=";
+		var longitude	= "longitude=";
+
+		postScoreURL = postScoreURL + method + "?" + userToken + UserController.currentUser.Token
+			+ "&"+ latitude + pLatitude.ToString() 
+			+ "&"+ longitude + pLongitude.ToString();
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
 
 	public static string buildRequestToDeleteFriends(int pfriendId){
 
@@ -106,10 +161,12 @@ public class NetWorkUtils : MonoBehaviour {
 		
 		var userName 		= "UserName=";
 		var userPassword 	= "password=";
+		var ver 			= "ver=";
 		
 		postScoreURL = postScoreURL + method + "?" 
 			+ userName		+ UserController.UserName + "&"
-				+ userPassword	+ UserController.UserPassword;
+			+ userPassword	+ UserController.UserPassword + "&"
+			+ ver			+ Constants.GAmeVersion.ToString();
 		
 		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
 
@@ -139,7 +196,7 @@ public class NetWorkUtils : MonoBehaviour {
 	}
 
 
-	public static string buildRequestToFightURL(){
+	public static string buildRequestToFightURL(int pFightId){
 
 		Debug.Log ("build letsFight URL");
 
@@ -147,12 +204,12 @@ public class NetWorkUtils : MonoBehaviour {
 
 		var method = Utility.LETSFIGHT_URL;
 
-		var fightType 		= "fightType=";
+		var fightType 		= "fightTypeid=";
 		var userToken 		= "token=";
 
-		postScoreURL = postScoreURL + method + "?" 
-			+ fightType + "1" + "&"
-			+ userToken + UserController.currentUser.Token;
+		postScoreURL = postScoreURL + method + "?"
+		+ fightType + pFightId.ToString () + "&"
+		+ userToken + UserController.currentUser.Token;
 
 		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
 

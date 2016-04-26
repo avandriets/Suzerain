@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using SimpleJSON;
 
 
 public delegate void GetLocationSuccessfully();
@@ -12,10 +14,6 @@ public class AchivmentsScreenManager : MonoBehaviour {
 	public Text TextNickName;
 	public Text ActiveStatus;
 	public Text After;
-
-//	public RectTransform grayRing;
-//	public RectTransform colorRing;
-//	public RectTransform captionRing;
 
 	public GameObject GOgrayRing;
 	public GameObject GOcolorRing;
@@ -30,6 +28,10 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 	float longitude = 0;
 	float lattitude = 0;
+
+	public RaitingDialog ratingDialog;
+
+	public Button ratingButton;
 
 	void OnEnable(){
 
@@ -51,6 +53,7 @@ public class AchivmentsScreenManager : MonoBehaviour {
 			TextRating.text = Rose.statList [0].GlobalStatus.ToString ();
 			ActiveStatus.text = "Глобальный статус";
 			After.text = "";
+			ratingButton.gameObject.SetActive (true);
 		} else {
 			After.text = "Через";
 			TextRating.text = (Constants.fightsCount - Rose.statList [0].Fights).ToString();
@@ -209,32 +212,96 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 	}
 
-	IEnumerator RotateRings() {
+	public void ShowRatingPanel(){
+	
+		StartCoroutine (ShowTop100(itIsGlobalStatus));
+	}
 
-		//if (!Utility.StopCoroutine) {
-			float startingTime = 0;
+	IEnumerator ShowTop100(bool pGlobalRat){
 
-			while (gameObject.activeSelf) {
+		string postScoreURL;
+		string header;
 
-				startingTime += Time.deltaTime;
+		if (!pGlobalRat) {
+			postScoreURL = NetWorkUtils.buildRequestGetLocalTopTen (longitude, lattitude);
+			header = "Локальный";
+		} else {
+			postScoreURL = NetWorkUtils.buildRequestToGetTOP100 ();
+			header = "Глобальный";
+		}
+		
+//		var dictHeader = new Dictionary<string, string> ();
+//		dictHeader.Add ("Content-Type", "text/json");
+//
+//		WWWForm form = new WWWForm ();
+//		form.AddField ("Content-Type", "text/json");
 
-				GOgrayRing.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-				GOcolorRing.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
-				GOcaptionRing.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
+		var request = new WWW (postScoreURL);
 
-//				grayRing.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-//				colorRing.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
-//				captionRing.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
+		while (!request.isDone) { 
+			yield return null;
+		}
 
-				//TextRating.transform.rotation = Quaternion.Euler (0, -25 * startingTime, 0);
+		if(waitPanel != null)
+			screensManager.CloseWaitPanel (waitPanel);
 
-				if (startingTime > 360)
-					startingTime = 0;
+		if (request.error == null) {
 
-				//yield return new WaitForSeconds(1);
-				//Debug.Log (" Achivment Achivment Achivment Achivment Achivment !!!!!");
+			Debug.Log ("Get friends done ! " + request.text);
+
+			List<Friend> foundUsers;
+
+			if (!pGlobalRat) {
+				foundUsers = Utility.ParseFriendsJsonList (request.text, "GetLocalTopTenResult");
+			} else {
+				foundUsers = Utility.ParseFriendsJsonList (request.text, "GetTopTenResult");
+			}
+
+			postScoreURL = NetWorkUtils.buildRequestGetNumPlayers ();
+			request = new WWW (postScoreURL);
+
+			while (!request.isDone) { 
 				yield return null;
 			}
-		//}
+
+			var N = JSON.Parse(request.text);
+			var mGetResult = N["GetNumPlayersResult"].AsInt;
+
+			if (foundUsers != null && foundUsers.Count > 0) {				
+				ratingDialog.ShowDialog(foundUsers, closeRatingDialog, header, mGetResult);
+			} else {
+				errorPanel = screensManager.ShowErrorDialog("Рейтинг не доступен.", finishError);
+			}
+
+		} else {
+
+			Debug.LogError ("WWW Error: " + request.error);
+			Debug.LogError ("WWW Error: " + request.text);
+			errorPanel = screensManager.ShowErrorDialog("Ошбика соединения с сервером", finishError);
+		}
+
+	}
+
+	public void closeRatingDialog(){
+	
+	}
+
+	IEnumerator RotateRings() {
+
+		float startingTime = 0;
+
+		while (gameObject.activeSelf) {
+
+			startingTime += Time.deltaTime;
+
+			GOgrayRing.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
+			GOcolorRing.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
+			GOcaptionRing.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
+
+			if (startingTime > 360)
+				startingTime = 0;
+
+			yield return null;
+		}
 	}
 }

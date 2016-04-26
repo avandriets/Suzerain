@@ -70,20 +70,22 @@ public class OnlineGame : MonoBehaviour
 
 	}
 
-	public void AskForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	public void AskForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
 	{
 		
 		Debug.Log ("LetsFight to server.");
 
 		InitGameParameters (false, false);
 
-		StartCoroutine (RequestForFight (cancelByServer, readyToFight, errordelegate));
+		StartCoroutine (RequestForFight (cancelByServer, readyToFight, errordelegate, pFightId));
 	}
 
-	IEnumerator RequestForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	IEnumerator RequestForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
 	{
 
-		var postScoreURL = NetWorkUtils.buildRequestToFightURL ();
+		var postScoreURL = NetWorkUtils.buildRequestToFightURL (pFightId);
+
+		Debug.Log (postScoreURL);
 
 		var dictHeader = new Dictionary<string, string> ();
 		dictHeader.Add ("Content-Type", "text/json");
@@ -525,11 +527,11 @@ public class OnlineGame : MonoBehaviour
 
 			errorRoundResult = pErrorDelegate;
 			errP = screenManager.ShowErrorDialog (ScreensManager.LMan.getString ("@fight_canceled"), CancelFightWaitingForRoundResult);
-		} else if (!error) {
+		} else if (!error && currentFight != null && currentFight.FightState == -1 && fightCanceled == false) {
 
 			while (currentFight != null && currentFight.FightState == -1 && fightCanceled == false) {
-				gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString ());
-				gameProtocol.AddMessage ("Ask 4 Global fight state");
+				//gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString ());
+				//gameProtocol.AddMessage ("Ask 4 Global fight state");
 
 				Debug.Log ("Time: " + System.DateTime.Now.ToString ());
 				Debug.Log ("Ask 4 Global fight state");
@@ -539,6 +541,8 @@ public class OnlineGame : MonoBehaviour
 
 				yield return new WaitForSeconds (2);
 			}
+		} else {
+			OnFightResultRequest ();
 		}
 
 	}
@@ -939,6 +943,7 @@ public class OnlineGame : MonoBehaviour
 						}else{
 							fightsList[roundNumber] = localFightStae;
 						}
+						answerList[answerList.Count-1].roundResult = localFightStae;
 
 						if (localFightStae.OpponentScore > 0 && Mathf.Abs (localFightStae.InitiatorScore) > 0) {
 							if (currentFight.FightTypeId == 4) {
@@ -1119,7 +1124,7 @@ public class OnlineGame : MonoBehaviour
 			gameProtocol.AddMessage ("Time:" + tm.ToString ()); gameProtocol.AddMessage ("Nex round"); 
 			Debug.Log ("Time:" + tm.ToString ());Debug.Log ("Nex round");
 
-			currentFight.FightState = -1;
+			//currentFight.FightState = -1;
 			pResultDelegate (fightsList);
 
 		} else if(localFightStae.FightState == 4){

@@ -20,11 +20,11 @@ public class GameType6_1 : GameBase {
 
 		SetVisibility ();
 
-		Texture2D tex = null;
+//		Texture2D tex = null;
 
 		mAnswerGroup.SetAllTogglesOff ();
 
-		mQuestionState.text = currentTask.TextQuestion;
+		mQuestionState.text = System.Text.RegularExpressions.Regex.Unescape(currentTask.TextQuestion);
 		LabelAnsw1.text = currentTask.Ans1;
 		LabelAnsw2.text = currentTask.Ans2;
 

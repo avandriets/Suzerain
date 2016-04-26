@@ -9,4 +9,5 @@ public class TaskAnswer
 	public int Answer { get; set; }
 	public int Score { get; set; }
 	public int WasBought { get; set; }
+	public Fight roundResult { get; set; }
 }

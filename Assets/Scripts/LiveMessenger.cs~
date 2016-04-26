@@ -58,14 +58,14 @@ public class LiveMessenger : MonoBehaviour {
 				fightId = mGetResult;
 				mainScreen.AskForFightFromFriend (mGetResult);
 
-				Debug.Log ("You was asked to fight ! ");
+				//Debug.Log ("You was asked to fight ! ");
 			}
 
-			Debug.Log ("Send puse done ! " + request.text);
+			//Debug.Log ("Send puse done ! " + request.text);
 		} else {
 
-			Debug.Log ("WWW Error: " + request.error);
-			Debug.Log ("WWW Error: " + request.text);
+			Debug.LogError ("WWW Error: " + request.error);
+			Debug.LogError ("WWW Error: " + request.text);
 		}
 
 	}

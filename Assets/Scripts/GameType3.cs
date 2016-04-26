@@ -23,7 +23,7 @@ public class GameType3 : GameBase {
 
 	protected override void InitGameScreen(){
 
-		mQuestionState.text = currentTask.TextQuestion;
+		mQuestionState.text = System.Text.RegularExpressions.Regex.Unescape(currentTask.TextQuestion);
 
 		string answer = getRightWord();
 

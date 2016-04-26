@@ -75,7 +75,7 @@ public class GameTypeOneTwo : GameBase {
 		mAnswerGroupGame3.SetAllTogglesOff ();
 
 		if (GameType () == 1) {
-			mQuestionState.text = currentTask.TextQuestion;
+			mQuestionState.text = System.Text.RegularExpressions.Regex.Unescape(currentTask.TextQuestion);
 			LabelAnsw1.text = currentTask.Ans1;
 			LabelAnsw2.text = currentTask.Ans2;
 			LabelAnsw3.text = currentTask.Ans3;

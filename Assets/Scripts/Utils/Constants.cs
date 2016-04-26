@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Constants : MonoBehaviour {
 
+	public static int GAmeVersion = 2;
+
 	public static int RANDOM_GAME = 1;
 	public static int FRIENDS_GAME = 2;
 

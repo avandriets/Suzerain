@@ -32,4 +32,6 @@ public class User
 	public string 			Token 			{ get; set; }                 // Токен
 	public int 				GameStatus 		{ get; set; }             // Игровой статус (Общий рейтинг в игре)
 	public int 				RankId 			{ get; set; }            // Наименование ранга
+	public int 				GameVer 		{ get; set; }                // Версия клиентской части
+	public string 			SysMessage 		{ get; set; }          // системное сообщение
 }

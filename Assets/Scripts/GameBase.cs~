@@ -22,10 +22,13 @@ public abstract class GameBase : MonoBehaviour {
 
 	protected int 	Delay = 0;
 	protected bool	isActiveForm = true;
+	protected OnlineGame	ong;
 
 	public void InitGameObject(List<TestTask> pTasksList, FinishAnswerDelegate pFinishDelegate, RoundResultDelegate roundRes,RefreshGameScreen refreshAction , ClockObject	pClock, int GameDuration){
 
 		screenManager 	= ScreensManager.instance;
+		ong				= OnlineGame.instance;
+
 		answerList 		= null;
 		tasksList		= pTasksList;
 
@@ -105,7 +108,7 @@ public abstract class GameBase : MonoBehaviour {
 			screenManager.CloseResultDialogPanel (roundResultDialog);
 		}
 
-		if (answerList.Count != tasksList.Count) {
+		if (answerList.Count != tasksList.Count && ong.currentFight.FightState == -1){
 
 			Debug.Log ("InitGameScreen");
 			InitGameScreen ();
@@ -114,7 +117,7 @@ public abstract class GameBase : MonoBehaviour {
 		} else {
 
 			Debug.Log ("PrepareScreenBeforFinishCall");
-			PrepareScreenBeforFinishCall();
+			PrepareScreenBeforFinishCall ();
 
 			finishDelegate (answerList);
 		}

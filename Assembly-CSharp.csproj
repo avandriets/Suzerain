@@ -363,6 +363,7 @@
      <Compile Include="Assets\Scripts\Dialogs\MedalShowDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\OpponentIntroduce.cs" />
      <Compile Include="Assets\Scripts\Dialogs\PaidVersinDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialogs\RaitingDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\RoundResultDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\SearchDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\SendMessage.cs" />

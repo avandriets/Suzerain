@@ -226,22 +226,17 @@ public class MainScreenManager : MonoBehaviour
 
 	}
 
-	public void OnFightClick ()
+	public void OnFightClick (int pFightType)
 	{
 
-		// Builder Hit with minimum required Event parameters.
-//		googleAnalytics.LogEvent(new EventHitBuilder()
-//			.SetEventCategory("game")
-//			.SetEventAction("ask for game"));
-
-		if (CurrentTypeGame == Constants.RANDOM_GAME) {
+		if ((CurrentTypeGame == Constants.RANDOM_GAME && pFightType == 0) || (pFightType != 0)) {
 			
 			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
 			OnlineGame ing = OnlineGame.instance;
-			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest);
+			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
 
-		} else if (CurrentTypeGame == Constants.FRIENDS_GAME) {
+		} else if (CurrentTypeGame == Constants.FRIENDS_GAME && pFightType == 0) {
 			screensManager.ShowFriendsScreen ();
 		}
 	
