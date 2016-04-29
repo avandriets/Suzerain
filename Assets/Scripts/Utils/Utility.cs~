@@ -27,7 +27,10 @@ public static class Utility {
 
 	public static bool StopCoroutine = true;
 
+	public static bool	hide_ad = true;
 	public static bool	TESTING_MODE = true;
+	public static bool	ShowRightAnswer = true;
+
 	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
 	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
 	public static string LOGIN_URL			= "Login";
@@ -548,6 +551,33 @@ public static class Utility {
 					image = "6";
 				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
 					image = "7";
+				}
+			}
+		}
+
+		Sprite spr = null;
+		Texture2D tex = (Texture2D)Resources.Load(image);
+		if (tex != null) {
+			spr = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
+
+			imgAvatar.sprite = spr;
+		}
+	}
+
+	public static void setEagle(Image imgAvatar, List<FightStat> fightStat){
+
+		string image = "eagle1";
+		foreach (var c in fightStat) {
+			if (c.FightTypeId == 0) {
+				if (c.Fights < 50 ) {
+					image = "eagle1";
+				}
+				else if (c.Fights >= 50 && c.Fights < 300) {
+					image = "eagle2";
+				}else if (c.Fights >= 300 && c.Fights < 800) {
+					image = "eagle3";
+				}else if (c.Fights >= 800) {
+					image = "eagle4";
 				}
 			}
 		}

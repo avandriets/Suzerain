@@ -103,7 +103,7 @@ public abstract class GameBase : MonoBehaviour {
 
 		//Show round result screen for more than one rounds
 		if (tasksList.Count > 1) {
-			roundResultDialog = screenManager.ShowResultDialog (fightResult, answerList.Count);
+			roundResultDialog = screenManager.ShowResultDialog (fightResult, answerList, tasksList);
 			yield return new WaitForSeconds (3);
 			screenManager.CloseResultDialogPanel (roundResultDialog);
 		}

@@ -205,13 +205,13 @@ public class ScreensManager : MonoBehaviour {
 		}
 	}
 		
-	public RoundResultDialog ShowResultDialog(List<Fight> message, int round){
+	public RoundResultDialog ShowResultDialog(List<Fight> message, List<TaskAnswer> answers, List<TestTask> 		tasksList){
 
 		RoundResultDialog NewWaitPanel = GameObject.Instantiate(roundResultDialog) as RoundResultDialog;
 
 		NewWaitPanel.transform.SetParent(currentScreenCanvas.transform);
 		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
-		NewWaitPanel.SetText(message, round);
+		NewWaitPanel.SetText(message,  answers, tasksList);
 
 		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
 		rctr.offsetMax = new Vector2(0,0);

@@ -172,7 +172,7 @@ public class WaitOpponentDialog : MonoBehaviour {
 	public void SetText(string text, UnityAction cancelEvent){
 
 		//if (!Utility.StopCoroutine) {
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
+		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0 && !Utility.hide_ad) {
 				RequestBanner ();
 			}
 		//}

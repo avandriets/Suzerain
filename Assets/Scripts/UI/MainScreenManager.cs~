@@ -9,7 +9,6 @@ using Facebook.Unity;
 
 public class MainScreenManager : MonoBehaviour
 {
-
 	private WaitPanel	waitPanel = null;
 	private ErrorPanel	errorPanel = null;
 	private WaitOpponentDialog waitForOpponentPanel	= null;
@@ -27,6 +26,7 @@ public class MainScreenManager : MonoBehaviour
 	public Text TextRank;
 
 	public Image avatar;
+	public Image eagle;
 
 	bool InitMuteState = false;
 
@@ -52,6 +52,9 @@ public class MainScreenManager : MonoBehaviour
 
 	public AcceptFightWithFriend mAcceptFightDialogWithFriend;
 
+	public GameObject ProRing;
+	public GameObject UsualRing;
+
 	int currentFightId = -1;
 
 	void Start ()
@@ -67,8 +70,11 @@ public class MainScreenManager : MonoBehaviour
 			FB.ActivateApp ();
 		}
 
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-			RequestBanner ();
+		//Turn off banners show
+		if (false) {
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
+				RequestBanner ();
+			}
 		}
 
 	}
@@ -125,20 +131,14 @@ public class MainScreenManager : MonoBehaviour
 
 		if (gameCounts == 0) {
 
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-				
-				//if (!Utility.StopCoroutine) {
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0 && !Utility.hide_ad) {				
 				RequestInterstitial ();
-				//}
-
 			}
 
 			gameCounts = Constants.adShowsCount;
 		}
 
-		//centerElement.setDataToRose (null);
 		centerElement.toZeroPosition ();
-		//centerElement.ShowData ();
 
 
 		if (!InitMuteState) {
@@ -155,18 +155,20 @@ public class MainScreenManager : MonoBehaviour
 		}   // and this one
 		);
 
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-			RequestBanner ();
+		//Turn off banner show
+		if (false) {
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
+				RequestBanner ();
+			}
 		}
 	}
 
-	void OnDisable() {
-
+	void OnDisable ()
+	{
 		if (bannerView != null) {
-		bannerView.Hide ();
-		bannerView.Destroy();
+			bannerView.Hide ();
+			bannerView.Destroy ();
 		}
-
 	}
 
 	public void SwitchGameLeft ()
@@ -209,32 +211,28 @@ public class MainScreenManager : MonoBehaviour
 		while (gameObject.activeSelf) {
 
 			startingTime += Time.deltaTime;
-
 			spr1.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-			//spr2.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
-					
-//				firstRing.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-//				secondRing.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
 
 			if (startingTime > 360)
 				startingTime = 0;
 			
-			//Debug.Log (" RotateRings RotateRings RotateRings RotateRings RotateRings !!!!!");
-			//yield return new WaitForSeconds(1);
 			yield return null;
 		}
-
 	}
 
 	public void OnFightClick (int pFightType)
 	{
 
 		if ((CurrentTypeGame == Constants.RANDOM_GAME && pFightType == 0) || (pFightType != 0)) {
-			
-			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
-			OnlineGame ing = OnlineGame.instance;
-			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType == 0) {
+				waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
+
+				OnlineGame ing = OnlineGame.instance;
+				ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+			} else {
+				errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PRO версии игры.", ErrorCancelByServer);
+			}
 
 		} else if (CurrentTypeGame == Constants.FRIENDS_GAME && pFightType == 0) {
 			screensManager.ShowFriendsScreen ();
@@ -273,7 +271,6 @@ public class MainScreenManager : MonoBehaviour
 		}
 
 		screensManager.ShowGameScreen ();
-		//SoundManager.ChoosePlayMusic (2);
 	}
 
 	public void ErrorFightRequest ()
@@ -341,21 +338,14 @@ public class MainScreenManager : MonoBehaviour
 
 			messengerLive.StartPulseRequest ();
 
-			//Init user interface
 
-			//if (!Utility.StopCoroutine) {
-			//googleAnalytics.LogScreen ("Main Menu");
-			//Builder Hit with all App View parameters (all parameters required):
-			//googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
-			//}
-			
 			TextNickName.text	= UserController.currentUser.UserName;
 
 			if (Rose.statList.Count > 0) {
 				if (Rose.statList [0].Fights >= Constants.fightsCount) {
 					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
 				} else {
-					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString (); // ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
+					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
 				}
 			}
 
@@ -366,16 +356,23 @@ public class MainScreenManager : MonoBehaviour
 			}
 
 			if (firstStart) {
-				//instDialog.ShowDialog ();
 				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
 				firstStart = false;
 			}
 
-			//TextRank.text = Utility.getDcumentsPath ();
 			Utility.setAvatar (avatar, UserController.currentUser, Rose.statList);
 
 			if (Rose.statList [0].Fights >= Constants.fightsCount) {				
 				centerElement.ShowData ();
+			}
+
+			//Show ring
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
+				ProRing.SetActive (true);
+				UsualRing.SetActive (false);
+
+				eagle.gameObject.SetActive (true);
+				Utility.setEagle (eagle, Rose.statList);
 			}
 
 		} else {
@@ -404,25 +401,12 @@ public class MainScreenManager : MonoBehaviour
 		GameObject.Destroy (errorPanel.gameObject);
 		errorPanel = null;
 
-		//if (!UserController.registered) {
 		Application.Quit ();
-		//}
 
 	}
 
 	void Update ()
 	{
-
-//		if (gameObject.activeSelf) {
-//
-//			startingTime1 += Time.deltaTime;
-//
-//			firstRing.rotation  = Quaternion.Euler(0,0,25*startingTime1);
-//			secondRing.rotation = Quaternion.Euler(0,0,-25*startingTime1);
-//
-//			if (startingTime1 > 360)
-//				startingTime1 = 0;
-//		}
 
 		if (Input.GetKey (KeyCode.Escape)) {
 			Debug.Log ("Click exit action");
@@ -496,14 +480,16 @@ public class MainScreenManager : MonoBehaviour
 		mAcceptFightDialogWithFriend.ShowDialog (AcceptFightWithFriend, CancelFightWithFriend);		
 	}
 
-	public void AcceptFightWithFriend(){
+	public void AcceptFightWithFriend ()
+	{
 
 		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
 		OnlineGame ing = OnlineGame.instance;
 		StartCoroutine (ing.AcceptFightWithFriendByID (currentFightId, CancelFightByServer, IntoFight, ErrorFightRequest));		
 	}
 
-	public void IntoFight(){
+	public void IntoFight ()
+	{
 
 		if (waitPanel != null)
 			screensManager.CloseWaitPanel (waitPanel);
@@ -511,7 +497,8 @@ public class MainScreenManager : MonoBehaviour
 		screensManager.ShowGameScreen ();
 	}
 
-	public void CancelFightWithFriend(){
+	public void CancelFightWithFriend ()
+	{
 
 		if (waitForOpponentPanel != null) {
 			waitForOpponentPanel.ClosePanel ();

@@ -87,14 +87,14 @@
 		<string name="@scientist">Ученый</string>
 		<string name="@wizard">Мудрец</string>
 		<string name="@predtor">Хищник</string>
-		<string name="@lucky">Счастливчик</string>
-		<string name="@keeper">Хранитель</string>
+		<string name="@lucky">Искатель</string>
+		<string name="@keeper">Эрудит</string>
 		<string name="@prophet">Пророк</string>
 		<string name="@play">Играть</string>
 		<string name="@your_opponent">Ваш противник</string>
 		<string name="@round">Раунд</string>
 		<string name="@find_result">Ожидание ответа вашего оппонента ...</string>
-		<string name="@fight_canceled">Бой расформирован ...</string>
+		<string name="@fight_canceled">Противник покинул поединок. Вам присуждена ПОБЕДА.</string>
 		<string name="@right_answer">вы ответили верно</string>
 		<string name="@not_right_answer">вы ответили неверно</string>
 		<string name="@wrong_opponent_answer">Противник ответил неверно</string>

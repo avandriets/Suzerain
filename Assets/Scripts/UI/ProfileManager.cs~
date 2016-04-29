@@ -7,7 +7,6 @@ using System;
 using SimpleJSON;
 using System.IO;
 using Soomla.Store;
-using UnityEngine.SocialPlatforms;
 using GooglePlayGames;
 using Facebook.Unity;
 

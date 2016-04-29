@@ -32,7 +32,7 @@ public class LiveMessenger : MonoBehaviour {
 	
 		startingTime += Time.deltaTime;
 
-		if (pulseWasStarted && startingTime > 3) {
+		if (pulseWasStarted && startingTime > 2) {
 	
 			StartCoroutine (GetPulse ());
 			startingTime = 0;

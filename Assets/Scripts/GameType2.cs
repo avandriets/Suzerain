@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class GameType2 : GameBase {
 
 	public	GameObject				itemButton;
+	public	GameObject				itemBigButton;
 
 	public	Transform				FoundCardPanel;
 	public	Transform				CardsSetPanel;
@@ -52,7 +53,7 @@ public class GameType2 : GameBase {
 		foreach (var c in pLettersArray) {
 
 			GameObject	newButtonItem = null;
-			newButtonItem = Instantiate(itemButton) as GameObject;
+			newButtonItem = Instantiate(itemBigButton) as GameObject;
 			Game3TemplateButton button1 = newButtonItem.GetComponent<Game3TemplateButton>();
 
 			Game3Item gItem = new Game3Item ();

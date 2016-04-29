@@ -7,7 +7,7 @@ public class FriendTemplateButton : MonoBehaviour {
 
 	public Button	button;
 
-	public Image 	onlineImage;
+	//public Image 	onlineImage;
 	public Image 	shieldImage;
 	public Image 	backGroundMe;
 

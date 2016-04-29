@@ -3,12 +3,14 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
+using Soomla.Store;
 
 
 public class FriendsManager : MonoBehaviour {
 
 	private WaitPanel	waitPanel  = null;
 	private ErrorPanel	errorPanel = null;
+	private ErrorPanelTwoButtons errorPanelTwoButtons = null;
 
 	ScreensManager	screensManager	= null;
 
@@ -16,7 +18,7 @@ public class FriendsManager : MonoBehaviour {
 	public	Transform				ListFriendsPanel;
 
 	List<Friend> friendsList = null;
-	List<FriendTemplateButton> friendsButtons;
+	List<FriendTemplateButtonManage> friendsButtons;
 
 	public SearchDialog			searchDialog;
 	public FightOrDeleteDialog	fightOrDeleteDialog;
@@ -74,8 +76,8 @@ public class FriendsManager : MonoBehaviour {
 
 		} else {
 
-			Debug.Log ("WWW Error: " + request.error);
-			Debug.Log ("WWW Error: " + request.text);
+			Debug.LogError ("WWW Error: " + request.error);
+			Debug.LogError ("WWW Error: " + request.text);
 			errorPanel = screensManager.ShowErrorDialog("Ошбика соединения с сервером", OnErrorButtonClick);
 		}
 
@@ -129,8 +131,8 @@ public class FriendsManager : MonoBehaviour {
 
 		} else {
 			
-			Debug.Log ("WWW Error: " + request.error);
-			Debug.Log ("WWW Error: " + request.text);
+			Debug.LogError ("WWW Error: " + request.error);
+			Debug.LogError ("WWW Error: " + request.text);
 			errorPanel = screensManager.ShowErrorDialog("Ошбика соединения с сервером", OnErrorButtonClick);
 		}
 	}
@@ -151,7 +153,7 @@ public class FriendsManager : MonoBehaviour {
 
 		foreach (Transform child in ListFriendsPanel) {
 
-			FriendTemplateButton button = child.GetComponent<FriendTemplateButton> ();
+			FriendTemplateButtonManage button = child.GetComponent<FriendTemplateButtonManage> ();
 
 			if (button.friend.UserId == pF.UserId) {
 				friendsList.Remove (pF);
@@ -162,14 +164,17 @@ public class FriendsManager : MonoBehaviour {
 
 	private void InflateList(){
 
-		friendsButtons			= new List<FriendTemplateButton>();
+		friendsButtons			= new List<FriendTemplateButtonManage>();
 
 		//Bottom array
+
+		int i = 1;
 		foreach (var c in friendsList) {
 
 			GameObject	newButtonItem = null;
 			newButtonItem = Instantiate(friendButton) as GameObject;
-			FriendTemplateButton button1 = newButtonItem.GetComponent<FriendTemplateButton>();
+			FriendTemplateButtonManage button1 = newButtonItem.GetComponent<FriendTemplateButtonManage>();
+			button1.number.text = i.ToString ();
 
 			button1.friend = c;
 
@@ -190,27 +195,40 @@ public class FriendsManager : MonoBehaviour {
 			button1.button.onClick.RemoveAllListeners();
 			button1.button.onClick.AddListener( () => onCardFromSetClick(button1) );
 
+			button1.DeleteButton.onClick.RemoveAllListeners();
+			button1.DeleteButton.onClick.AddListener( () => OnDeleteClick(button1) );
+
 			newButtonItem.transform.SetParent(ListFriendsPanel);
 			newButtonItem.transform.localScale = new Vector3(1,1,1);
 
 			friendsButtons.Add (button1);
+
+			i++;
 		}
 	}
 
-	public void onCardFromSetClick(FriendTemplateButton item){
+	public void OnDeleteClick(FriendTemplateButtonManage item){
+		currentFriend = item.friend;
+		errorPanelTwoButtons = screensManager.ShowErrorTwoButtonsDialog ("Удалить из друзей?", DeleteUser ,ErrorCancelDelete);
+	}
 
-		//errorPanel = screensManager.ShowErrorDialog(item.friend.UserName, OnErrorButtonClick);
+	public void ErrorCancelDelete(){
+		GameObject.Destroy(errorPanelTwoButtons.gameObject);
+		errorPanelTwoButtons = null;
+	}
+
+	public void onCardFromSetClick(FriendTemplateButtonManage item){
 
 		currentFriend = item.friend;
 
-		fightOrDeleteDialog.ShowDialog(item.friend.UserName, DeleteUser, CancelDeleteUser, FightButton);
+		fightOrDeleteDialog.ShowDialog(item.friend.UserName, /*DeleteUser,*/ CancelDeleteUser, FightButton);
 
 		Debug.Log (item.friend.UserName);
 	}
 
 	public void DeleteUser(){
 	
-		waitPanel = screensManager.ShowWaitDialog("Добавление друга");
+		waitPanel = screensManager.ShowWaitDialog("Удаление друга");
 
 		StartCoroutine (DeleteFriendServer());
 	}
@@ -221,11 +239,14 @@ public class FriendsManager : MonoBehaviour {
 
 	public void FightButton(int pFightNum){
 	
-		waitForOpponentPanel = screensManager.ShowWaitOpponentDialog("Вызываю на дуэль",CancelFightByUser);
+		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
+			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
-		OnlineGame ing = OnlineGame.instance;
-		ing.AskForFightWithFriend (CancelFightByServer, ReadyToFight, ErrorFightRequest, currentFriend.UserId, pFightNum);
-
+			OnlineGame ing = OnlineGame.instance;
+			ing.AskForFightWithFriend (CancelFightByServer, ReadyToFight, ErrorFightRequest, currentFriend.UserId, pFightNum);
+		} else {
+			errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PRO версии игры.", ErrorCancelByServer);
+		}
 	}
 
 	public void CancelFightByUser(){
@@ -246,9 +267,9 @@ public class FriendsManager : MonoBehaviour {
 		if (pFight.Id == 0) {
 			errorPanel = screensManager.ShowErrorDialog ("Отказано в поединке", ErrorCancelByServer);
 		}else if(pFight.Id == -1){
-			errorPanel = screensManager.ShowErrorDialog ("Офлайн", ErrorCancelByServer);
+			errorPanel = screensManager.ShowErrorDialog ("Ваш друг не вошел в игру", ErrorCancelByServer);
 		}else if(pFight.Id == -2){
-			errorPanel = screensManager.ShowErrorDialog ("Вызван на поединок", ErrorCancelByServer);
+			errorPanel = screensManager.ShowErrorDialog ("Ваш друг уже вызван на поединок", ErrorCancelByServer);
 		}
 		SoundManager.ChoosePlayMusic (0);
 	}
@@ -303,8 +324,8 @@ public class FriendsManager : MonoBehaviour {
 
 		} else {
 
-			Debug.Log ("WWW Error: " + request.error);
-			Debug.Log ("WWW Error: " + request.text);
+			Debug.LogError ("WWW Error: " + request.error);
+			Debug.LogError ("WWW Error: " + request.text);
 			errorPanel = screensManager.ShowErrorDialog("Ошбика удаления друга", OnErrorButtonClick);
 		}
 	}

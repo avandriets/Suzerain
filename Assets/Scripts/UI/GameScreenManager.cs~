@@ -180,7 +180,7 @@ public class GameScreenManager : MonoBehaviour {
 
 			if (ong.currentFight.FightTypeId == 1) {
 				gameTypeOneTwo.gameObject.SetActive (true);
-				gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
 				gameTypeOneTwo.StartGame ();
 			} else if (ong.currentFight.FightTypeId == 2) {
 				gameType2.gameObject.SetActive (true);
@@ -199,19 +199,19 @@ public class GameScreenManager : MonoBehaviour {
 //			gameType5.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 //			gameType5.StartGame ();
 				gameType5_1.gameObject.SetActive (true);
-				gameType5_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType5_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 40);
 				gameType5_1.StartGame ();
 			} else if (ong.currentFight.FightTypeId == 6) {
 //			gameType6.gameObject.SetActive (true);
 //			gameType6.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 //			gameType6.StartGame ();
 				gameType6_1.gameObject.SetActive (true);
-				gameType6_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType6_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
 				gameType6_1.StartGame ();
 
 			} else if (ong.currentFight.FightTypeId == 7) {
 				gameType7.gameObject.SetActive (true);
-				gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
 				gameType7.StartGame ();
 			}
 		}
@@ -224,9 +224,6 @@ public class GameScreenManager : MonoBehaviour {
 	}
 
 	public void OnFinishGame(List<TaskAnswer> 	answerList){
-
-//		ong.gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString());
-//		ong.gameProtocol.AddMessage ("Finish game");
 
 		Debug.Log ("Time: " + System.DateTime.Now.ToString());
 		Debug.Log ("Finish game");
@@ -252,30 +249,48 @@ public class GameScreenManager : MonoBehaviour {
 		if (ong.tasksList.Count > 1) {
 			
 			if (ong.currentFight.IsDraw == true) {
-				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, "", "");
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, "", "");
 			} else {
-				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, "", "");
 			}
 
 		} else {
 			
 			if (ong.currentFight.IsDraw == true) {			
-				fightResultDialog.SetText (FightResultDescription.getExtendetDraftDescription (ong.fightsList[0]), 0, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetDraftDescription (ong.fightsList[0]), 
+					0, 
+					finishGame, 
+					ong.fightsList, 
+					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-				fightResultDialog.SetText (FightResultDescription.getExtendetWinDescription (ong.fightsList[0]), 1, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetWinDescription (ong.fightsList[0]), 
+					1, 
+					finishGame, 
+					ong.fightsList, 
+					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			} else {
-				fightResultDialog.SetText (FightResultDescription.getExtendetLoseDescription (ong.fightsList[0]), -1, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetLoseDescription (ong.fightsList[0]),
+					-1, 
+					finishGame, 
+					ong.fightsList, 
+					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			}
 
 		}
 	}
 
 	public void finishGame(){
-
-		//StartCoroutine(ong.gameProtocol.SendMessageToSrv (ong.gameProtocol.GetLog()));
-		//ong.gameProtocol.SaveToFile (ong.currentFight.Id.ToString() + "_" + ong.currentFight.FightTypeId.ToString());
 
 		UserController.authenticated = false;
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.loop = true;
@@ -310,8 +325,6 @@ public class GameScreenManager : MonoBehaviour {
 			GameObject.Destroy (errorPanel.gameObject);
 			errorPanel = null;
 		}
-
-		//screenManager.ShowMainScreen();
 
 		if(!ong.mFightWithFriend || (ong.mFightWithFriend && ong.mFriendsFightOpponent))
 			screenManager.ShowMainScreen ();

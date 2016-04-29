@@ -27,7 +27,7 @@ public class GameType3 : GameBase {
 
 		string answer = getRightWord();
 
-		string[] arrLett = new string[9];
+		string[] arrLett = new string[10];
 
 		//Create letters array
 		for (int k = 0; k < arrLett.Length; k++) {

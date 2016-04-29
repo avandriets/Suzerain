@@ -9,7 +9,6 @@ public class FightOrDeleteDialog : MonoBehaviour {
 
 	public GameObject 	AddPanelObject;
 	public Text			UserName;
-	public Button 		yesButton;
 	public Button 		noButton;
 
 	public Button 		fightRandomButton;
@@ -23,7 +22,7 @@ public class FightOrDeleteDialog : MonoBehaviour {
 
 	private FightWithFriend mFightDelegate;
 
-	public void ShowDialog(string pUserName, UnityAction yesEvent, UnityAction noEvent, FightWithFriend pFightDelegate){
+	public void ShowDialog(string pUserName, UnityAction noEvent, FightWithFriend pFightDelegate){
 
 		mFightDelegate = pFightDelegate;
 
@@ -31,10 +30,10 @@ public class FightOrDeleteDialog : MonoBehaviour {
 		UserName.text = pUserName;
 
 		//Yes button
-		yesButton.onClick.RemoveAllListeners();
-		yesButton.onClick.AddListener (yesEvent);
-		yesButton.onClick.AddListener (ClosePanel);
-		yesButton.gameObject.SetActive (true);
+//		yesButton.onClick.RemoveAllListeners();
+//		yesButton.onClick.AddListener (yesEvent);
+//		yesButton.onClick.AddListener (ClosePanel);
+//		yesButton.gameObject.SetActive (true);
 
 		//No button
 		noButton.onClick.RemoveAllListeners();

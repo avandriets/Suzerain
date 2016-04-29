@@ -375,6 +375,7 @@
      <Compile Include="Assets\Scripts\GameObjects\FinishLetter.cs" />
      <Compile Include="Assets\Scripts\GameObjects\Friend.cs" />
      <Compile Include="Assets\Scripts\GameObjects\FriendTemplateButton.cs" />
+     <Compile Include="Assets\Scripts\GameObjects\FriendTemplateButtonManage.cs" />
      <Compile Include="Assets\Scripts\GameObjects\Game3Item.cs" />
      <Compile Include="Assets\Scripts\GameObjects\Game3TemplateButton.cs" />
      <Compile Include="Assets\Scripts\GameObjects\Game5Item.cs" />

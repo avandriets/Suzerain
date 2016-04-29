@@ -73,19 +73,10 @@ public class FightResultDescription {
 		}// Score
 		else if(currentFight.FightTypeId == 4){
 			return "Вы были точнее";
-//			if (FightResultDescription.getOponentScore (currentFight) > FightResultDescription.getMyScore (currentFight)) {
-//				return "Вы были точнее";
-//			} else {
-//				return "Противник был точнее";
-//			}
 		}//Answers
 		else if(currentFight.FightTypeId == 7 ){
 
 			switch (currentFight.FightTypeId) {
-//				case 5:
-//				return "Вы были более удачливы";
-//				case 6:
-//				return "Ваша память оказалась крепче";
 				case 7:
 				return "Вы были более проницательны";
 			}
@@ -129,24 +120,14 @@ public class FightResultDescription {
 
 			return "Противник был точнее";
 
-//			if (FightResultDescription.getOponentScore (currentFight) > FightResultDescription.getMyScore (currentFight)) {
-//				return "Вы были точнее";
-//			} else {
-//				return "Противник был точнее";
-//			}
 		}//Answers
 		else if(currentFight.FightTypeId == 7){
 
 			switch (currentFight.FightTypeId) {
-//				case 5:
-//				return "Противник был более удачлив";
-//				case 6:
-//				return "Память противника оказалась крепче";
 				case 7:
 				return "Противник был более проницателен";
 			}
 		}
-
 		return "";
 	}
 
@@ -215,11 +196,6 @@ public class FightResultDescription {
 			string msg = Mathf.Abs(MyScore).ToString() + " - "+ Mathf.Abs(OpponentScore).ToString();
 			return msg;
 		}
-//		else if(currentFight.FightTypeId == 5 || currentFight.FightTypeId == 6)
-//		{
-//			string msg = Mathf.Abs(FightResultDescription.getMyAnswer (currentFight)).ToString() + " - "+  Mathf.Abs(FightResultDescription.getOponentAnswer (currentFight)).ToString();
-//			return msg;
-//		}
 
 		return "";
 	}
