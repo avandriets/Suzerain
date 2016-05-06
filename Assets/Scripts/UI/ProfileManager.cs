@@ -8,7 +8,6 @@ using SimpleJSON;
 using System.IO;
 using Soomla.Store;
 using GooglePlayGames;
-using Facebook.Unity;
 
 public class ProfileManager : MonoBehaviour {
 
@@ -31,12 +30,11 @@ public class ProfileManager : MonoBehaviour {
 	public Text TextRank;
 	public Image avatar;
 	public PaidVersinDialog buyDialog;
-	bool wasGetEmail = false;
 
 	// Use this for initialization
 	void OnEnable() {
 	
-		wasGetEmail = false;
+		//wasGetEmail = false;
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Profile screen"));
 
 		screenManager = ScreensManager.instance;
@@ -95,9 +93,6 @@ public class ProfileManager : MonoBehaviour {
 				TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString(); // ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
 			}
 		}
-
-		//TextRank.text = Utility.getDcumentsPath ();
-		//
 
 		Utility.setAvatar(avatar,UserController.currentUser, Rose.statList);
 
@@ -280,76 +275,17 @@ public class ProfileManager : MonoBehaviour {
 		screenManager.CloseInstructionPanel (instDialog);
 		instDialog = null;
 	}
+		
+	public void LogOut(){
 
-	public void GoogleGetToken(){
+		if (PlayerPrefs.GetInt ("regType") == Constants.GOOGLE_PLAY && Social.localUser.authenticated) {
+			((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut ();
+		} else if (PlayerPrefs.GetInt ("regType") == Constants.FACEBOOK) {
 
-		if (!Social.localUser.authenticated) {
-			// Authenticate
-			waitP = screenManager.ShowWaitDialog("Authenticating...");
-
-			Social.localUser.Authenticate((bool success) => {
-				
-				if (success) {
-					wasGetEmail = false;
-					//((PlayGamesPlatform)Social.localUser).GetServerAuthCode(ActionGetStatusCode);
-					//StartCoroutine(getTokenInThread());
-									
-				} else {
-					screenManager.CloseWaitPanel (waitP);
-					errP = screenManager.ShowErrorDialog("Authentication failed." ,LoginErrorAction);
-				}
-			});
-		} else {
-			screenManager.CloseWaitPanel (waitP);
-			// Sign out!
-			errP = screenManager.ShowErrorDialog("Signing out." ,LoginErrorAction);
-			((GooglePlayGames.PlayGamesPlatform) Social.Active).SignOut();
 		}
-	}
 
-//	void ActionGetStatusCode(GooglePlayGames.BasicApi.CommonStatusCodes pSatusCodes, string  sss){
-//		screenManager.CloseWaitPanel (waitP);
-//		errP = screenManager.ShowErrorDialog(sss ,LoginErrorAction);
-//	}
-
-	void Update(){		
-		if (((PlayGamesLocalUser)Social.localUser).Email != null && wasGetEmail == false) {
-			if(((PlayGamesLocalUser)Social.localUser).Email.Length > 0 && ((PlayGamesLocalUser)Social.localUser).accessToken.Length > 0 ){
-
-				screenManager.CloseWaitPanel (waitP);
-				wasGetEmail = true;
-
-				string mStatusText = "Welcome " + Social.localUser.userName;
-				mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
-
-				mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
-				mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
-				errP = screenManager.ShowErrorDialog(mStatusText ,LoginErrorAction);
-			}
-		}
-	}
-
-	public void FBLogin(){
-		var perms = new List<string>(){"public_profile", "email", "user_friends"};
-		FB.LogInWithReadPermissions(perms, AuthCallback);
+		PlayerPrefs.DeleteAll ();
+		screenManager.ShowRegistrationScreen ();
 
 	}
-
-	private void AuthCallback (ILoginResult result) {
-		if (FB.IsLoggedIn) {
-			// AccessToken class will have session details
-			var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-			// Print current access token's User ID
-			Debug.Log(aToken.UserId);
-			// Print current access token's granted permissions
-			foreach (string perm in aToken.Permissions) {
-				Debug.Log(perm);
-			}
-
-			errP = screenManager.ShowErrorDialog(" userid " + aToken.UserId + "\n Access token " +  aToken.TokenString ,LoginErrorAction);
-		} else {
-			Debug.Log("User cancelled login");
-		}
-	}
-
 }

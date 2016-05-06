@@ -6,16 +6,17 @@ using System;
 using SimpleJSON;
 using UnityEngine.Events;
 using System.IO;
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+using Facebook.Unity;
+
 
 public class RegistrationScreenManager : MonoBehaviour {
 
-	InputField 	iUserName;
-	InputField 	ieMail;
-	InputField 	iuserPassword;
-	Dropdown	ddwCountry;
+	public InputField 	iUserName;
+	public InputField 	iuserPassword;
 
-	Toggle		male;
-	Toggle		english;
 	public Toggle		ExistUser;
 
 	WaitPanel	waitPanel 	= null;
@@ -26,33 +27,40 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 	ScreensManager	screensManager	= null;
 
+	public GameObject Google_Play;
+	public GameObject FaceBook;
+	public GameObject Login_Password;
+	public GameObject TypeLogin_Panel;
+
+	public InitSocialNetworks initNetwork;
+
+	public void RegistrationType(int type){
+
+		TypeLogin_Panel.SetActive (false);
+
+		if (type == Constants.GOOGLE_PLAY) {
+			Google_Play.SetActive (true);
+			GoogleGetToken ();
+		} else if (type == Constants.FACEBOOK) {
+			FaceBook.SetActive (true);
+			FBLogin ();
+		} else if (type == Constants.LOGIN_PASS) {
+			Login_Password.SetActive (true);
+		}
+
+	}
+
 	void Start(){
-		SoundManager.MusicOFF (true);	
+		SoundManager.MusicOFF (true);
 	}
 
 	void OnEnable() {
 	
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Registration screen"));
 
+		initNetwork.InitNetworks ();
+
 		screensManager	= ScreensManager.instance;
-
-		GameObject inputFieldGo = GameObject.Find("UserName");
-		iUserName = inputFieldGo.GetComponent<InputField>();
-
-		inputFieldGo = GameObject.Find("email");
-		ieMail = inputFieldGo.GetComponent<InputField>();
-
-		inputFieldGo = GameObject.Find("Password");
-		iuserPassword = inputFieldGo.GetComponent<InputField>();
-
-		var gameObj = GameObject.Find("Toggle_Malchick");
-
-		gameObj = GameObject.Find("Toggle_devochka");
-		male = gameObj.GetComponent<Toggle>();
-
-
-		gameObj = GameObject.Find("Toggle_english");
-		english = gameObj.GetComponent<Toggle>();
 
 		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения ...");
 
@@ -60,27 +68,27 @@ public class RegistrationScreenManager : MonoBehaviour {
 		screensManager.InitTranslateList ();
 		screensManager.TranslateUI ();
 
+		Login_Password.SetActive (false);
+
 		StartCoroutine( GetLocation () );
 
-		//SoundManager.MusicOFF (true);
-		//RestoreUsersSettingsFromPrefs ();
 	}
 
-	public void OnLanguageChange(){
-
-		if (ScreensManager.LMan != null) {
-
-			if (english.isOn) {
-				//ScreensManager.LMan.setLanguage (Path.Combine (Application.dataPath, "lang.xml"), "English");
-				ScreensManager.LMan.setLanguageFromRes ("lang", "English");
-			} else {			
-				//ScreensManager.LMan.setLanguage (Path.Combine (Application.dataPath, "lang.xml"), "Russian");
-				ScreensManager.LMan.setLanguageFromRes ("lang", "Russian");
-			}
-
-			screensManager.TranslateUI ();
-		}
-	}
+//	public void OnLanguageChange(){
+//
+//		if (ScreensManager.LMan != null) {
+//
+//			if (english.isOn) {
+//				//ScreensManager.LMan.setLanguage (Path.Combine (Application.dataPath, "lang.xml"), "English");
+//				ScreensManager.LMan.setLanguageFromRes ("lang", "English");
+//			} else {			
+//				//ScreensManager.LMan.setLanguage (Path.Combine (Application.dataPath, "lang.xml"), "Russian");
+//				ScreensManager.LMan.setLanguageFromRes ("lang", "Russian");
+//			}
+//
+//			screensManager.TranslateUI ();
+//		}
+//	}
 
 	public void finishError(){
 		GameObject.Destroy(errorPanel.gameObject);
@@ -105,6 +113,13 @@ public class RegistrationScreenManager : MonoBehaviour {
 		GameObject.Destroy(errorPanel.gameObject);
 		errorPanel = null;
 		SoundManager.MusicOFF (false);
+
+		//Activate default view
+		Google_Play.SetActive(false);
+		FaceBook.SetActive(false);
+		Login_Password.SetActive(false);
+		TypeLogin_Panel.SetActive(true);
+
 		screensManager.ShowMainScreen ();
 	}
 	
@@ -181,24 +196,16 @@ public class RegistrationScreenManager : MonoBehaviour {
 	}
 
 
-	private void SaveUserPrefs()
+	private void SaveUserPrefs(int pRegType)
 	{
 		UserController.UserName = iUserName.text;
-		UserController.eMail = ieMail.text;
+		//UserController.eMail = ieMail.text;
 		UserController.UserPassword = iuserPassword.text;
 
 		PlayerPrefs.SetString ("username", 	UserController.UserName);
 		PlayerPrefs.SetString ("email", 	UserController.eMail);
 		PlayerPrefs.SetString ("password", 	UserController.UserPassword);
-	}
-	
-	public int getSex()
-	{
-		if (male.isOn) {
-			return 1; 
-		} else {
-			return 0;
-		}
+		PlayerPrefs.SetInt ("regType", 	pRegType);
 	}
 	
 	public void onClickSubmitRegistration()
@@ -210,10 +217,10 @@ public class RegistrationScreenManager : MonoBehaviour {
 			errorPanel = screensManager.ShowErrorDialog ("Имя пользователя должно быть заполнено.", finishError);
 		}
 
-		if (!error && ieMail.text.Length == 0) {
-			error = true;
-			errorPanel = screensManager.ShowErrorDialog ("EMail должен быть заполнен.", finishError);
-		}
+//		if (!error && ieMail.text.Length == 0) {
+//			error = true;
+//			errorPanel = screensManager.ShowErrorDialog ("EMail должен быть заполнен.", finishError);
+//		}
 
 		if (!error && iuserPassword.text.Length < 5) {
 			error = true;
@@ -228,9 +235,9 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 			} else {
 					registerUser (iUserName.text
-				, ieMail.text
+				, ""
 				, iuserPassword.text
-				, getSex ().ToString ()
+				, "0"//getSex ().ToString ()
 				, getLanguageCode ().ToString ()
 				, "102"
 				, lattitude.ToString ()
@@ -245,7 +252,8 @@ public class RegistrationScreenManager : MonoBehaviour {
 	
 		UserController.UserName 		= iUserName.text;
 		UserController.UserPassword 	= iuserPassword.text;
-		UserController.eMail 			= ieMail.text;
+		//UserController.eMail 			= ieMail.text;
+		PlayerPrefs.SetInt ("regType", 	3);
 
 		UserController user_controller	= UserController.instance;
 
@@ -261,7 +269,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 		if (error == false) {
 			
-			SaveUserPrefs ();
+			SaveUserPrefs (1);
 			UserController.registered 		= true;
 			UserController.authenticated 	= false;
 			screensManager.InitLanguage();
@@ -279,20 +287,9 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 	public int getLanguageCode()
 	{
-		if (english.isOn)
-			return 1;
+//		if (english.isOn)
+//			return 1;
 		return 2;
-	}
-	
-	public int getCountryCode(string countryName)
-	{
-		switch (countryName) {
-		case "Украина":
-			return 102;
-		case "Россия":
-			return 88;
-		}
-		return -1;
 	}
 	
 	private void registerUser(string pUserName, string pEmail, string pPassword, string pSex, string pLanguageId, string pCountry, string pLatitude, string pLongitude){
@@ -315,7 +312,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 		
 		postScoreURL = postScoreURL + method + "?" 
 			+ userName + pUserName + "&"
-				+ eMail + pEmail + "&"
+				+ eMail + "admin@gmail.com" + "&"
 				+ sex + pSex + "&"
 				+ userPassword + pPassword + "&"
 				+ languageId + pLanguageId + "&"
@@ -323,7 +320,8 @@ public class RegistrationScreenManager : MonoBehaviour {
 				+ latitude + pLatitude + "&"
 				+ longitude + pLongitude + "&"
 				+ name + "hello" + "&"
-				+ id + "333"
+				+ id + "333"+ "&"
+				+ "ver=2"
 				;
 		
 		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
@@ -356,13 +354,15 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 				UserController.currentUser 	= newUser;
 				UserController.registered 	= true;
-				SaveUserPrefs();
+				SaveUserPrefs(1);
 
-				if (english.isOn) {
-					UserController.currentUser.Language = "English";
-				} else {
-					UserController.currentUser.Language = "Russian";
-				}
+				UserController.currentUser.Language = "Russian";
+
+//				if (english.isOn) {
+//					UserController.currentUser.Language = "English";
+//				} else {
+//					UserController.currentUser.Language = "Russian";
+//				}
 
 
 				screensManager.CloseWaitPanel(waitPanel);
@@ -375,12 +375,13 @@ public class RegistrationScreenManager : MonoBehaviour {
 				screensManager.CloseWaitPanel(waitPanel);
 				errorPanel = screensManager.ShowErrorDialog(e.Message, finishError);
 			}
-			
+
 		} else {
 
 			screensManager.CloseWaitPanel(waitPanel);
 
-			if(www.error.Contains("409") || www.error.Contains("conflict") || www.error.Contains("Conflict")){
+			if(www.error.Contains("409") || www.error.Contains("conflict") || www.error.Contains("Conflict") || 
+				www.text.Contains("409") || www.text.Contains("conflict") || www.text.Contains("Conflict")){
 				//"Пользователь с таким именем " + iUserName.text + " существует, попробуйте другое имя."
 
 				MainScreenManager.googleAnalytics.LogEvent(new EventHitBuilder()
@@ -398,5 +399,41 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 			Debug.Log("WWW Error: "+ www.error);
 		}    
-	}  
+	}
+
+	public void SucsessRegistration(int typeRed){
+	
+		string mStatusText = "Welcome " + Social.localUser.userName;
+
+		mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
+		mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
+		mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
+
+		screensManager.CloseWaitPanel (waitPanel);
+		errorPanel = screensManager.ShowErrorDialog(mStatusText ,finishError);
+	}
+
+	public void FailRegistration(int typeRed){
+
+		Google_Play.SetActive(false);
+		FaceBook.SetActive(false);
+		Login_Password.SetActive(false);
+		TypeLogin_Panel.SetActive(true);
+
+		screensManager.CloseWaitPanel (waitPanel);
+		errorPanel = screensManager.ShowErrorDialog("Authentication failed." ,finishError);
+
+	}
+
+	public void GoogleGetToken(){
+		waitPanel = screensManager.ShowWaitDialog("Authenticating...");
+		initNetwork.GoogleGetToken (SucsessRegistration, FailRegistration);
+	}
+
+	public void FBLogin(){
+		
+		waitPanel = screensManager.ShowWaitDialog("Authenticating...");
+		initNetwork.FBLogin (SucsessRegistration, FailRegistration);
+	}
+
 }

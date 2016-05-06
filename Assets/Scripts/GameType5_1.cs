@@ -51,6 +51,9 @@ public class GameType5_1 : GameBase {
 		CreateGameObjects (arrLett);
 
 		inProgress = false;
+
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
 	}
 
 	protected override void PrepareScreenBeforFinishCall(){

@@ -23,6 +23,9 @@ public delegate void CancelFughtByUserDelegate();
 public delegate void ReadyToFight();
 public delegate void ErrorToFight();
 
+public delegate void SucsessRegistrationDelegate(int typeRed);
+public delegate void FailRegistrationDelegate(int typeRed);
+
 public static class Utility {
 
 	public static bool StopCoroutine = true;

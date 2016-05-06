@@ -398,6 +398,7 @@
      <Compile Include="Assets\Scripts\GameType6_1.cs" />
      <Compile Include="Assets\Scripts\GameType7.cs" />
      <Compile Include="Assets\Scripts\GameTypeOneTwo.cs" />
+     <Compile Include="Assets\Scripts\InitSocialNetworks.cs" />
      <Compile Include="Assets\Scripts\Lang.cs" />
      <Compile Include="Assets\Scripts\LiveMessenger.cs" />
      <Compile Include="Assets\Scripts\OnlineGame.cs" />

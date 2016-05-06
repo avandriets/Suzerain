@@ -26,10 +26,13 @@ public class GameType4 : GameBase {
 		clock.targetTime = currentTask.TaskId;
 
 		inProgress		= false;
+
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
 	}
 
 	public override void StartGame(){
-		clock.StartTimer (onAnswer);
+		//clock.StartTimer (onAnswer);
 	}
 
 	protected override int GetAnswer (){

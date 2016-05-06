@@ -54,7 +54,7 @@
 
 	<Russian>
 		<string name="save_profile_label">Сохранение профилия ...</string>
-		<string name="@save">Сохранить</string>
+		<string name="@save">Зарегистрироваться</string>
 		<string name="@maim_menu">Главное меню</string>
 		<string name="@volume">Громкость</string>
 		<string name="@player_name">имя игрока</string>

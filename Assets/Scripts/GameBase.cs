@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public abstract class GameBase : MonoBehaviour {
 
+	public 	Button					okButton;
+
 	protected List<TaskAnswer> 		answerList 	= null;
 	protected List<TestTask> 		tasksList 	= null;
 	protected TestTask 				currentTask = null;
@@ -46,12 +48,33 @@ public abstract class GameBase : MonoBehaviour {
 		inProgress = false;
 
 		InitGameScreen ();
+
+		//StartCoroutine (WaitForReading ());
+	}
+
+	protected IEnumerator WaitForReading(){
+		
+		inProgress = true;
+		isActiveForm = false;
+
+		if(okButton != null)
+			okButton.enabled = false;
+
+		yield return new WaitForSeconds(3);
+
+		isActiveForm = true;
+		inProgress = false;
+
+		if(okButton != null)
+			okButton.enabled = true;
+
+		clock.StartTimer (onAnswer);
 	}
 
 	protected abstract void InitGameScreen ();
 
 	public virtual void StartGame(){
-		clock.StartTimer (onAnswer);
+		//clock.StartTimer (onAnswer);
 	}
 
 	public void onAnswer(bool autoAnswer){

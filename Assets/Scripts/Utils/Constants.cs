@@ -3,10 +3,14 @@ using System.Collections;
 
 public class Constants : MonoBehaviour {
 
+	public static int GOOGLE_PLAY	= 1;
+	public static int FACEBOOK		= 2;
+	public static int LOGIN_PASS	= 3;
+
 	public static int GAmeVersion = 2;
 
-	public static int RANDOM_GAME = 1;
-	public static int FRIENDS_GAME = 2;
+	public static int RANDOM_GAME	= 1;
+	public static int FRIENDS_GAME	= 2;
 
 	public static string BANNER_ID_KEY_ANDROID = "ca-app-pub-6013004568754454/5818318921";
 	public static string FULL_SIZE_BANNER_ID_KEY_ANDROID = "ca-app-pub-6013004568754454/7295052127";

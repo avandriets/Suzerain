@@ -53,6 +53,10 @@ public class GameType7 : GameBase {
 			randomItemsList.Add (gi);
 		}
 
+		Game7Item lastGameItem = new Game7Item ();
+		lastGameItem.ItemName = 0;
+		randomItemsList.Add (lastGameItem);
+
 		//shuffle list
 		for (int i = 0; i < randomItemsList.Count; i++) {
 			Game7Item temp					= randomItemsList[i];
@@ -66,6 +70,9 @@ public class GameType7 : GameBase {
 		FillCardSet ();
 
 		inProgress = false;
+
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
 	}
 
 	private  void FillCardSet(){
@@ -86,16 +93,17 @@ public class GameType7 : GameBase {
 			newButtonItem.transform.localScale = new Vector3(1,1,1);
 		}
 
+
 	}
 
 	public void onCardFromSetClick(Game7TemplateButton item){
 
-		if (item.CardBack.gameObject.activeSelf) {			
+		if (item.CardBack.gameObject.activeSelf && isActiveForm) {			
 			item.CardBack.gameObject.SetActive (false);
 			item.Number.gameObject.SetActive (true);
 			AddItemToFound (item.item);
 
-			Debug.Log ("Prived medved.");
+			Debug.Log ("onCardFromSetClick.");
 		}
 
 	}

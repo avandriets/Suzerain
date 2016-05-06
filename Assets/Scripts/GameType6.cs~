@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class GameType6 : GameBase {
 	 
-	public 	Button					okButton;
 	public	GameObject				itemButtonTop;
 	public	GameObject				itemButtonButtom;
 

@@ -33,6 +33,28 @@ public class GameType6_1 : GameBase {
 
 		inProgress = false;
 
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
+
+	}
+
+	protected IEnumerator WaitForReading(){
+
+		inProgress = true;
+		isActiveForm = false;
+
+		mTogleAnwer1.enabled = false;
+		mTogleAnwer2.enabled = false;
+
+		yield return new WaitForSeconds(3);
+
+		isActiveForm = true;
+		inProgress = false;
+
+		mTogleAnwer1.enabled = true;
+		mTogleAnwer2.enabled = true;
+
+		clock.StartTimer (onAnswer);
 	}
 
 	protected override void PrepareScreenBeforFinishCall(){

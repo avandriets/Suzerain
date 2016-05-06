@@ -82,6 +82,7 @@ public class OnlineGame : MonoBehaviour
 
 	IEnumerator RequestForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
 	{
+		yield return new WaitForSeconds(5);
 
 		var postScoreURL = NetWorkUtils.buildRequestToFightURL (pFightId);
 
@@ -139,6 +140,7 @@ public class OnlineGame : MonoBehaviour
 
 	IEnumerator RequestForFightWithFriend (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFriendId, int fightType)
 	{
+		yield return new WaitForSeconds(5);
 
 		var postScoreURL = NetWorkUtils.buildRequestToFightWithFriendURL (pFriendId, fightType);
 

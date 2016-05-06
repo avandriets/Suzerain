@@ -158,6 +158,31 @@ public class GameTypeOneTwo : GameBase {
 
 		inProgress = false;
 
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
+	}
+
+	protected IEnumerator WaitForReading(){
+
+		inProgress = true;
+		isActiveForm = false;
+
+		mTogleAnwer1.enabled = false;
+		mTogleAnwer2.enabled = false;
+		mTogleAnwer3.enabled = false;
+		mTogleAnwer4.enabled = false;
+
+		yield return new WaitForSeconds(3);
+
+		isActiveForm = true;
+		inProgress = false;
+
+		mTogleAnwer1.enabled = true;
+		mTogleAnwer2.enabled = true;
+		mTogleAnwer3.enabled = true;
+		mTogleAnwer4.enabled = true;
+
+		clock.StartTimer (onAnswer);
 	}
 
 	protected override void PrepareScreenBeforFinishCall(){

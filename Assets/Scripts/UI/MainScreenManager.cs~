@@ -56,20 +56,12 @@ public class MainScreenManager : MonoBehaviour
 	public GameObject UsualRing;
 
 	int currentFightId = -1;
+	public InitSocialNetworks initNetwork;
 
 	void Start ()
 	{
-		
-		GooglePlayGames.PlayGamesPlatform.Activate ();
 
-		if (!FB.IsInitialized) {
-			// Initialize the Facebook SDK
-			FB.Init (InitCallback, null);
-		} else {
-			// Already initialized, signal an app activation App Event
-			FB.ActivateApp ();
-		}
-
+		initNetwork.InitNetworks ();
 		//Turn off banners show
 		if (false) {
 			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
@@ -107,17 +99,6 @@ public class MainScreenManager : MonoBehaviour
 	public void HandleAdLoaded (object sender, System.EventArgs args)
 	{
 		bannerView.Show ();
-	}
-
-	private void InitCallback ()
-	{
-		if (FB.IsInitialized) {
-			// Signal an app activation App Event
-			FB.ActivateApp ();
-
-		} else {
-			Debug.Log ("Failed to Initialize the Facebook SDK");
-		}
 	}
 
 	void OnEnable ()
@@ -231,7 +212,7 @@ public class MainScreenManager : MonoBehaviour
 				OnlineGame ing = OnlineGame.instance;
 				ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
 			} else {
-				errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PRO версии игры.", ErrorCancelByServer);
+				errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PREMIUM версии игры.", ErrorCancelByServer);
 			}
 
 		} else if (CurrentTypeGame == Constants.FRIENDS_GAME && pFightType == 0) {
@@ -371,8 +352,8 @@ public class MainScreenManager : MonoBehaviour
 				ProRing.SetActive (true);
 				UsualRing.SetActive (false);
 
-				eagle.gameObject.SetActive (true);
-				Utility.setEagle (eagle, Rose.statList);
+				//eagle.gameObject.SetActive (true);
+				//Utility.setEagle (eagle, Rose.statList);
 			}
 
 		} else {
