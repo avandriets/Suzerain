@@ -94,7 +94,7 @@ public class ProfileManager : MonoBehaviour {
 			}
 		}
 
-		Utility.setAvatar(avatar,UserController.currentUser, Rose.statList);
+		Utility.setAvatar(avatar, Rose.statList);
 
 		nicname.text = UserController.currentUser.UserName;
 		
@@ -283,6 +283,13 @@ public class ProfileManager : MonoBehaviour {
 		} else if (PlayerPrefs.GetInt ("regType") == Constants.FACEBOOK) {
 
 		}
+
+		UserController.UserName = "";
+		UserController.currentUser		= null;
+		UserController.registered		= false;
+		UserController.authenticated	= false;
+
+		UserController.AccessToken = "";
 
 		PlayerPrefs.DeleteAll ();
 		screenManager.ShowRegistrationScreen ();

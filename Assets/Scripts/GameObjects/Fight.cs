@@ -18,4 +18,6 @@ public class Fight
 	public bool IsDraw { get; set; }
 	public int RealInitiatorAnswer { get; set; }
 	public int RealOpponentAnswer { get; set; }
+	public int WinnerScore { get; set; }
+	public int LooserScore { get; set; }
 }

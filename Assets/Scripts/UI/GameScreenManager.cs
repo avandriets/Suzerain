@@ -143,8 +143,8 @@ public class GameScreenManager : MonoBehaviour {
 
 	public void InitOpponents(){
 	
-		Utility.setAvatar(You,		UserController.currentUser, Rose.statList);
-		Utility.setAvatar(Opponent,	ong.opponent, OnlineGame.statList);
+		Utility.setAvatar(You,		Rose.statList);
+		Utility.setAvatar(Opponent,	OnlineGame.statList);
 
 		YouName.text = UserController.currentUser.UserName;
 		OpponentName.text = ong.opponent.UserName;
@@ -292,7 +292,9 @@ public class GameScreenManager : MonoBehaviour {
 
 	public void finishGame(){
 
-		UserController.authenticated = false;
+		//UserController.authenticated = false;
+		UserController.reNewStatistic = true;
+
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.loop = true;
 		SoundManager.ChoosePlayMusic (Constants.SounrMainTheme);
 

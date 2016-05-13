@@ -179,6 +179,7 @@ public class FriendsManager : MonoBehaviour {
 			button1.friend = c;
 
 			button1.NameUser.text = c.UserName;
+			button1.sCore.text = c.Score.ToString ();
 
 			if (c.Rank == -1) {
 				button1.rankUser.text = "";

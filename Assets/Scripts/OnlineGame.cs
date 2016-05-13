@@ -82,8 +82,7 @@ public class OnlineGame : MonoBehaviour
 
 	IEnumerator RequestForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
 	{
-		yield return new WaitForSeconds(5);
-
+		
 		var postScoreURL = NetWorkUtils.buildRequestToFightURL (pFightId);
 
 		Debug.Log (postScoreURL);
@@ -108,6 +107,8 @@ public class OnlineGame : MonoBehaviour
 
 			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
 
+			//Wait 5 seconds for reading
+			yield return new WaitForSeconds(5);
 
 			if (currentFight.FightState == -1) {
 				StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));

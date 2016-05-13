@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Constants : MonoBehaviour {
 
+	public static string PASSWORD	= "QuwaCack432!32%";
+
 	public static int GOOGLE_PLAY	= 1;
 	public static int FACEBOOK		= 2;
 	public static int LOGIN_PASS	= 3;
@@ -49,5 +51,5 @@ public class Constants : MonoBehaviour {
 	public static int SoundLose			= 6;
 	public static int SoundNotofocation	= 7;
 
-	public static int fightsCount = 28;
+	public static int fightsCount = 0;
 }

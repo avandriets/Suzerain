@@ -58,6 +58,7 @@ public class RaitingDialog : MonoBehaviour {
 			button1.friend = c;
 
 			button1.NameUser.text = c.UserName;
+			button1.sCore.text = c.Score.ToString();
 
 			button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
 

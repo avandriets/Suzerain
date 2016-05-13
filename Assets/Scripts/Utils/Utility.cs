@@ -23,8 +23,10 @@ public delegate void CancelFughtByUserDelegate();
 public delegate void ReadyToFight();
 public delegate void ErrorToFight();
 
-public delegate void SucsessRegistrationDelegate(int typeRed);
+public delegate void SucsessRegistrationDelegate(int typeRed, Dictionary<string,object> logInDetails);
 public delegate void FailRegistrationDelegate(int typeRed);
+
+public delegate void AskForFightDelegate(int fightId);
 
 public static class Utility {
 
@@ -40,7 +42,7 @@ public static class Utility {
 	public static string LETSFIGHT_URL		= "LetsFight";
 	public static string STATE_FIGTS_URL	= "GetUserStats";
 	public static string STATE_LOCATION_FIGTS_URL	= "GetLocStats";
-	public static string REGISTER_USER_URL	= "RegisterUser";
+	public static string REGISTER_USER_URL	= "RegisterUserEx";
 	public static string STATE_FIGHT_URL	= "GetFightState";
 	public static string TASK_URL			= "GetTask";
 	public static string SET_ANSWER_URL		= "SetAnswer";
@@ -60,6 +62,20 @@ public static class Utility {
 	public static string GET_ROUND_STATE_URL	= "GetRoundState";
 	public static string FIGHT_REJECT_URL	= "RejectFight";
 
+	public static string getRegistrationType(int regType){
+
+		string authType;
+
+		if (regType == Constants.GOOGLE_PLAY) {
+			authType = "GP";
+		} else if (regType == Constants.FACEBOOK) {
+			authType = "FB";
+		} else {
+			authType = "LOC";
+		}
+
+		return authType;
+	}
 
 	public static List<Friend> ParseFriendsJsonList(string pJsonStr, string nameOfCollection){
 
@@ -138,6 +154,7 @@ public static class Utility {
 		newObj.Result 		= mGetResult ["Result"].AsDouble; 
 		newObj.LocalStatus 	= mGetResult ["LocalStatus"].AsInt;
 		newObj.GlobalStatus = mGetResult ["GlobalStatus"].AsInt;
+		newObj.Score = mGetResult ["Score"].AsInt;
 	
 		return newObj;
 	}
@@ -485,23 +502,38 @@ public static class Utility {
 
 	public static string getShieldDescription(User user, List<FightStat> fightStat){
 	
+		string temlate = "Вы одержали {0} побед \n\n заработав {1} баллов.\n\n Вы получаете {2}.";
 		string image = "1";
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "Вы побеждаете в более чем \n\n30% поединков.\n\nВы получаете \n\nСТАЛЬНОЙ ЩИТ.";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "Вы побеждаете в более чем \n\n40% поединков.\n\nВы получаете \n\nБРОНЗОВЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "Вы побеждаете в более чем \n\n50% поединков.\n\nВы получаете \n\nСЕРЕБРЯНЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "Вы побеждаете в более чем \n\n60% поединков.\n\nВы получаете \n\nЗОЛОТОЙ ЩИТ.";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "Вы побеждаете в более чем \n\n70% поединков.\n\nВы получаете \n\nПЛАТИНОВЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "Вы побеждаете в более чем \n\n80% поединков.\n\nВы получаете \n\nКРИСТАЛЬНЫЙ ЩИТ.";
+
+				image = getShieldNumByScore (c.Score);
+
+				switch(image){
+				case "2":
+					//image = "Вы побеждаете в более чем \n\n30% поединков.\n\nВы получаете \n\nСТАЛЬНОЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "СТАЛЬНОЙ ЩИТ");
+					break;
+				case "3":
+					//image = "Вы побеждаете в более чем \n\n40% поединков.\n\nВы получаете \n\nБРОНЗОВЫЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "БРОНЗОВЫЙ ЩИТ");
+					break;
+				case "4":
+					//image = "Вы побеждаете в более чем \n\n50% поединков.\n\nВы получаете \n\nСЕРЕБРЯНЫЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "СЕРЕБРЯНЫЙ ЩИТ");
+					break;
+				case "5":
+					//image = "Вы побеждаете в более чем \n\n60% поединков.\n\nВы получаете \n\nЗОЛОТОЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "ЗОЛОТОЙ ЩИТ");
+					break;
+				case "6":
+					//image = "Вы побеждаете в более чем \n\n70% поединков.\n\nВы получаете \n\nПЛАТИНОВЫЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "ПЛАТИНОВЫЙ ЩИТ");
+					break;
+				case "7":
+					//image = "Вы побеждаете в более чем \n\n80% поединков.\n\nВы получаете \n\nКРИСТАЛЬНЫЙ ЩИТ.";
+					image = string.Format(temlate, c.RowWins, c.Score, "КРИСТАЛЬНЫЙ ЩИТ");
+					break;
 				}
 			}
 		}
@@ -509,54 +541,82 @@ public static class Utility {
 		return image;
 	}
 
-	public static string getNumberOfShield(User user, List<FightStat> fightStat){
+	public static string getShieldNumByScore(double fightStat){
+
+		string image = "1";
+
+		if (fightStat < 100) {
+			image = "1";
+		} else if (fightStat < 300 && fightStat >= 100) {
+			image = "2";
+		}else if (fightStat < 700 && fightStat >= 300) {
+			image = "3";
+		}else if (fightStat < 1500 && fightStat >= 700) {
+			image = "4";
+		}else if (fightStat < 3000 && fightStat >= 1500) {
+			image = "5";
+		}else if (fightStat < 5000 && fightStat >= 3000) {
+			image = "6";
+		}else if ( fightStat > 5000) {
+			image = "7";
+		}
+
+		return image;
+	}
+
+	public static string getNumberOfShield(List<FightStat> fightStat){
 		
 		string image = "1";
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "2";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "3";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "4";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "5";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "6";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "7";
-				}
+
+				image = getShieldNumByScore (c.Score);
+
+//				if (c.Result * 100 <= 29) {
+//					image = "1";
+//				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
+//					image = "2";
+//				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
+//					image = "3";
+//				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
+//					image = "4";
+//				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
+//					image = "5";
+//				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
+//					image = "6";
+//				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
+//					image = "7";
+//				}
+
 			}
 		}
 
 		return image;
 	}
 
-	public static void setAvatar(Image imgAvatar, User user, List<FightStat> fightStat){
+	public static void setAvatar(Image imgAvatar, List<FightStat> fightStat){
 	
-		string image = "1";
-		foreach (var c in fightStat) {
-			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "2";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "3";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "4";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "5";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "6";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "7";
-				}
-			}
-		}
+		string image = getNumberOfShield(fightStat);
+
+//		foreach (var c in fightStat) {
+//			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
+//				if (c.Result * 100 <= 29) {
+//					image = "1";
+//				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
+//					image = "2";
+//				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
+//					image = "3";
+//				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
+//					image = "4";
+//				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
+//					image = "5";
+//				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
+//					image = "6";
+//				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
+//					image = "7";
+//				}
+//			}
+//		}
 
 		Sprite spr = null;
 		Texture2D tex = (Texture2D)Resources.Load(image);
@@ -596,23 +656,23 @@ public static class Utility {
 
 	public static void setAvatarByState(Image imgAvatar, double fightStat){
 
-		string image = "1";
+		string image = getShieldNumByScore (fightStat);
 
-		if (fightStat * 100 <= 29) {
-					image = "1";
-		} else if (fightStat*100 <= 39 && fightStat*100 > 29) {
-					image = "2";
-		}else if (fightStat*100 <= 49 && fightStat*100 > 39) {
-					image = "3";
-		}else if (fightStat*100 <= 59 && fightStat*100 > 49) {
-					image = "4";
-		}else if (fightStat*100 <= 69 && fightStat*100 > 59) {
-					image = "5";
-		}else if (fightStat*100 <= 79 && fightStat*100 > 69) {
-					image = "6";
-		}else if (fightStat*100 <= 100 && fightStat*100 > 79) {
-					image = "7";
-		}
+//		if (fightStat * 100 <= 29) {
+//					image = "1";
+//		} else if (fightStat*100 <= 39 && fightStat*100 > 29) {
+//					image = "2";
+//		}else if (fightStat*100 <= 49 && fightStat*100 > 39) {
+//					image = "3";
+//		}else if (fightStat*100 <= 59 && fightStat*100 > 49) {
+//					image = "4";
+//		}else if (fightStat*100 <= 69 && fightStat*100 > 59) {
+//					image = "5";
+//		}else if (fightStat*100 <= 79 && fightStat*100 > 69) {
+//					image = "6";
+//		}else if (fightStat*100 <= 100 && fightStat*100 > 79) {
+//					image = "7";
+//		}
 
 		Sprite spr = null;
 		Texture2D tex = (Texture2D)Resources.Load(image);
@@ -628,16 +688,21 @@ public static class Utility {
 		double maxResult = -1;
 		int FightType = -1;
 
-		foreach (var c in fightStat) {
-			if (c.FightTypeId != 0 ) {
-				if (c.Result > maxResult) {
-					maxResult = c.Result;
-					FightType = c.FightTypeId;
+		if (getNumberOfShield ( fightStat) != "1") {
+			foreach (var c in fightStat) {
+				if (c.FightTypeId != 0) {
+					if (c.Result > maxResult) {
+						maxResult = c.Result;
+						FightType = c.FightTypeId;
+					}
 				}
 			}
-		}
 
-		return getRunkByNumber (FightType);
+			return getRunkByNumber (FightType);
+		} else {
+			return "";
+		}
+			
 	}
 
 	public static string getRunkByNumber(int FightType){

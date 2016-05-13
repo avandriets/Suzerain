@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using Soomla.Store;
 using Facebook.Unity;
 
+
 public class MainScreenManager : MonoBehaviour
 {
 	private WaitPanel	waitPanel = null;
@@ -56,12 +57,13 @@ public class MainScreenManager : MonoBehaviour
 	public GameObject UsualRing;
 
 	int currentFightId = -1;
-	public InitSocialNetworks initNetwork;
+	public InitSocialNetworks	initNetwork;
+	public FightsPanel			mFightPanel;
 
 	void Start ()
 	{
 
-		initNetwork.InitNetworks ();
+		//initNetwork.InitNetworks ();
 		//Turn off banners show
 		if (false) {
 			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
@@ -103,6 +105,10 @@ public class MainScreenManager : MonoBehaviour
 
 	void OnEnable ()
 	{
+
+//		if (!initNetwork.WasInit) {
+//			initNetwork.InitNetworks ();
+//		}
 
 		googleAnalytics = GameObject.Find ("GAv4").GetComponent<GoogleAnalyticsV4> ();
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
@@ -152,33 +158,6 @@ public class MainScreenManager : MonoBehaviour
 		}
 	}
 
-	public void SwitchGameLeft ()
-	{
-		if (CurrentTypeGame > 1) {
-			CurrentTypeGame--;
-		}
-		InitTypegame ();
-	}
-
-	public void SwitchGameRight ()
-	{
-		if (CurrentTypeGame < 2) {
-			CurrentTypeGame++;
-		}
-		InitTypegame ();
-	}
-
-	private void InitTypegame ()
-	{
-		
-		if (CurrentTypeGame == Constants.RANDOM_GAME) {
-			GameTypeCaption.text = "Случайный поединок";
-		} else if (CurrentTypeGame == Constants.FRIENDS_GAME) {
-			GameTypeCaption.text = "Поединок с другом";
-		}
-
-	}
-
 	void handleCheckbox (bool value)
 	{
 		soundMan.OnMuteButtonClick ();
@@ -203,22 +182,39 @@ public class MainScreenManager : MonoBehaviour
 
 	public void OnFightClick (int pFightType)
 	{
+		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType > 0) {
+			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
-		if ((CurrentTypeGame == Constants.RANDOM_GAME && pFightType == 0) || (pFightType != 0)) {
+			OnlineGame ing = OnlineGame.instance;
+			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+		}
+	}
+
+	public void MainButtonFightClick(){
+		mFightPanel.SetText (fightFromPanel);
+	}
+
+
+	public void fightFromPanel(int pFightType){
+
+		if (pFightType >= 0) {
 
 			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType == 0) {
 				waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
 				OnlineGame ing = OnlineGame.instance;
 				ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+
 			} else {
+
 				errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PREMIUM версии игры.", ErrorCancelByServer);
+
 			}
 
-		} else if (CurrentTypeGame == Constants.FRIENDS_GAME && pFightType == 0) {
+		} else if (pFightType == -1) {
 			screensManager.ShowFriendsScreen ();
 		}
-	
+
 	}
 
 	public void CancelFightByUser ()
@@ -290,7 +286,7 @@ public class MainScreenManager : MonoBehaviour
 		if (UserController.registered) {
 			
 
-			if (!UserController.authenticated) {
+		if (!UserController.authenticated || UserController.reNewStatistic) {
 				
 				waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
 
@@ -330,7 +326,7 @@ public class MainScreenManager : MonoBehaviour
 				}
 			}
 
-			string shieldNumber = Utility.getNumberOfShield (UserController.currentUser, Rose.statList);
+			string shieldNumber = Utility.getNumberOfShield (Rose.statList);
 
 			if (!Utility.ShieldIsOwned (shieldNumber)) {
 				shieldDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
@@ -341,7 +337,7 @@ public class MainScreenManager : MonoBehaviour
 				firstStart = false;
 			}
 
-			Utility.setAvatar (avatar, UserController.currentUser, Rose.statList);
+			Utility.setAvatar (avatar, Rose.statList);
 
 			if (Rose.statList [0].Fights >= Constants.fightsCount) {				
 				centerElement.ShowData ();

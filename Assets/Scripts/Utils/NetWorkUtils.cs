@@ -151,6 +151,28 @@ public class NetWorkUtils : MonoBehaviour {
 		return postScoreURL;
 	}
 
+	public static string buildLogEXInURL(int regtype){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "LoginEx";
+
+		var authName 		= "authName=";
+		var authToken 		= "authToken=";
+		var ver 			= "ver=";
+
+		postScoreURL = postScoreURL + method + "?" 
+			+ authName		+ Utility.getRegistrationType(regtype) + "&"
+			+ authToken		+ UserController.AccessToken + "&"
+			+ ver			+ Constants.GAmeVersion.ToString();
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
+
 	public static string buildLogInURL(){
 
 		Debug.Log ("build LogIn URL");
@@ -272,6 +294,26 @@ public class NetWorkUtils : MonoBehaviour {
 		postScoreURL = postScoreURL + method + "?" 
 			+ fightId 	+ currentFight.Id.ToString() + "&"
 			+ taskId 	+ currentFight.TaskId.ToString() + "&"
+			+ userToken + UserController.currentUser.Token;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
+
+	public static string buildUserInfoURL(int pUserId){
+
+		Debug.Log ("Get Task from server.");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = Utility.GET_USER_INFO_URL;
+
+		var userId 			= "userId=";
+		var userToken 		= "token=";
+
+		postScoreURL = postScoreURL + method + "?" 
+			+ userId + pUserId.ToString () + "&"
 			+ userToken + UserController.currentUser.Token;
 
 		postScoreURL = System.Uri.EscapeUriString (postScoreURL);

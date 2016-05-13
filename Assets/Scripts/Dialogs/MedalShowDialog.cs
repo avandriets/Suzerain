@@ -18,7 +18,7 @@ public class MedalShowDialog : MonoBehaviour {
 
 		ShieldDescription.text 	= System.Text.RegularExpressions.Regex.Unescape(Utility.getShieldDescription(user ,fightStat));
 
-		Utility.setAvatar (ShieldIcon, user, fightStat);
+		Utility.setAvatar (ShieldIcon,  fightStat);
 
 		okButton.onClick.RemoveAllListeners();
 		okButton.onClick.AddListener (okEvent);

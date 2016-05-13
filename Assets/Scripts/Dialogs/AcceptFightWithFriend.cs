@@ -38,7 +38,7 @@ public class AcceptFightWithFriend : MonoBehaviour {
 		}
 
 		nameOpponent.text	= ong.opponent.UserName;
-		Utility.setAvatar(avatarOpponent,ong.opponent, OnlineGame.statList);
+		Utility.setAvatar(avatarOpponent, OnlineGame.statList);
 	}
 
 	public void ClosePanel () {

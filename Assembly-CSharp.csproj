@@ -359,6 +359,7 @@
      <Compile Include="Assets\Scripts\Dialogs\ErrorPanelTwoButtons.cs" />
      <Compile Include="Assets\Scripts\Dialogs\FightOrDeleteDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\FightResultDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialogs\FightsPanel.cs" />
      <Compile Include="Assets\Scripts\Dialogs\InstructionDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\MedalShowDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\OpponentIntroduce.cs" />
