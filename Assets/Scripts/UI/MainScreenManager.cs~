@@ -27,7 +27,6 @@ public class MainScreenManager : MonoBehaviour
 	public Text TextRank;
 
 	public Image avatar;
-	public Image eagle;
 
 	bool InitMuteState = false;
 
@@ -36,6 +35,7 @@ public class MainScreenManager : MonoBehaviour
 
 	public static int gameCounts = Constants.adShowsCount;
 	public MedalShowDialog	shieldDialog;
+	public RankDialog		rankDialog;
 	bool firstStart = false;
 
 	InterstitialAd interstitial;
@@ -326,10 +326,19 @@ public class MainScreenManager : MonoBehaviour
 				}
 			}
 
-			string shieldNumber = Utility.getNumberOfShield (Rose.statList);
 
+			string shieldNumber = Utility.getNumberOfShield (Rose.statList).shieldNumber;
 			if (!Utility.ShieldIsOwned (shieldNumber)) {
 				shieldDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+			}
+
+			if (shieldNumber != "1") {
+				string differenceNumber = Utility.GetDifference (UserController.currentUser, Rose.statList);
+				if (!Utility.DifferenceIsOwned (differenceNumber)) {
+					if (differenceNumber != "") {
+						rankDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+					}
+				}
 			}
 
 			if (firstStart) {

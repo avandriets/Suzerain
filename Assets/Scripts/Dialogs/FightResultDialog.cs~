@@ -60,19 +60,37 @@ public class FightResultDialog : MonoBehaviour
 			}
 		}
 
+		fightsImageList [0].gameObject.SetActive (true);
+		fightsImageList [1].gameObject.SetActive (true);
+		fightsImageList [2].gameObject.SetActive (true);
+
 		foreach (var cc in fightsImageList) {
 			cc.sprite = spriteDefault;
 		}
 
 		fightResultPanelObject.SetActive (true);
 
-		foreach (var currentFight in fight) {
-			if (currentFight.IsDraw == true) {
-				fightsImageList [fight.IndexOf (currentFight)].sprite = spriteDraft;
-			} else if (currentFight.Winner == UserController.currentUser.Id) {
-				fightsImageList [fight.IndexOf (currentFight)].sprite = spriteWin;
+		if (fight.Count > 1) {
+			foreach (var currentFight in fight) {
+				if (currentFight.IsDraw == true) {
+					fightsImageList [fight.IndexOf (currentFight)].sprite = spriteDraft;
+				} else if (currentFight.Winner == UserController.currentUser.Id) {
+					fightsImageList [fight.IndexOf (currentFight)].sprite = spriteWin;
+				} else {
+					fightsImageList [fight.IndexOf (currentFight)].sprite = spriteLose;
+				}
+			}
+		} else {
+			
+			fightsImageList [0].gameObject.SetActive (false);
+			fightsImageList [2].gameObject.SetActive (false);
+
+			if (fight[0].IsDraw == true) {
+				fightsImageList [1].sprite = spriteDraft;
+			} else if (fight[0].Winner == UserController.currentUser.Id) {
+				fightsImageList [1].sprite = spriteWin;
 			} else {
-				fightsImageList [fight.IndexOf (currentFight)].sprite = spriteLose;
+				fightsImageList [1].sprite = spriteLose;
 			}
 		}
 

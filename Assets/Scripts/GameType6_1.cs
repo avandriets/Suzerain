@@ -46,7 +46,7 @@ public class GameType6_1 : GameBase {
 		mTogleAnwer1.enabled = false;
 		mTogleAnwer2.enabled = false;
 
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(0);
 
 		isActiveForm = true;
 		inProgress = false;

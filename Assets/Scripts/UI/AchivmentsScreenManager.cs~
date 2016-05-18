@@ -14,6 +14,7 @@ public class AchivmentsScreenManager : MonoBehaviour {
 	public Text TextNickName;
 	public Text ActiveStatus;
 	public Text After;
+	public Text ScoreText;
 
 	public GameObject GOgrayRing;
 	public GameObject GOcolorRing;
@@ -33,6 +34,9 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 	public Button ratingButton;
 
+	public Image		CristallShield, shield1, shield2, progressBar;
+	public GameObject	cristallShieldObject, shieldProgress;
+
 	void OnEnable(){
 
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Achivment screen"));
@@ -45,6 +49,32 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 		screensManager.InitTranslateList ();
 		screensManager.TranslateUI ();
+
+		var currentShield = Utility.getNumberOfShield (Rose.statList);
+		bool haveCristallShield = false;
+
+		if (currentShield.position == Utility.shieldsArray.Length) {
+			haveCristallShield = true;
+		}
+
+		if (haveCristallShield) {
+			shieldProgress.SetActive (false);
+			cristallShieldObject.SetActive (true);
+			Utility.setAvatar (CristallShield, Rose.statList);
+		} else {
+			cristallShieldObject.SetActive (false);
+			shieldProgress.SetActive (true);
+
+			var nextShield = Utility.shieldsArray [currentShield.position];
+			Utility.setAvatar (shield1, Rose.statList);
+			Utility.setAvatarByState (shield2, nextShield.startScore);
+
+			float koeeff = 100f / (float)(nextShield.startScore - currentShield.startScore);
+			float posotion = koeeff * (float)(Rose.statList [0].Score - currentShield.startScore)/100f;
+			progressBar.fillAmount = posotion;
+			ScoreText.text = Rose.statList [0].Score.ToString () + "/" + nextShield.startScore.ToString ();
+		}
+
 	}
 
 	public void InitAchivments(){
@@ -83,22 +113,15 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 	public void ShowLocalStatus(){
 
-		if (Rose.statList [0].Fights >= Constants.fightsCount) {
 
-			if (Rose.statList [0].Fights >= Constants.fightsCount) {
-				After.text = "";
-				TextRating.text = Rose.statList [0].LocalStatus.ToString ();
+		After.text = "";
+		TextRating.text = "0";//Rose.statList [0].LocalStatus.ToString ();
 
-				if (lattitude == 0) {
-					waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
-					StartCoroutine (GetLocation (GetStatisticWithLocation));
-				}
+		//if (lattitude == 0) {
+		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
+		StartCoroutine (GetLocation (GetStatisticWithLocation));
+		//}
 
-			} else {
-				After.text = "Через";
-				TextRating.text = (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
-			}
-		}
 
 		ActiveStatus.text 	= "Локальный статус";
 		itIsGlobalStatus 	= false;
@@ -118,7 +141,7 @@ public class AchivmentsScreenManager : MonoBehaviour {
 			screensManager.CloseWaitPanel (waitPanel);
 
 		if (error == false) {
-
+			TextRating.text = Rose.statList [0].LocalStatus.ToString ();
 
 		} else {
 			if(source_error == Constants.LOGIN_ERROR){				

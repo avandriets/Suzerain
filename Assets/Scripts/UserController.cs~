@@ -77,8 +77,12 @@ public class UserController : MonoBehaviour {
 		mLongitiude = longitiude;
 		mLatitude	= latitude;
 
-		int regType = PlayerPrefs.GetInt ("regType");
-
+		int regType = Constants.LOGIN_PASS;
+		if (PlayerPrefs.HasKey ("regType"))
+			regType = PlayerPrefs.GetInt ("regType");
+		else
+			PlayerPrefs.SetInt ("regType", Constants.LOGIN_PASS);
+		
 		if ((regType != Constants.LOGIN_PASS && AccessToken.Length > 0) || regType == Constants.LOGIN_PASS) {
 			StartCoroutine (LogInThread (postLogInExecute, longitiude, latitude));
 
@@ -222,6 +226,7 @@ public class UserController : MonoBehaviour {
 			}
 
 			if (www.error == null) {
+				Debug.Log ("WWW get URL Ok!: " + www.url);
 				Debug.Log ("WWW get State Ok!: " + www.text);
 
 				Rose.statList = Utility.GetListOfFightsStates (www.text);

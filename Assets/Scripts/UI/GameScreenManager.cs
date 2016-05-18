@@ -180,7 +180,7 @@ public class GameScreenManager : MonoBehaviour {
 
 			if (ong.currentFight.FightTypeId == 1) {
 				gameTypeOneTwo.gameObject.SetActive (true);
-				gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
+				gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 				gameTypeOneTwo.StartGame ();
 			} else if (ong.currentFight.FightTypeId == 2) {
 				gameType2.gameObject.SetActive (true);
@@ -199,19 +199,19 @@ public class GameScreenManager : MonoBehaviour {
 //			gameType5.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 //			gameType5.StartGame ();
 				gameType5_1.gameObject.SetActive (true);
-				gameType5_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 40);
+				gameType5_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
 				gameType5_1.StartGame ();
 			} else if (ong.currentFight.FightTypeId == 6) {
 //			gameType6.gameObject.SetActive (true);
 //			gameType6.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 //			gameType6.StartGame ();
 				gameType6_1.gameObject.SetActive (true);
-				gameType6_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
+				gameType6_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 				gameType6_1.StartGame ();
 
 			} else if (ong.currentFight.FightTypeId == 7) {
 				gameType7.gameObject.SetActive (true);
-				gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
+				gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
 				gameType7.StartGame ();
 			}
 		}
@@ -235,25 +235,31 @@ public class GameScreenManager : MonoBehaviour {
 
 	private void ShowFinalScreen(){
 
+		string template = "Вы получили {0} балл{1}";
+
+
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.loop = false;
 
 		if (ong.currentFight.IsDraw == true) {
 			SoundManager.ChoosePlayMusic (Constants.SoundDraft);
+			template = string.Format (template, ong.currentFight.WinnerScore,"");
 		} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
 			SoundManager.ChoosePlayMusic (Constants.SoundWin);
+			template = string.Format (template, ong.currentFight.WinnerScore, "а");
 		} else {
 			SoundManager.ChoosePlayMusic (Constants.SoundLose);
+			template = string.Format (template, ong.currentFight.LooserScore, "ов");
 		}
 
 		// Dont show fight result description if we have one fight
 		if (ong.tasksList.Count > 1) {
 			
 			if (ong.currentFight.IsDraw == true) {
-				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, "", "");
+				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, template, "");
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, "", "");
+				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, template, "");
 			} else {
-				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, "", "");
+				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, template, "");
 			}
 
 		} else {
@@ -264,7 +270,7 @@ public class GameScreenManager : MonoBehaviour {
 					0, 
 					finishGame, 
 					ong.fightsList, 
-					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
 					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
 				);
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
@@ -273,7 +279,7 @@ public class GameScreenManager : MonoBehaviour {
 					1, 
 					finishGame, 
 					ong.fightsList, 
-					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
 					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
 				);
 			} else {
@@ -282,7 +288,7 @@ public class GameScreenManager : MonoBehaviour {
 					-1, 
 					finishGame, 
 					ong.fightsList, 
-					FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
 					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
 				);
 			}

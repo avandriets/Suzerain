@@ -96,6 +96,7 @@ public class SearchDialog : MonoBehaviour {
 		friendsButtons			= new List<FriendTemplateButton>();
 
 		//Bottom array
+		int counter = 1;
 		foreach (var c in mFriends) {
 
 			GameObject	newButtonItem = null;
@@ -104,15 +105,19 @@ public class SearchDialog : MonoBehaviour {
 
 			button1.friend = c;
 
+			button1.number.text = counter.ToString ();
 			button1.NameUser.text = c.UserName;
 
-			button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
-
-			if (c.Rank != -1) {
-				Utility.setAvatarByState (button1.shieldImage, c.Result);
-			}
-			else
-				Utility.setAvatarByState (button1.shieldImage, -1);
+			//button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
+			var shield = Utility.getShieldNumByScore (c.Score);
+			if(shield.shieldNumber != "1")
+				button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
+			
+			//if (c.Rank != -1) {
+				Utility.setAvatarByState (button1.shieldImage, c.Score);
+			//}
+			//else
+			//	Utility.setAvatarByState (button1.shieldImage, -1);
 
 			button1.button.onClick.RemoveAllListeners();
 			button1.button.onClick.AddListener( () => onCardFromSetClick(button1) );
@@ -121,6 +126,8 @@ public class SearchDialog : MonoBehaviour {
 			newButtonItem.transform.localScale = new Vector3(1,1,1);
 
 			friendsButtons.Add (button1);
+
+			counter++;
 		}
 	}
 

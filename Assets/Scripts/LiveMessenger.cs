@@ -55,13 +55,14 @@ public class LiveMessenger : MonoBehaviour {
 
 			if (mGetResult != 0 && fightId != mGetResult && screensManager.mMainScreenCanvas == screensManager.currentScreenCanvas) {
 
+				//screensManager.ShowMainScreen ();
 				fightId = mGetResult;
 				mainScreen.AskForFightFromFriend (mGetResult);
 
-				//Debug.Log ("You was asked to fight ! ");
+				Debug.Log ("You was asked to fight ! ");
 			}
 
-			//Debug.Log ("Send puse done ! " + request.text);
+			Debug.Log ("Send puse done ! " + request.text);
 		} else {
 
 			Debug.LogError ("WWW Error: " + request.error);

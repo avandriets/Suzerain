@@ -60,7 +60,7 @@ public abstract class GameBase : MonoBehaviour {
 		if(okButton != null)
 			okButton.enabled = false;
 
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(0);
 
 		isActiveForm = true;
 		inProgress = false;

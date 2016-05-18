@@ -60,13 +60,15 @@ public class RaitingDialog : MonoBehaviour {
 			button1.NameUser.text = c.UserName;
 			button1.sCore.text = c.Score.ToString();
 
-			button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
+			var shield = Utility.getShieldNumByScore (c.Score);
+			if(shield.shieldNumber != "1")
+				button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
 
-			if (c.Rank != -1) {
-				Utility.setAvatarByState (button1.shieldImage, c.Result);
-			}
-			else
-				Utility.setAvatarByState (button1.shieldImage, -1);
+			//if (c.Rank != -1) {
+				Utility.setAvatarByState (button1.shieldImage, c.Score);
+			//}
+			//else
+			//	Utility.setAvatarByState (button1.shieldImage, -1);
 
 			button1.button.onClick.RemoveAllListeners();
 			//button1.button.onClick.AddListener( () => onCardFromSetClick(button1) );

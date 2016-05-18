@@ -62,6 +62,16 @@ public static class Utility {
 	public static string GET_ROUND_STATE_URL	= "GetRoundState";
 	public static string FIGHT_REJECT_URL	= "RejectFight";
 
+	public static shieldDataObj[] shieldsArray = new shieldDataObj[] {
+		new shieldDataObj(1, 0   ,99  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ"), 
+		new shieldDataObj(2, 100 ,299 ,"2", "СТАЛЬНОЙ ЩИТ"), 
+		new shieldDataObj(3, 300 ,699 ,"3", "БРОНЗОВЫЙ ЩИТ"),
+		new shieldDataObj(4, 700 ,1499,"4", "СЕРЕБРЯНЫЙ ЩИТ"),
+		new shieldDataObj(5, 1500,2999,"5", "ЗОЛОТОЙ ЩИТ"),
+		new shieldDataObj(6, 3000,4999,"6", "ПЛАТИНОВЫЙ ЩИТ"),
+		new shieldDataObj(7, 5000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ")
+	};
+
 	public static string getRegistrationType(int regType){
 
 		string authType;
@@ -107,6 +117,7 @@ public static class Utility {
 		newObj.Result		= mGetResult ["Result"].AsDouble;
 		newObj.State 		= mGetResult ["State"].AsInt;
 		newObj.Rank 		= mGetResult ["Rank"].AsInt;
+		newObj.Score 		= mGetResult ["Score"].AsInt;
 
 		return newObj;
 	}
@@ -277,6 +288,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -305,6 +318,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -332,6 +347,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -359,6 +376,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -386,6 +405,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -460,6 +481,46 @@ public static class Utility {
 		return buffer;
 	}
 
+	public static bool DifferenceIsOwned(string shieldNum){
+
+		//PlayerPrefs.DeleteKey ("shields");
+
+		if (PlayerPrefs.HasKey ("difference")) {
+
+			string values = PlayerPrefs.GetString ("difference");
+
+			JSONArray listNode = new JSONArray();
+			listNode = JSON.Parse (values).AsArray;
+
+			foreach (JSONData i in listNode) {
+				if (i.Value == shieldNum) {
+					return true;
+				}
+			}
+
+			JSONNode jnod = new JSONNode();
+			jnod.Add (shieldNum);
+
+			listNode.Add (shieldNum);
+			PlayerPrefs.SetString ("difference", listNode.ToString());
+
+			return false;
+
+		}else{
+			JSONArray listNode = new JSONArray();
+
+			JSONNode jnod = new JSONNode();
+			jnod.Add (shieldNum);
+
+			listNode.Add (shieldNum);
+
+			PlayerPrefs.SetString ("difference", listNode.ToString());
+
+			return true;
+		}
+
+	}
+
 	public static bool ShieldIsOwned(string shieldNum){
 
 		//PlayerPrefs.DeleteKey ("shields");
@@ -500,150 +561,113 @@ public static class Utility {
 			
 	}
 
-	public static string getShieldDescription(User user, List<FightStat> fightStat){
-	
-		string temlate = "Вы одержали {0} побед \n\n заработав {1} баллов.\n\n Вы получаете {2}.";
-		string image = "1";
-		foreach (var c in fightStat) {
-			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
+	public static string getDifferenceDescription(User user, List<FightStat> fightStat){
 
-				image = getShieldNumByScore (c.Score);
+		string temlate = "Лучше всего Вы проявили себя в поединках {0}.\n\nВы получаете титул \"{1}\".\n\nПоздравляем!";
+		double maxResult = -1;
+		int FightType = -1;
 
-				switch(image){
-				case "2":
-					//image = "Вы побеждаете в более чем \n\n30% поединков.\n\nВы получаете \n\nСТАЛЬНОЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "СТАЛЬНОЙ ЩИТ");
-					break;
-				case "3":
-					//image = "Вы побеждаете в более чем \n\n40% поединков.\n\nВы получаете \n\nБРОНЗОВЫЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "БРОНЗОВЫЙ ЩИТ");
-					break;
-				case "4":
-					//image = "Вы побеждаете в более чем \n\n50% поединков.\n\nВы получаете \n\nСЕРЕБРЯНЫЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "СЕРЕБРЯНЫЙ ЩИТ");
-					break;
-				case "5":
-					//image = "Вы побеждаете в более чем \n\n60% поединков.\n\nВы получаете \n\nЗОЛОТОЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "ЗОЛОТОЙ ЩИТ");
-					break;
-				case "6":
-					//image = "Вы побеждаете в более чем \n\n70% поединков.\n\nВы получаете \n\nПЛАТИНОВЫЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "ПЛАТИНОВЫЙ ЩИТ");
-					break;
-				case "7":
-					//image = "Вы побеждаете в более чем \n\n80% поединков.\n\nВы получаете \n\nКРИСТАЛЬНЫЙ ЩИТ.";
-					image = string.Format(temlate, c.RowWins, c.Score, "КРИСТАЛЬНЫЙ ЩИТ");
-					break;
+		if (getNumberOfShield ( fightStat).shieldNumber != "1") {
+			foreach (var c in fightStat) {
+				if (c.FightTypeId != 0) {
+					if (c.Result > maxResult) {
+						maxResult = c.Result;
+						FightType = c.FightTypeId;
+					}
 				}
 			}
+
+			return getRunkByNumber (FightType);
+		} else {
+			return "";
 		}
 
-		return image;
+		return string.Format(temlate, FightTypeName(FightType), getRunkByNumber (FightType));
 	}
-
-	public static string getShieldNumByScore(double fightStat){
-
-		string image = "1";
-
-		if (fightStat < 100) {
-			image = "1";
-		} else if (fightStat < 300 && fightStat >= 100) {
-			image = "2";
-		}else if (fightStat < 700 && fightStat >= 300) {
-			image = "3";
-		}else if (fightStat < 1500 && fightStat >= 700) {
-			image = "4";
-		}else if (fightStat < 3000 && fightStat >= 1500) {
-			image = "5";
-		}else if (fightStat < 5000 && fightStat >= 3000) {
-			image = "6";
-		}else if ( fightStat > 5000) {
-			image = "7";
-		}
-
-		return image;
-	}
-
-	public static string getNumberOfShield(List<FightStat> fightStat){
 		
-		string image = "1";
+	public static string getShieldDescription(User user, List<FightStat> fightStat){
+	
+		string temlate = "Вы одержали {0} побед\n\nзаработав {1} баллов.\n\nВы получаете {2}.\n\nПоздравляем!";
+
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
 
-				image = getShieldNumByScore (c.Score);
+				var image = getShieldNumByScore (c.Score);
+				temlate = string.Format(temlate, c.RowWins, c.Score, image.description);
 
-//				if (c.Result * 100 <= 29) {
-//					image = "1";
-//				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-//					image = "2";
-//				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-//					image = "3";
-//				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-//					image = "4";
-//				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-//					image = "5";
-//				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-//					image = "6";
-//				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-//					image = "7";
+//				switch(image){
+//				case "2":
+//					image = string.Format(temlate, c.RowWins, c.Score, "СТАЛЬНОЙ ЩИТ");
+//					break;
+//				case "3":
+//					image = string.Format(temlate, c.RowWins, c.Score, "БРОНЗОВЫЙ ЩИТ");
+//					break;
+//				case "4":
+//					image = string.Format(temlate, c.RowWins, c.Score, "СЕРЕБРЯНЫЙ ЩИТ");
+//					break;
+//				case "5":
+//					image = string.Format(temlate, c.RowWins, c.Score, "ЗОЛОТОЙ ЩИТ");
+//					break;
+//				case "6":
+//					image = string.Format(temlate, c.RowWins, c.Score, "ПЛАТИНОВЫЙ ЩИТ");
+//					break;
+//				case "7":
+//					image = string.Format(temlate, c.RowWins, c.Score, "КРИСТАЛЬНЫЙ ЩИТ");
+//					break;
 //				}
+			}
+		}
+
+		return temlate;
+	}
+
+	public static shieldDataObj getShieldNumByScore(double fightStat){
+
+		for (int i = 0; i < shieldsArray.Length; i++) {
+			if (shieldsArray [i].startScore <= fightStat && shieldsArray [i].endScore >= fightStat) {
+				return shieldsArray [i];
+			}
+		}
+
+		return shieldsArray [0];
+
+//		string image = "1";
+//
+//		if (fightStat < 100) {
+//			image = "1";
+//		} else if (fightStat < 300 && fightStat >= 100) {
+//			image = "2";
+//		}else if (fightStat < 700 && fightStat >= 300) {
+//			image = "3";
+//		}else if (fightStat < 1500 && fightStat >= 700) {
+//			image = "4";
+//		}else if (fightStat < 3000 && fightStat >= 1500) {
+//			image = "5";
+//		}else if (fightStat < 5000 && fightStat >= 3000) {
+//			image = "6";
+//		}else if ( fightStat > 5000) {
+//			image = "7";
+//		}
+//
+//		return image;
+	}
+
+	public static shieldDataObj getNumberOfShield(List<FightStat> fightStat){
+		
+		foreach (var c in fightStat) {
+			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
+
+				return getShieldNumByScore (c.Score);
 
 			}
 		}
 
-		return image;
+		return shieldsArray[0];
 	}
 
 	public static void setAvatar(Image imgAvatar, List<FightStat> fightStat){
 	
-		string image = getNumberOfShield(fightStat);
-
-//		foreach (var c in fightStat) {
-//			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-//				if (c.Result * 100 <= 29) {
-//					image = "1";
-//				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-//					image = "2";
-//				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-//					image = "3";
-//				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-//					image = "4";
-//				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-//					image = "5";
-//				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-//					image = "6";
-//				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-//					image = "7";
-//				}
-//			}
-//		}
-
-		Sprite spr = null;
-		Texture2D tex = (Texture2D)Resources.Load(image);
-		if (tex != null) {
-			spr = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
-
-			imgAvatar.sprite = spr;
-		}
-	}
-
-	public static void setEagle(Image imgAvatar, List<FightStat> fightStat){
-
-		string image = "eagle1";
-		foreach (var c in fightStat) {
-			if (c.FightTypeId == 0) {
-				if (c.Fights < 50 ) {
-					image = "eagle1";
-				}
-				else if (c.Fights >= 50 && c.Fights < 300) {
-					image = "eagle2";
-				}else if (c.Fights >= 300 && c.Fights < 800) {
-					image = "eagle3";
-				}else if (c.Fights >= 800) {
-					image = "eagle4";
-				}
-			}
-		}
+		string image = getNumberOfShield(fightStat).shieldNumber;
 
 		Sprite spr = null;
 		Texture2D tex = (Texture2D)Resources.Load(image);
@@ -656,23 +680,7 @@ public static class Utility {
 
 	public static void setAvatarByState(Image imgAvatar, double fightStat){
 
-		string image = getShieldNumByScore (fightStat);
-
-//		if (fightStat * 100 <= 29) {
-//					image = "1";
-//		} else if (fightStat*100 <= 39 && fightStat*100 > 29) {
-//					image = "2";
-//		}else if (fightStat*100 <= 49 && fightStat*100 > 39) {
-//					image = "3";
-//		}else if (fightStat*100 <= 59 && fightStat*100 > 49) {
-//					image = "4";
-//		}else if (fightStat*100 <= 69 && fightStat*100 > 59) {
-//					image = "5";
-//		}else if (fightStat*100 <= 79 && fightStat*100 > 69) {
-//					image = "6";
-//		}else if (fightStat*100 <= 100 && fightStat*100 > 79) {
-//					image = "7";
-//		}
+		string image = getShieldNumByScore (fightStat).shieldNumber;
 
 		Sprite spr = null;
 		Texture2D tex = (Texture2D)Resources.Load(image);
@@ -688,7 +696,7 @@ public static class Utility {
 		double maxResult = -1;
 		int FightType = -1;
 
-		if (getNumberOfShield ( fightStat) != "1") {
+		if (getNumberOfShield ( fightStat).shieldNumber != "1") {
 			foreach (var c in fightStat) {
 				if (c.FightTypeId != 0) {
 					if (c.Result > maxResult) {
@@ -774,9 +782,4 @@ public static class Utility {
 
 		return new Color32(r, g, b, 1);
 	}
-
-//	public static double GetNumericPrice(this VirtualGood good)
-//	{
-//		return (good.PurchaseType as PurchaseWithMarket).MarketItem.Price;
-//	}
 }

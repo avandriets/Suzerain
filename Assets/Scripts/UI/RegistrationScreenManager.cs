@@ -419,7 +419,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 		if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
 		{ 
 			resultString = SystemInfo.deviceUniqueIdentifier;
-
+			Debug.Log ("DEVICE == " + resultString);
 		}else{
 			for (int i = 0; i < length; i++) {
 				resultString = resultString + chars [UnityEngine.Random.Range (0, chars.Length)];

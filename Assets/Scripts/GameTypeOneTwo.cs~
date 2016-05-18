@@ -172,7 +172,7 @@ public class GameTypeOneTwo : GameBase {
 		mTogleAnwer3.enabled = false;
 		mTogleAnwer4.enabled = false;
 
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(0);
 
 		isActiveForm = true;
 		inProgress = false;
