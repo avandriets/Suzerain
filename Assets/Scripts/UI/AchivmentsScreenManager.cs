@@ -118,8 +118,8 @@ public class AchivmentsScreenManager : MonoBehaviour {
 		TextRating.text = "0";//Rose.statList [0].LocalStatus.ToString ();
 
 		//if (lattitude == 0) {
-		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
-		StartCoroutine (GetLocation (GetStatisticWithLocation));
+			waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
+			StartCoroutine (GetLocation (GetStatisticWithLocation));
 		//}
 
 
@@ -270,6 +270,7 @@ public class AchivmentsScreenManager : MonoBehaviour {
 
 		if (request.error == null) {
 
+			Debug.Log ("Get friends URL ! " + request.url);
 			Debug.Log ("Get friends done ! " + request.text);
 
 			List<Friend> foundUsers;

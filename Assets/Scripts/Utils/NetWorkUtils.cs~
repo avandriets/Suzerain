@@ -59,7 +59,7 @@ public class NetWorkUtils : MonoBehaviour {
 		return postScoreURL;
 	}
 
-	public static string buildRequestGetLocalTopTen(float pLatitude, float pLongitude){
+	public static string buildRequestGetLocalTopTen(float pLongitude, float pLatitude){
 
 		Debug.Log ("build LogIn URL");
 
