@@ -11,7 +11,6 @@ public class MedalShowDialog : MonoBehaviour {
 	public Image		ShieldIcon;
 	public Button 		okButton;
 
-	//private ErrorPanel  errorPanel;
 
 	public void InitDialog(User user, List<FightStat> fightStat, UnityAction okEvent){
 		ShowMedalPanelObject.SetActive (true);

@@ -66,8 +66,8 @@ public class RoundResultDialog : MonoBehaviour {
 		GameObject.Find("TextRound").GetComponent<Text>().text = ScreensManager.LMan.getString ("@round");
 
 		//Show right answer
-		if(StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE 
-			&& (fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
+		if(/*StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE 
+			&& */ (fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
 			|| fight[fight.Count-1].FightTypeId == 5)){
 			rightAnswerObject.SetActive (true);
 			answerDescription.text = tasksList[answers.Count-1].GetRightAnswer();

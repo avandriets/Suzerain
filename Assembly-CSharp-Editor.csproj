@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AppMetrica\Editor\PostprocessBuildPlayerAppMetrica.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookBuild.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookConsoleEndpoint.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Editor\FacebookPostprocess.cs" />
@@ -55,8 +56,6 @@
      <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\FixupFiles.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListDict.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Editor\iOS\PListParser.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Editor\CocoaPodHelper.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Editor\PostProcessor.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\CocoaPodHelper.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
      <Compile Include="Assets\GooglePlayGames\Editor\GPGSDependencies.cs" />
@@ -91,7 +90,7 @@
      <None Include="Assets\FacebookSDK\SDK\Editor\android\DefaultAndroidManifest.xml" />
      <None Include="Assets\plugins\Android\Soomla\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
-     <None Include="Assets\plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Resources\lang.xml" />
      <None Include="Assets\plugins\WP8\Soomla\IAPMock.xml" />
@@ -101,6 +100,7 @@
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\FacebookSDK\SDK\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\JSON Tests\TroubleShoot.txt" />
+     <None Include="Assets\plugins\Android\AndroidManifest.xml" />
  <Reference Include="Assembly-UnityScript">
  <HintPath>/Users/AVAndriets/Suzerain/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
  </Reference>
@@ -146,8 +146,17 @@
  <Reference Include="UnityEditor.Android.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Common">
+ <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

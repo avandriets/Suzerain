@@ -7,7 +7,7 @@ using SimpleJSON;
 
 public delegate void GetLocationSuccessfully();
 
-public class AchivmentsScreenManager : MonoBehaviour {
+public class AchivmentsScreenManager : BaseUIClass {
 
 	public Text TextRating;
 	public Text TextCount;
@@ -20,10 +20,10 @@ public class AchivmentsScreenManager : MonoBehaviour {
 	public GameObject GOcolorRing;
 	public GameObject GOcaptionRing;
 
-	ScreensManager screensManager;
-
-	ErrorPanel	errorPanel 	= null;
-	WaitPanel	waitPanel 	= null;
+//	ScreensManager screensManager;
+//
+//	ErrorPanel	errorPanel 	= null;
+//	WaitPanel	waitPanel 	= null;
 
 	bool itIsGlobalStatus = true;
 

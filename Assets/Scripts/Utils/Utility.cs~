@@ -32,8 +32,7 @@ public static class Utility {
 
 	public static bool StopCoroutine = true;
 
-	public static bool	hide_ad = true;
-	public static bool	TESTING_MODE = true;
+	public static bool	TESTING_MODE	= false;
 	public static bool	ShowRightAnswer = true;
 
 	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
@@ -260,6 +259,7 @@ public static class Utility {
 		newObj.Token 	 	= N ["Token"].Value;
 		newObj.GameStatus  	= N ["GameStatus"].AsInt;
 		newObj.RankId  		= N ["RankId"].AsInt;
+		newObj.SysMessage	= N ["SysMessage"].Value;
 		
 		return newObj;
 	}
@@ -577,12 +577,12 @@ public static class Utility {
 				}
 			}
 
-			return getRunkByNumber (FightType);
+			//return getRunkByNumber (FightType);
 		} else {
 			return "";
 		}
 
-		return string.Format(temlate, FightTypeName(FightType), getRunkByNumber (FightType));
+		return string.Format(temlate, ScreensManager.LMan.getString(FightTypeName(FightType)), ScreensManager.LMan.getString(getRunkByNumber (FightType)));
 	}
 		
 	public static string getShieldDescription(User user, List<FightStat> fightStat){

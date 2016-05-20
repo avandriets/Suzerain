@@ -6,13 +6,14 @@ using SimpleJSON;
 using Soomla.Store;
 
 
-public class FriendsManager : MonoBehaviour {
+public class FriendsManager : BaseUIClass {
 
-	private WaitPanel	waitPanel  = null;
-	private ErrorPanel	errorPanel = null;
+//	private WaitPanel	waitPanel  = null;
+//	private ErrorPanel	errorPanel = null;
+//	ScreensManager		screensManager	= null;
+
 	private ErrorPanelTwoButtons errorPanelTwoButtons = null;
 
-	ScreensManager	screensManager	= null;
 
 	public	GameObject				friendButton;
 	public	Transform				ListFriendsPanel;
@@ -26,7 +27,7 @@ public class FriendsManager : MonoBehaviour {
 	public Text	searchField;
 
 	private Friend currentFriend;
-	private WaitOpponentDialog		waitForOpponentPanel	= null;
+	//private WaitOpponentDialog		waitForOpponentPanel	= null;
 
 	public LiveMessenger	messengerLive;
 
@@ -245,14 +246,14 @@ public class FriendsManager : MonoBehaviour {
 
 	public void FightButton(int pFightNum){
 	
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
+		//if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
 			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
 			OnlineGame ing = OnlineGame.instance;
 			ing.AskForFightWithFriend (CancelFightByServer, ReadyToFight, ErrorFightRequest, currentFriend.UserId, pFightNum);
-		} else {
-			errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PRO версии игры.", ErrorCancelByServer);
-		}
+		//} else {
+		//	errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PRO версии игры.", ErrorCancelByServer);
+		//}
 	}
 
 	public void CancelFightByUser(){

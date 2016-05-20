@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
-using GoogleMobileAds.Api;
 using Soomla.Store;
 
 public class WaitOpponentDialog : MonoBehaviour {
@@ -13,7 +12,6 @@ public class WaitOpponentDialog : MonoBehaviour {
 	public Text			header;
 
 	private WaitOpponentDialog waitOpponentPanel;
-	BannerView bannerView = null;
 
 	string[] suggestionArrayRus = {
 		"\"Знание есть сила, сила есть знание\"\n-Френсис Бэкон",
@@ -206,12 +204,6 @@ public class WaitOpponentDialog : MonoBehaviour {
 
 	public void SetText(string text, UnityAction cancelEvent){
 
-		//if (!Utility.StopCoroutine) {
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0 && !Utility.hide_ad) {
-				RequestBanner ();
-			}
-		//}
-
 		SoundManager.ChoosePlayMusic (Constants.SoundWaiting);
 
 		fightRequestPanelObject.SetActive (true);
@@ -236,50 +228,7 @@ public class WaitOpponentDialog : MonoBehaviour {
 	public void ClosePanel () {
 		fightRequestPanelObject.SetActive (false);
 
-		if (bannerView != null) {
-			bannerView.Hide ();
-			bannerView.Destroy();
-		}
 		//SoundManager.ChoosePlayMusic (0);
-	}
-
-	private void RequestBanner()
-	{
-		#if UNITY_ANDROID
-		string adUnitId = Constants.BANNER_ID_KEY_ANDROID;
-		#elif UNITY_IPHONE
-		string adUnitId = Constants.BANNER_ID_KEY_IOS;
-		#else
-		string adUnitId = "unexpected_platform";
-		#endif
-
-
-		// Create a 320x50 banner at the top of the screen.
-		bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Top);
-//		bannerView.OnAdLoaded += (object sender, System.EventArgs e) => {
-//			Debug.Log("ВОТ ОНО");
-//			bannerView.Show ();
-//		};
-
-		bannerView.OnAdLoaded += HandleAdLoaded;
-
-		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder()
-		.TagForChildDirectedTreatment(true)
-		.Build();
-
-//		AdRequest request = new AdRequest.Builder()
-//		.AddTestDevice(AdRequest.TestDeviceSimulator)       // Simulator.
-//		.AddTestDevice("2077ef9a63d2b398840261c8221a0c9b")  // My test device.
-//		.Build();
-
-		// Load the banner with the request.
-		bannerView.LoadAd(request);
-		//bannerView.Show ();
-	}
-
-	public void HandleAdLoaded(object sender, System.EventArgs args) {
-		bannerView.Show ();
 	}
 
 }

@@ -225,6 +225,7 @@ public class OnlineGame : MonoBehaviour
 		while (!request.isDone) {
 			yield return null;
 		}
+		currentFight = null;
 	}
 
 	public IEnumerator GetTaskRequest (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
@@ -1133,7 +1134,13 @@ public class OnlineGame : MonoBehaviour
 		} else if(localFightStae.FightState == 4){
 			
 			fightCanceled = true;
-			errP = screenManager.ShowErrorDialog ("Ваш противник покинул поединок.\n\nБой расформирован.", CancelFightWaitingForRoundResult);
+			string template = "Ваш проитвник покинул поединок.\n Вам присуждена победа.\n Вы получаете 2-ва балла.";
+
+			if (currentFight.Winner != UserController.currentUser.Id) {
+				template = "Ваш противник покинул поединок.\n\nБой расформирован.";
+			}
+
+			errP = screenManager.ShowErrorDialog (template, CancelFightWaitingForRoundResult);
 		}
 
 	}

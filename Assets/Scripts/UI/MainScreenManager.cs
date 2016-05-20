@@ -2,21 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using GoogleMobileAds.Api;
 using UnityEngine.Events;
 using Soomla.Store;
 using Facebook.Unity;
 
 
-public class MainScreenManager : MonoBehaviour
+public class MainScreenManager : BaseUIClass
 {
-	private WaitPanel	waitPanel = null;
-	private ErrorPanel	errorPanel = null;
-	private WaitOpponentDialog waitForOpponentPanel	= null;
-	private InstructionDialog instDialog = null;
 
 	UserController user_controller = null;
-	ScreensManager	screensManager	= null;
+	bool firstStart = false;
 
 	public RectTransform firstRing;
 	public RectTransform secondRing;
@@ -33,97 +28,32 @@ public class MainScreenManager : MonoBehaviour
 	SoundManager soundMan = null;
 	public Toggle muteButton;
 
-	public static int gameCounts = Constants.adShowsCount;
 	public MedalShowDialog	shieldDialog;
 	public RankDialog		rankDialog;
-	bool firstStart = false;
-
-	InterstitialAd interstitial;
 	public static GoogleAnalyticsV4 googleAnalytics;
-
 	public GameObject spr1;
 	public GameObject spr2;
 
-	private int CurrentTypeGame = Constants.RANDOM_GAME;
 	public Text GameTypeCaption;
 
-	BannerView bannerView = null;
-
 	public LiveMessenger	messengerLive;
-
-	public AcceptFightWithFriend mAcceptFightDialogWithFriend;
 
 	public GameObject ProRing;
 	public GameObject UsualRing;
 
-	int currentFightId = -1;
 	public InitSocialNetworks	initNetwork;
 	public FightsPanel			mFightPanel;
 
-	void Start ()
-	{
-
-		//initNetwork.InitNetworks ();
-		//Turn off banners show
-		if (false) {
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-				RequestBanner ();
-			}
-		}
-
-	}
-
-	private void RequestBanner ()
-	{
-		#if UNITY_ANDROID
-		string adUnitId = Constants.BANNER_ID_KEY_ANDROID;
-		#elif UNITY_IPHONE
-		string adUnitId = Constants.BANNER_ID_KEY_IOS;
-		#else
-		string adUnitId = "unexpected_platform";
-		#endif
-
-
-		// Create a 320x50 banner at the top of the screen.
-		bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Top);
-
-		bannerView.OnAdLoaded += HandleAdLoaded;
-
-		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder ()
-		.TagForChildDirectedTreatment (true)
-		.Build ();
-
-		// Load the banner with the request.
-		bannerView.LoadAd (request);
-	}
-
-	public void HandleAdLoaded (object sender, System.EventArgs args)
-	{
-		bannerView.Show ();
-	}
+	protected InstructionDialog 	instDialog 				= null;
 
 	void OnEnable ()
 	{
-
-//		if (!initNetwork.WasInit) {
-//			initNetwork.InitNetworks ();
-//		}
-
+		
 		googleAnalytics = GameObject.Find ("GAv4").GetComponent<GoogleAnalyticsV4> ();
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 
 		InitUser ();
 		StartCoroutine (RotateRings ());
-
-		if (gameCounts == 0) {
-
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0 && !Utility.hide_ad) {				
-				RequestInterstitial ();
-			}
-
-			gameCounts = Constants.adShowsCount;
-		}
 
 		centerElement.toZeroPosition ();
 
@@ -141,21 +71,6 @@ public class MainScreenManager : MonoBehaviour
 			handleCheckbox (value);       // this is just a basic method call within another method
 		}   // and this one
 		);
-
-		//Turn off banner show
-		if (false) {
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-				RequestBanner ();
-			}
-		}
-	}
-
-	void OnDisable ()
-	{
-		if (bannerView != null) {
-			bannerView.Hide ();
-			bannerView.Destroy ();
-		}
 	}
 
 	void handleCheckbox (bool value)
@@ -182,12 +97,16 @@ public class MainScreenManager : MonoBehaviour
 
 	public void OnFightClick (int pFightType)
 	{
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType > 0) {
-			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
-			OnlineGame ing = OnlineGame.instance;
-			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
-		}
+		return;
+
+		//TODO fight choice
+//		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType > 0) {
+//			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
+//
+//			OnlineGame ing = OnlineGame.instance;
+//			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+//		}
 	}
 
 	public void MainButtonFightClick(){
@@ -225,19 +144,6 @@ public class MainScreenManager : MonoBehaviour
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void CancelFightByServer (Fight pfight)
-	{
-
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@fight_finished_by_server"), ErrorCancelByServer);
-		SoundManager.ChoosePlayMusic (0);
-	}
-
 	public void ReadyToFight ()
 	{
 		
@@ -249,26 +155,7 @@ public class MainScreenManager : MonoBehaviour
 
 		screensManager.ShowGameScreen ();
 	}
-
-	public void ErrorFightRequest ()
-	{
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
-		SoundManager.ChoosePlayMusic (0);
-	}
-
-	public void ErrorCancelByServer ()
-	{
-		GameObject.Destroy (errorPanel.gameObject);
-		errorPanel = null;
-		SoundManager.ChoosePlayMusic (0);
-	}
-
+		
 	public void onClickClearSettings ()
 	{
 		PlayerPrefs.DeleteAll ();
@@ -361,6 +248,13 @@ public class MainScreenManager : MonoBehaviour
 				//Utility.setEagle (eagle, Rose.statList);
 			}
 
+			if (UserController.currentUser.SysMessage != null && UserController.currentUser.SysMessage.Length > 0) {
+				string sysMessage = UserController.currentUser.SysMessage;
+				UserController.currentUser.SysMessage = "";
+
+				errorPanel = screensManager.ShowErrorDialog (sysMessage, ErrorCancelByServer);
+			}
+
 		} else {
 			if (source_error == Constants.LOGIN_ERROR) {				
 				errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@connection_error"), OnErrorButtonClick);
@@ -383,12 +277,10 @@ public class MainScreenManager : MonoBehaviour
 
 	public void OnErrorButtonClick ()
 	{
-
 		GameObject.Destroy (errorPanel.gameObject);
 		errorPanel = null;
 
 		Application.Quit ();
-
 	}
 
 	void Update ()
@@ -409,91 +301,6 @@ public class MainScreenManager : MonoBehaviour
 			UnityEditor.EditorApplication.isPlaying = false;
 			#endif
 		}
-	}
-
-	private void RequestInterstitial ()
-	{
-		if (interstitial != null) {
-			interstitial.Destroy ();
-			interstitial = null;
-		}
-		
-		#if UNITY_ANDROID
-		string adUnitId = Constants.FULL_SIZE_BANNER_ID_KEY_ANDROID;
-		#elif UNITY_IPHONE
-		string adUnitId = Constants.FULL_SIZE_BANNER_ID_KEY_IOS;
-		#else
-		string adUnitId = "unexpected_platform";
-		#endif
-
-		// Initialize an InterstitialAd.
-		interstitial = new InterstitialAd (adUnitId);
-
-		interstitial.OnAdLoaded += HandleOnAdLoaded;
-
-		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder ()
-		.TagForChildDirectedTreatment (true)
-		.Build ();
-		// Load the interstitial with the request.
-		interstitial.LoadAd (request);
-	}
-
-	public void HandleOnAdLoaded (object sender, System.EventArgs args)
-	{
-		Debug.Log ("AdMOB big was loaded");
-		// Handle the ad loaded event.
-
-		if (interstitial.IsLoaded ()) {
-			interstitial.Show ();
-		}
-	}
-
-	public void AskForFightFromFriend (int fightId)
-	{
-
-		currentFightId = fightId;
-		OnlineGame ing = OnlineGame.instance;
-
-		ing.InitGameParameters (true, true);
-
-		StartCoroutine (ing.StateFightRequestWithFriendByID (fightId, CancelFightByServer, ReadyToFightWithFriend, ErrorFightRequest));
-
-	}
-
-	public void ReadyToFightWithFriend ()
-	{
-		mAcceptFightDialogWithFriend.ShowDialog (AcceptFightWithFriend, CancelFightWithFriend);		
-	}
-
-	public void AcceptFightWithFriend ()
-	{
-
-		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
-		OnlineGame ing = OnlineGame.instance;
-		StartCoroutine (ing.AcceptFightWithFriendByID (currentFightId, CancelFightByServer, IntoFight, ErrorFightRequest));		
-	}
-
-	public void IntoFight ()
-	{
-
-		if (waitPanel != null)
-			screensManager.CloseWaitPanel (waitPanel);
-
-		screensManager.ShowGameScreen ();
-	}
-
-	public void CancelFightWithFriend ()
-	{
-
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		OnlineGame ing = OnlineGame.instance;
-		ing.CancelFightWithFriend ();
 	}
 
 }

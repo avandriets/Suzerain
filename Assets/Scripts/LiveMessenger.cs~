@@ -16,9 +16,11 @@ public class LiveMessenger : MonoBehaviour {
 
 	float startingTime = 0;
 
+	OnlineGame ing;
 
 	public void StartPulseRequest(){
 
+		ing = OnlineGame.instance;
 		screensManager	= ScreensManager.instance;
 
 		if (!pulseWasStarted) {
@@ -53,11 +55,19 @@ public class LiveMessenger : MonoBehaviour {
 			var N = JSON.Parse(request.text);
 			var mGetResult = N["GetPulseResult"].AsInt;
 
-			if (mGetResult != 0 && fightId != mGetResult && screensManager.mMainScreenCanvas == screensManager.currentScreenCanvas) {
+			if (mGetResult != 0 && fightId != mGetResult && 
+				(screensManager.mMainScreenCanvas == screensManager.currentScreenCanvas 
+					|| screensManager.mAchivmentScreenCanvas == screensManager.currentScreenCanvas
+					|| screensManager.mProfileScreenCanvas == screensManager.currentScreenCanvas
+					|| screensManager.mFriendsScreenCanvas == screensManager.currentScreenCanvas) &&
+				ing.currentFight == null) {
 
-				//screensManager.ShowMainScreen ();
+				BaseUIClass scrOfApp = (BaseUIClass)screensManager.currentScreenCanvas.GetComponent(typeof(BaseUIClass));
 				fightId = mGetResult;
-				mainScreen.AskForFightFromFriend (mGetResult);
+
+				screensManager.mStartScreenCanvas = screensManager.currentScreenCanvas;
+
+				scrOfApp.AskForFightFromFriend (mGetResult);
 
 				Debug.Log ("You was asked to fight ! ");
 			}
@@ -68,7 +78,6 @@ public class LiveMessenger : MonoBehaviour {
 			Debug.LogError ("WWW Error: " + request.error);
 			Debug.LogError ("WWW Error: " + request.text);
 		}
-
 	}
 
 	IEnumerator InitSearchList(){

@@ -14,6 +14,8 @@ public class ScreensManager : MonoBehaviour {
 	public GameObject mAchivmentScreenCanvas;
 	public GameObject mFriendsScreenCanvas;
 
+	public GameObject mStartScreenCanvas = null;
+
 	public GameObject	currentScreenCanvas = null;
 
 	public WaitPanel			waitPanel;
@@ -22,6 +24,8 @@ public class ScreensManager : MonoBehaviour {
 	public WaitOpponentDialog	waitOpponentDialog;
 	public RoundResultDialog	roundResultDialog;
 	public InstructionDialog	instDialog;
+	public AcceptFightWithFriend	fightWithFriendDialog;
+
 
 	public static Lang 	LMan;
 
@@ -328,5 +332,22 @@ public class ScreensManager : MonoBehaviour {
 			GameObject.Destroy (NewWaitPanel.gameObject);
 			NewWaitPanel = null;
 		}
+	}
+
+	public AcceptFightWithFriend CreateFightWithFriendDialog(){
+
+		AcceptFightWithFriend NewPanel = Instantiate(fightWithFriendDialog) as AcceptFightWithFriend;
+
+		//NewPanel.SetText(message, cancelButtonEvent);
+
+		NewPanel.transform.SetParent(currentScreenCanvas.transform);
+		NewPanel.transform.localScale = new Vector3(1,1,1);
+
+		RectTransform rctr = NewPanel.GetComponent<RectTransform>();
+		rctr.offsetMax = new Vector2(0,0);
+		rctr.offsetMin = new Vector2(0,0);
+		rctr.anchoredPosition3D = new Vector3(0,0,0);
+
+		return NewPanel;
 	}
 }

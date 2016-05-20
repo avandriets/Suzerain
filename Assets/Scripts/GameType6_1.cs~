@@ -38,7 +38,7 @@ public class GameType6_1 : GameBase {
 
 	}
 
-	protected IEnumerator WaitForReading(){
+	protected new IEnumerator WaitForReading(){
 
 		inProgress = true;
 		isActiveForm = false;

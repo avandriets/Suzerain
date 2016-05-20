@@ -162,7 +162,7 @@ public class GameTypeOneTwo : GameBase {
 		StartCoroutine (WaitForReading ());
 	}
 
-	protected IEnumerator WaitForReading(){
+	protected new IEnumerator WaitForReading(){
 
 		inProgress = true;
 		isActiveForm = false;

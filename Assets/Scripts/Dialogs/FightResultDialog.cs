@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using GoogleMobileAds.Api;
 using Soomla.Store;
 
 
@@ -24,14 +23,8 @@ public class FightResultDialog : MonoBehaviour
 
 	public List<Image>	fightsImageList;
 
-	BannerView bannerView = null;
-
 	public void SetText (string text, int fightState, UnityAction okEvent, List<Fight> fight, string scrUs, string pRightAnswer)
 	{
-
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0 && !Utility.hide_ad) {
-			RequestBanner ();
-		}
 
 		Sprite spriteDraft		= null;
 		Sprite spriteWin		= null;
@@ -112,7 +105,7 @@ public class FightResultDialog : MonoBehaviour
 		okButton.gameObject.SetActive (true);
 
 		//Show right answer
-		if(StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE && fight.Count == 1 && 
+		if(/*StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE &&*/ fight.Count == 1 && 
 			(fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
 				|| fight[fight.Count-1].FightTypeId == 5)){
 
@@ -130,39 +123,5 @@ public class FightResultDialog : MonoBehaviour
 
 		fightResultPanelObject.SetActive (false);
 
-		if (bannerView != null) {
-			bannerView.Hide ();
-			bannerView.Destroy ();
-		}
-	}
-
-	private void RequestBanner ()
-	{
-		#if UNITY_ANDROID
-		string adUnitId = Constants.BANNER_ID_KEY_ANDROID;
-		#elif UNITY_IPHONE
-		string adUnitId = Constants.BANNER_ID_KEY_IOS;
-		#else
-		string adUnitId = "unexpected_platform";
-		#endif
-
-
-		// Create a 320x50 banner at the top of the screen.
-		bannerView = new BannerView (adUnitId, AdSize.Banner, AdPosition.Top);
-
-		bannerView.OnAdLoaded += HandleAdLoaded;
-
-		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder ()
-		.TagForChildDirectedTreatment (true)
-		.Build ();
-
-		// Load the banner with the request.
-		bannerView.LoadAd (request);
-	}
-
-	public void HandleAdLoaded (object sender, System.EventArgs args)
-	{
-		bannerView.Show ();
 	}
 }

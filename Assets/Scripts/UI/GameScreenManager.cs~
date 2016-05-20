@@ -264,7 +264,7 @@ public class GameScreenManager : MonoBehaviour {
 
 		} else {
 			
-			if (ong.currentFight.IsDraw == true) {			
+			if (ong.currentFight.IsDraw == true) {
 				fightResultDialog.SetText (
 					FightResultDescription.getExtendetDraftDescription (ong.fightsList[0]), 
 					0, 
@@ -327,18 +327,35 @@ public class GameScreenManager : MonoBehaviour {
 			gameType7.gameObject.SetActive (false);
 		}
 
-		MainScreenManager.gameCounts -= 1;
-
 		if (errorPanel != null) {
 			GameObject.Destroy (errorPanel.gameObject);
 			errorPanel = null;
 		}
 
-		if(!ong.mFightWithFriend || (ong.mFightWithFriend && ong.mFriendsFightOpponent))
-			screenManager.ShowMainScreen ();
+		if (!ong.mFightWithFriend || (ong.mFightWithFriend && ong.mFriendsFightOpponent)) {			
+
+			if (screenManager.mStartScreenCanvas != null) {
+
+				if (screenManager.mStartScreenCanvas == screenManager.mFriendsScreenCanvas) {
+					screenManager.ShowFriendsScreen ();
+				} else if (screenManager.mStartScreenCanvas == screenManager.mProfileScreenCanvas) {
+					screenManager.ShowProfileScreen ();
+				} else if (screenManager.mStartScreenCanvas == screenManager.mAchivmentScreenCanvas) {
+					screenManager.ShowAchivmentsScreen ();
+				} else {
+					screenManager.ShowMainScreen ();
+				}
+
+			}else{
+				screenManager.ShowMainScreen ();
+			}
+				
+			screenManager.mStartScreenCanvas = null;
+		}
 		else
 			screenManager.ShowFriendsScreen ();
-		
+
+		ong.currentFight = null;
 	}
 
 }

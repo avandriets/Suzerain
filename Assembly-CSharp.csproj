@@ -45,6 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AppMetrica\AppMetrica.cs" />
+     <Compile Include="Assets\AppMetrica\ExampleUI\AnotherSceneManager.cs" />
+     <Compile Include="Assets\AppMetrica\ExampleUI\MainSceneManager.cs" />
+     <Compile Include="Assets\AppMetrica\ExampleUI\PopUp.cs" />
+     <Compile Include="Assets\AppMetrica\IYandexAppMetrica.cs" />
+     <Compile Include="Assets\AppMetrica\YMMJSONUtils.cs" />
+     <Compile Include="Assets\AppMetrica\YandexAppMetricaAndroid.cs" />
+     <Compile Include="Assets\AppMetrica\YandexAppMetricaConfig.cs" />
+     <Compile Include="Assets\AppMetrica\YandexAppMetricaDummy.cs" />
+     <Compile Include="Assets\AppMetrica\YandexAppMetricaIOS.cs" />
      <Compile Include="Assets\Examples\MuffinRush\Example.cs" />
      <Compile Include="Assets\Examples\MuffinRush\ExampleEventHandler.cs" />
      <Compile Include="Assets\Examples\MuffinRush\ExampleWindow.cs" />
@@ -143,39 +153,6 @@
      <Compile Include="Assets\FacebookSDK\SDK\Scripts\Utils\MiniJson.cs" />
      <Compile Include="Assets\FacebookSDK\SDK\Scripts\Utils\Utilities.cs" />
      <Compile Include="Assets\GPGSids.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\AdFailedToLoadEventArgs.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\AdPosition.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\AdRequest.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\AdSize.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\BannerView.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\Gender.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\ICustomInAppPurchase.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\ICustomInAppPurchaseProcessor.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\IDefaultInAppPurchaseProcessor.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\IInAppPurchaseResult.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\InterstitialAd.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\Reward.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Api\RewardBasedVideoAd.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Common\DummyClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Common\IBannerClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Common\IInterstitialClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Common\IRewardBasedVideoAdClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\BannerClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\CustomInAppPurchaseListener.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\DefaultInAppPurchaseListener.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InAppPurchase.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InAppPurchaseResult.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\InterstitialClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\RewardBasedVideoAdClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\Android\Utils.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\GoogleMobileAdsClientFactory.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\BannerClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\Externs.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\InterstitialClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\MonoPInvokeCallbackAttribute.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\RewardBasedVideoAdClient.cs" />
-     <Compile Include="Assets\GoogleMobileAds\Platforms\iOS\Utils.cs" />
-     <Compile Include="Assets\GoogleMobileAdsDemoScript.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\Achievement.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\CommonStatusCodes.cs" />
      <Compile Include="Assets\GooglePlayGames\BasicApi\CommonTypes.cs" />
@@ -408,6 +385,7 @@
      <Compile Include="Assets\Scripts\PurchaseManager.cs" />
      <Compile Include="Assets\Scripts\ScreensManager.cs" />
      <Compile Include="Assets\Scripts\UI\AchivmentsScreenManager.cs" />
+     <Compile Include="Assets\Scripts\UI\BaseUIClass.cs" />
      <Compile Include="Assets\Scripts\UI\FriendsManager.cs" />
      <Compile Include="Assets\Scripts\UI\GameScreenManager.cs" />
      <Compile Include="Assets\Scripts\UI\MainScreenManager.cs" />
@@ -430,7 +408,7 @@
      <None Include="Assets\FacebookSDK\SDK\Editor\android\DefaultAndroidManifest.xml" />
      <None Include="Assets\plugins\Android\Soomla\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />
-     <None Include="Assets\plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\AndroidManifest.xml" />
      <None Include="Assets\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Resources\lang.xml" />
      <None Include="Assets\plugins\WP8\Soomla\IAPMock.xml" />
@@ -440,6 +418,7 @@
      <None Include="Assets\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\FacebookSDK\SDK\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\JSON Tests\TroubleShoot.txt" />
+     <None Include="Assets\plugins\Android\AndroidManifest.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
