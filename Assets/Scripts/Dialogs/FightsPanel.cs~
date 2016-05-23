@@ -10,6 +10,9 @@ public class FightsPanel : MonoBehaviour {
 	public Button 		randomFightButton;
 	public Button 		friendFightButton;
 
+	public Button 		trienerFightButton;
+	public Button 		tornamentFightButton;
+
 	public void SetText(AskForFightDelegate pFightDelegate){
 		fightPanelObject.SetActive (true);
 
@@ -23,6 +26,15 @@ public class FightsPanel : MonoBehaviour {
 		friendFightButton.onClick.AddListener (ClosePanel);
 		friendFightButton.gameObject.SetActive (true);
 
+		trienerFightButton.onClick.RemoveAllListeners();
+		trienerFightButton.onClick.AddListener (() => pFightDelegate(-5));
+		trienerFightButton.onClick.AddListener (ClosePanel);
+		trienerFightButton.gameObject.SetActive (true);
+
+		tornamentFightButton.onClick.RemoveAllListeners();
+		tornamentFightButton.onClick.AddListener (() => pFightDelegate(-6));
+		tornamentFightButton.onClick.AddListener (ClosePanel);
+		tornamentFightButton.gameObject.SetActive (true);
 	}
 
 	public void ClosePanel () {

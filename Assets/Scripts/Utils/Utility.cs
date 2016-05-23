@@ -593,7 +593,11 @@ public static class Utility {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
 
 				var image = getShieldNumByScore (c.Score);
-				temlate = string.Format(temlate, c.RowWins, c.Score, image.description);
+				if (image.shieldNumber != "1")
+					temlate = string.Format (temlate, c.RowWins, c.Score, image.description);
+				else {
+					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nПоздравляем и желаем хороших дуэлей!";
+				}
 
 //				switch(image){
 //				case "2":

@@ -46,6 +46,8 @@ public class MainScreenManager : BaseUIClass
 
 	protected InstructionDialog 	instDialog 				= null;
 
+	public InvitationDialog invitationDlg;
+
 	void OnEnable ()
 	{
 		
@@ -132,6 +134,10 @@ public class MainScreenManager : BaseUIClass
 
 		} else if (pFightType == -1) {
 			screensManager.ShowFriendsScreen ();
+		}else if (pFightType == -5) {
+			errorPanel = screensManager.ShowErrorDialog ("Сезон тренировок для подготовки к «Летнему турниру Сюзерена» начнется в июне 2016 года", ErrorCancelByServer);
+		}else if (pFightType == -6) {
+			errorPanel = screensManager.ShowErrorDialog ("Ближайший «Летний турнир Сюзерена» начнется в июле 2016 года", ErrorCancelByServer);
 		}
 
 	}
@@ -207,7 +213,12 @@ public class MainScreenManager : BaseUIClass
 
 			if (Rose.statList.Count > 0) {
 				if (Rose.statList [0].Fights >= Constants.fightsCount) {
-					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
+					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));
+
+					if (TextRank.text.Length == 0) {
+						TextRank.text = Rose.statList [0].Fights.ToString ();
+					}
+
 				} else {
 					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
 				}
@@ -229,7 +240,11 @@ public class MainScreenManager : BaseUIClass
 			}
 
 			if (firstStart) {
+
 				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
+
+				invitationDlg.ShowDialog ();
+
 				firstStart = false;
 			}
 
