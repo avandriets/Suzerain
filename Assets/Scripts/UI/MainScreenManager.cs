@@ -243,9 +243,16 @@ public class MainScreenManager : BaseUIClass
 
 				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
 
-				invitationDlg.ShowDialog ();
-
 				firstStart = false;
+			}
+
+			int showInvitation = 1;
+			if (PlayerPrefs.HasKey ("showInvitation")) {
+				showInvitation = 0;
+			}
+			else {
+				PlayerPrefs.SetInt ("showInvitation", 1);
+				invitationDlg.ShowDialog ();
 			}
 
 			Utility.setAvatar (avatar, Rose.statList);

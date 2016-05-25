@@ -6,8 +6,6 @@ using System;
 using SimpleJSON;
 using UnityEngine.Events;
 using System.IO;
-using GooglePlayGames;
-using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 using Facebook.Unity;
 
@@ -30,6 +28,8 @@ public class RegistrationScreenManager : MonoBehaviour {
 	public GameObject FaceBook;
 	public GameObject Login_Password;
 	public GameObject TypeLogin_Panel;
+
+	public GameObject googleButton;
 
 	public InitSocialNetworks initNetwork;
 
@@ -58,6 +58,10 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 	void OnEnable() {
 	
+		#if UNITY_IPHONE || UNITY_IOS
+			googleButton.SetActive (false);
+		#endif
+
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Registration screen"));
 
 		initNetwork.InitNetworks ();

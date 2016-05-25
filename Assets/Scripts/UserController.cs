@@ -86,12 +86,17 @@ public class UserController : MonoBehaviour {
 		if ((regType != Constants.LOGIN_PASS && AccessToken.Length > 0) || regType == Constants.LOGIN_PASS) {
 			StartCoroutine (LogInThread (postLogInExecute, longitiude, latitude));
 
-		} else if (regType == Constants.FACEBOOK && AccessToken.Length == 0) {		
+		} else if (regType == Constants.FACEBOOK && AccessToken.Length == 0) {
+			
+			Debug.Log ("FB ASK INIT");
 			if (!FB.IsInitialized) {
 				// Initialize the Facebook SDK
+				Debug.Log ("FB NOT IsInitialized");
 				FB.Init (InitCallback, null);
 			} else {
+				Debug.Log ("FB IsInitialized");
 				// Already initialized, signal an app activation App Event
+				Debug.Log ("FB ActivateApp ()");
 				FB.ActivateApp ();
 				initNetwork.RenewToken (SucsessGetToken, FailGetToken, regType);
 			}
@@ -168,10 +173,19 @@ public class UserController : MonoBehaviour {
 				}
 
 				User loginUser = Utility.ParseGetUserResponse (mLoginResult.ToString ());
-				UserController.currentUser = loginUser;
-				authenticated = true;
-				reNewStatistic = false;
-				ScreensManager.instance.InitLanguage ();
+				if (loginUser.Id != -1) {
+					UserController.currentUser = loginUser;
+					authenticated = true;
+					reNewStatistic = false;
+					ScreensManager.instance.InitLanguage ();
+				} else {
+					authenticated = false;
+					reNewStatistic = false;
+					Debug.Log ("WWW login error: " + www.error);
+					error = true;
+
+					postLogInExecute (true, "login error", loginUser.SysMessage);
+				}
 				//language			= currentUser.Language;
 			} else {
 				authenticated = false;

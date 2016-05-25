@@ -598,27 +598,6 @@ public static class Utility {
 				else {
 					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nПоздравляем и желаем хороших дуэлей!";
 				}
-
-//				switch(image){
-//				case "2":
-//					image = string.Format(temlate, c.RowWins, c.Score, "СТАЛЬНОЙ ЩИТ");
-//					break;
-//				case "3":
-//					image = string.Format(temlate, c.RowWins, c.Score, "БРОНЗОВЫЙ ЩИТ");
-//					break;
-//				case "4":
-//					image = string.Format(temlate, c.RowWins, c.Score, "СЕРЕБРЯНЫЙ ЩИТ");
-//					break;
-//				case "5":
-//					image = string.Format(temlate, c.RowWins, c.Score, "ЗОЛОТОЙ ЩИТ");
-//					break;
-//				case "6":
-//					image = string.Format(temlate, c.RowWins, c.Score, "ПЛАТИНОВЫЙ ЩИТ");
-//					break;
-//				case "7":
-//					image = string.Format(temlate, c.RowWins, c.Score, "КРИСТАЛЬНЫЙ ЩИТ");
-//					break;
-//				}
 			}
 		}
 
@@ -634,26 +613,6 @@ public static class Utility {
 		}
 
 		return shieldsArray [0];
-
-//		string image = "1";
-//
-//		if (fightStat < 100) {
-//			image = "1";
-//		} else if (fightStat < 300 && fightStat >= 100) {
-//			image = "2";
-//		}else if (fightStat < 700 && fightStat >= 300) {
-//			image = "3";
-//		}else if (fightStat < 1500 && fightStat >= 700) {
-//			image = "4";
-//		}else if (fightStat < 3000 && fightStat >= 1500) {
-//			image = "5";
-//		}else if (fightStat < 5000 && fightStat >= 3000) {
-//			image = "6";
-//		}else if ( fightStat > 5000) {
-//			image = "7";
-//		}
-//
-//		return image;
 	}
 
 	public static shieldDataObj getNumberOfShield(List<FightStat> fightStat){

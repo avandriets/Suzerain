@@ -2,9 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
+using UnityEngine.SocialPlatforms;
+
+#if UNITY_ANDROID
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms;
+#endif
 
 
 public class InitSocialNetworks : MonoBehaviour {
@@ -42,24 +45,27 @@ public class InitSocialNetworks : MonoBehaviour {
 
 	public void InitGoogle(){
 
-		Debug.Log ("INIT InitGoogle START");
-		PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ()            
-		.RequireGooglePlus ()
-		.Build ();
+		#if UNITY_ANDROID
+			Debug.Log ("INIT InitGoogle START");
+			PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder ()            
+				.RequireGooglePlus ()
+				.Build ();
 
-		Debug.Log ("INIT InitGoogle InitializeInstance");
-		PlayGamesPlatform.InitializeInstance (config);
-		// recommended for debugging:
+			Debug.Log ("INIT InitGoogle InitializeInstance");
+			PlayGamesPlatform.InitializeInstance (config);
+			// recommended for debugging:
 
-		Debug.Log ("INIT InitGoogle DebugLogEnabled");
-		PlayGamesPlatform.DebugLogEnabled = true;
-		// Activate the Google Play Games platform
+			Debug.Log ("INIT InitGoogle DebugLogEnabled");
+			PlayGamesPlatform.DebugLogEnabled = true;
+			// Activate the Google Play Games platform
 
-		Debug.Log ("INIT InitGoogle Activate");
-		PlayGamesPlatform.Activate ();
+			Debug.Log ("INIT InitGoogle Activate");
+			PlayGamesPlatform.Activate ();
 
-		Debug.Log ("INIT InitGoogle Activate END"); 
-		WasInit = true;
+			Debug.Log ("INIT InitGoogle Activate END"); 
+			WasInit = true;
+		#endif
+
 	}
 
 	private void InitFB(){
@@ -89,6 +95,8 @@ public class InitSocialNetworks : MonoBehaviour {
 
 	public void GoogleGetToken(SucsessRegistrationDelegate successDlg, FailRegistrationDelegate failDlg){
 
+		#if UNITY_ANDROID
+
 		if (!Social.localUser.authenticated) {
 			// Authenticate
 
@@ -110,13 +118,17 @@ public class InitSocialNetworks : MonoBehaviour {
 					failDlg(Constants.GOOGLE_PLAY);
 				}
 			});
-		} 
+		}
+
+		#endif
 	}
 
 	public void RenewToken(SucsessRegistrationDelegate successDlg, FailRegistrationDelegate failDlg, int regType){
 
 		Debug.Log ("INIT RenewToken"); 
 		if (regType == Constants.GOOGLE_PLAY) {
+
+			#if UNITY_ANDROID
 
 			if (!Social.localUser.authenticated) {
 				// Authenticate
@@ -156,6 +168,8 @@ public class InitSocialNetworks : MonoBehaviour {
 				);
 
 			}
+
+			#endif
 		}else {
 			FBLogin (successDlg, failDlg);
 		}
@@ -163,26 +177,25 @@ public class InitSocialNetworks : MonoBehaviour {
 
 	IEnumerator getGoogleToken(SucsessRegistrationDelegate successDlg){
 
-		string mStatusText = "Welcome " + Social.localUser.userName;
-		mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
-		mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
-		mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
+		#if UNITY_ANDROID
+			string mStatusText = "Welcome " + Social.localUser.userName;
+			mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
+			mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
+			mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
 
-		yield return new WaitForSeconds (5);
+			yield return new WaitForSeconds (5);
 
-//		mStatusText = "Welcome " + Social.localUser.userName;
-//		mStatusText += "\n Email " + ((PlayGamesLocalUser)Social.localUser).Email;
-//		mStatusText += "\n Token ID is " + GooglePlayGames.PlayGamesPlatform.Instance.GetToken();
-//		mStatusText += "\n AccessToken is " + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken();
+			Dictionary<string,object> googleUserDetails = new Dictionary<string, object>();
+			googleUserDetails.Add ("username", Social.localUser.userName);
+			googleUserDetails.Add ("email", ((PlayGamesLocalUser)Social.localUser).Email);
+			googleUserDetails.Add ("token", GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken());
 
-		Dictionary<string,object> googleUserDetails = new Dictionary<string, object>();
-		googleUserDetails.Add ("username", Social.localUser.userName);
-		googleUserDetails.Add ("email", ((PlayGamesLocalUser)Social.localUser).Email);
-		googleUserDetails.Add ("token", GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken());
+			Debug.Log ("INIT TOKEN" + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken()); 
 
-		Debug.Log ("INIT TOKEN" + GooglePlayGames.PlayGamesPlatform.Instance.GetAccessToken()); 
-
-		successDlg (Constants.GOOGLE_PLAY, googleUserDetails);
+			successDlg (Constants.GOOGLE_PLAY, googleUserDetails);
+		#elif UNITY_IPHONE || UNITY_IOS
+			yield return new WaitForSeconds (5);
+		#endif
 	}
 
 	public void FBLogin(SucsessRegistrationDelegate successDlg, FailRegistrationDelegate failDlg){

@@ -338,6 +338,7 @@
      <Compile Include="Assets\Scripts\Dialogs\FightResultDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\FightsPanel.cs" />
      <Compile Include="Assets\Scripts\Dialogs\InstructionDialog.cs" />
+     <Compile Include="Assets\Scripts\Dialogs\InvitationDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\MedalShowDialog.cs" />
      <Compile Include="Assets\Scripts\Dialogs\OpponentIntroduce.cs" />
      <Compile Include="Assets\Scripts\Dialogs\PaidVersinDialog.cs" />

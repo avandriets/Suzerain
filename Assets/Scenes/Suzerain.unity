@@ -5364,6 +5364,7 @@ MonoBehaviour:
   FaceBook: {fileID: 2036370428}
   Login_Password: {fileID: 130961642}
   TypeLogin_Panel: {fileID: 1714400421}
+  googleButton: {fileID: 1901559388}
   initNetwork: {fileID: 1290221718}
 --- !u!1 &271269014
 GameObject:
@@ -15438,7 +15439,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &861578003
 RectTransform:
   m_ObjectHideFlags: 0
