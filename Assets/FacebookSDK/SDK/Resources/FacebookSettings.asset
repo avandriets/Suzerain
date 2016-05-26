@@ -14,8 +14,10 @@ MonoBehaviour:
   selectedAppIndex: 0
   appIds:
   - 984797301574830
+  - 990355067722279
   appLabels:
-  - suzerain
+  - "\u0421\u044E\u0437\u0435\u0440\u0435\u043D android"
+  - "\u0421\u044E\u0437\u0435\u0440\u0435\u043D iOS"
   cookie: 1
   logging: 1
   status: 1
@@ -23,4 +25,5 @@ MonoBehaviour:
   frictionlessRequests: 1
   iosURLSuffix: 
   appLinkSchemes:
+  - list: []
   - list: []

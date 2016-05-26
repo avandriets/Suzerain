@@ -7,7 +7,9 @@ using System;
 using SimpleJSON;
 using System.IO;
 using Soomla.Store;
+#if UNITY_ANDROID
 using GooglePlayGames;
+#endif
 
 public class ProfileManager : BaseUIClass {
 
@@ -280,7 +282,9 @@ public class ProfileManager : BaseUIClass {
 	public void LogOut(){
 
 		if (PlayerPrefs.GetInt ("regType") == Constants.GOOGLE_PLAY && Social.localUser.authenticated) {
+			#if UNITY_ANDROID
 			((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut ();
+			#endif
 		} else if (PlayerPrefs.GetInt ("regType") == Constants.FACEBOOK) {
 
 		}
