@@ -112,7 +112,9 @@ public class SearchDialog : MonoBehaviour {
 			var shield = Utility.getShieldNumByScore (c.Score);
 			if(shield.shieldNumber != "1")
 				button1.rankUser.text = ScreensManager.LMan.getString(Utility.getRunkByNumber (c.Rank));
-			
+
+			button1.sCore.text = c.Score.ToString();
+
 			//if (c.Rank != -1) {
 				Utility.setAvatarByState (button1.shieldImage, c.Score);
 			//}
