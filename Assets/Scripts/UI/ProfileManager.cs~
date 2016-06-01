@@ -286,7 +286,7 @@ public class ProfileManager : BaseUIClass {
 			((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut ();
 			#endif
 		} else if (PlayerPrefs.GetInt ("regType") == Constants.FACEBOOK) {
-
+			Facebook.Unity.FB.LogOut ();
 		}
 
 		UserController.UserName = "";
