@@ -14,7 +14,8 @@ public class OnlineGame : MonoBehaviour
 	public User opponent = null;
 	[HideInInspector]
 	public List<TestTask> tasksList = null;
-	bool fightCanceled = false;
+	[HideInInspector]
+	public bool fightCanceled = false;
 
 	public static List<FightStat> statList = null;
 
@@ -32,6 +33,9 @@ public class OnlineGame : MonoBehaviour
 	public ShowGameResult errorRoundResult;
 
 	public GameProtocol gameProtocol = new GameProtocol ();
+
+	public bool mFightWithFriend = false;
+	public bool mFriendsFightOpponent = false;
 
 	public static OnlineGame instance {
 		get {
@@ -52,13 +56,8 @@ public class OnlineGame : MonoBehaviour
 		}
 	}
 
-	public void AskForFight (CancelFightByServerDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
-	{
-		
-		Debug.Log ("LetsFight to server.");
-
-		//SoundManager.ChoosePlayMusic (1);
-
+	public void InitGameParameters(bool pFightWithFriend, bool pFightWithFriendOpponent){
+	
 		currentFight	= null;
 		opponent = null;
 		fightCanceled	= false;
@@ -66,14 +65,27 @@ public class OnlineGame : MonoBehaviour
 		statList = null;
 		fightsList = null;
 
+		mFightWithFriend = pFightWithFriend;
+		mFriendsFightOpponent = pFightWithFriendOpponent;
 
-		StartCoroutine (RequestForFight (cancelByServer, readyToFight, errordelegate));
 	}
 
-	IEnumerator RequestForFight (CancelFightByServerDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	public void AskForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
 	{
+		
+		Debug.Log ("LetsFight to server.");
 
-		var postScoreURL = NetWorkUtils.buildRequestToFightURL ();
+		InitGameParameters (false, false);
+
+		StartCoroutine (RequestForFight (cancelByServer, readyToFight, errordelegate, pFightId));
+	}
+
+	IEnumerator RequestForFight (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFightId)
+	{
+		
+		var postScoreURL = NetWorkUtils.buildRequestToFightURL (pFightId);
+
+		Debug.Log (postScoreURL);
 
 		var dictHeader = new Dictionary<string, string> ();
 		dictHeader.Add ("Content-Type", "text/json");
@@ -95,6 +107,8 @@ public class OnlineGame : MonoBehaviour
 
 			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
 
+			//Wait 5 seconds for reading
+			yield return new WaitForSeconds(5);
 
 			if (currentFight.FightState == -1) {
 				StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
@@ -104,7 +118,63 @@ public class OnlineGame : MonoBehaviour
 				StartCoroutine (StateRequest (cancelByServer, readyToFight, errordelegate));
 
 			} else if (currentFight.FightState == 4) {
-				cancelByServer ();
+				cancelByServer (currentFight);
+			}
+
+		} else {
+			errordelegate ();
+			Debug.Log ("WWW Error: " + request.error);
+			Debug.Log ("WWW Error: " + request.text);
+		}
+
+	}
+
+	public void AskForFightWithFriend (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFriendId, int fightType)
+	{
+
+		Debug.Log ("LetsFight to server.");
+
+		InitGameParameters (true, false);
+
+		StartCoroutine (RequestForFightWithFriend (cancelByServer, readyToFight, errordelegate, pFriendId, fightType));
+	}
+
+	IEnumerator RequestForFightWithFriend (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate, int pFriendId, int fightType)
+	{
+		yield return new WaitForSeconds(5);
+
+		var postScoreURL = NetWorkUtils.buildRequestToFightWithFriendURL (pFriendId, fightType);
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (postScoreURL, form);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		if (request.error == null) {
+
+			Debug.Log ("Lets fight waiting for fight ! " + request.text);
+
+			currentFight = Utility.ParseFightWthFriendResponse (request.text);
+
+			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
+
+
+			if (currentFight.FightState == -1 && currentFight.Id > 0) {
+				StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
+
+			} else if (currentFight.FightState == 0 && currentFight.Id > 0 ) {
+
+				StartCoroutine (StateRequestWithFriend (cancelByServer, readyToFight, errordelegate));
+
+			} else if (currentFight.Id <= 0) {
+				cancelByServer (currentFight);
 			}
 
 		} else {
@@ -121,7 +191,7 @@ public class OnlineGame : MonoBehaviour
 
 		StartCoroutine (RejectFight ());
 	}
-
+		
 	public IEnumerator RejectFight ()
 	{
 	
@@ -136,7 +206,29 @@ public class OnlineGame : MonoBehaviour
 		}
 	}
 
-	public IEnumerator GetTaskRequest (CancelFightByServerDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	public void CancelFightWithFriend ()
+	{
+		fightCanceled = true;
+
+		StartCoroutine (RejectFightWithFriend ());
+	}
+
+	public IEnumerator RejectFightWithFriend ()
+	{
+
+
+		var form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (NetWorkUtils.buildCancelFightWithFriendDialog (currentFight), form);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+		currentFight = null;
+	}
+
+	public IEnumerator GetTaskRequest (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
 	{
 	
 		bool error = false;
@@ -216,7 +308,7 @@ public class OnlineGame : MonoBehaviour
 
 	}
 
-	IEnumerator StateRequest (CancelFightByServerDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	IEnumerator StateRequest (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
 	{
 		while (currentFight != null && currentFight.FightState == 0 && fightCanceled == false) {
 			Debug.Log ("timer request");
@@ -226,7 +318,18 @@ public class OnlineGame : MonoBehaviour
 		}
 	}
 
-	public IEnumerator StateFightRequest (CancelFightByServerDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	IEnumerator StateRequestWithFriend (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	{
+		while (currentFight != null && currentFight.FightState == 0 && fightCanceled == false) {
+			Debug.Log ("timer request");
+			//StartCoroutine (StateFightRequest (cancelByServer, readyToFight, errordelegate));
+			StartCoroutine (StateFightRequestWithFriend (cancelByServer, readyToFight, errordelegate));
+
+			yield return new WaitForSeconds (5);
+		}
+	}
+
+	public IEnumerator StateFightRequest (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
 	{
 	
 		bool error = false;
@@ -255,7 +358,7 @@ public class OnlineGame : MonoBehaviour
 
 			if (currentFight.FightState == 4) {
 				fightCanceled = true;
-				cancelByServer ();
+				cancelByServer (currentFight);
 			}
 
 		} else {
@@ -267,6 +370,146 @@ public class OnlineGame : MonoBehaviour
 
 
 		if (currentFight.FightState == -1 && !error) {
+			StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
+		}
+	}
+
+	public IEnumerator StateFightRequestWithFriend (CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	{
+
+		bool error = false;
+		Debug.Log ("Get Fight state on server.");
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (NetWorkUtils.buildRequestStateFightURL (currentFight.Id.ToString ()), form);
+
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		if (request.error == null) {
+
+			Debug.Log ("Lets fight waiting for fight ! " + request.text);
+
+			currentFight = Utility.ParseFightStateResponse (request.text);
+
+			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
+
+			if (currentFight.FightState == 4 || currentFight.Id <= 0) {
+				fightCanceled = true;
+				cancelByServer (currentFight);
+			}
+
+		} else {
+			error = true;
+			errordelegate ();
+			Debug.Log ("WWW Error: " + request.error);
+			Debug.Log ("WWW Error: " + request.text);
+		}
+
+
+		if (currentFight.FightState == -1 && !error && currentFight.Id > 0) {
+			StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
+		}
+	}
+
+	public IEnumerator StateFightRequestWithFriendByID (int pFightID, CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	{
+
+		bool error = false;
+		Debug.Log ("Get Fight state on server.");
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (NetWorkUtils.buildRequestStateFightURL (pFightID.ToString()), form);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		if (request.error == null) {
+
+			Debug.Log ("Lets fight waiting for fight ! " + request.text);
+
+			currentFight = Utility.ParseFightStateResponse (request.text);
+
+			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
+
+			if (currentFight.FightState == 4 || currentFight.Id <= 0) {
+				
+				fightCanceled = true;
+
+				cancelByServer (currentFight);
+
+			}
+
+		} else {
+			error = true;
+			errordelegate ();
+			Debug.Log ("WWW Error: " + request.error);
+			Debug.Log ("WWW Error: " + request.text);
+		}
+
+
+		if (currentFight.FightState == 0 && !error && currentFight.Id > 0) {
+			StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
+		}
+	}
+
+	public IEnumerator AcceptFightWithFriendByID (int pFightID, CancelFightDelegate cancelByServer, ReadyToFight readyToFight, ErrorToFight errordelegate)
+	{
+
+		bool error = false;
+		Debug.Log ("Get Fight state on server.");
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (NetWorkUtils.buildAcceptFightURL (pFightID.ToString()), form);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		if (request.error == null) {
+
+			Debug.Log ("Lets fight waiting for fight ! " + request.text);
+
+			//AcceptFightWithFriendResult
+			currentFight = Utility.ParseFightStateResponseByNode (request.text, "AcceptFightWithFriendResult");
+
+			Debug.Log ("TaskId =  " + currentFight.TaskId.ToString ());
+
+			if (currentFight.FightState == 4 || currentFight.Id == 0) {
+
+				fightCanceled = true;
+
+				cancelByServer (currentFight);
+
+			}
+
+		} else {
+			error = true;
+			errordelegate ();
+			Debug.Log ("WWW Error: " + request.error);
+			Debug.Log ("WWW Error: " + request.text);
+		}
+
+
+		if (currentFight.FightState == -1 && !error && currentFight.Id != 0) {
 			StartCoroutine (GetTaskRequest (cancelByServer, readyToFight, errordelegate));
 		}
 	}
@@ -288,11 +531,11 @@ public class OnlineGame : MonoBehaviour
 
 			errorRoundResult = pErrorDelegate;
 			errP = screenManager.ShowErrorDialog (ScreensManager.LMan.getString ("@fight_canceled"), CancelFightWaitingForRoundResult);
-		} else if (!error) {
+		} else if (!error && currentFight != null && currentFight.FightState == -1 && fightCanceled == false) {
 
 			while (currentFight != null && currentFight.FightState == -1 && fightCanceled == false) {
-				gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString ());
-				gameProtocol.AddMessage ("Ask 4 Global fight state");
+				//gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString ());
+				//gameProtocol.AddMessage ("Ask 4 Global fight state");
 
 				Debug.Log ("Time: " + System.DateTime.Now.ToString ());
 				Debug.Log ("Ask 4 Global fight state");
@@ -302,6 +545,8 @@ public class OnlineGame : MonoBehaviour
 
 				yield return new WaitForSeconds (2);
 			}
+		} else {
+			OnFightResultRequest ();
 		}
 
 	}
@@ -496,16 +741,15 @@ public class OnlineGame : MonoBehaviour
 		gameProtocol.AddMessage ("Time:" + tm.ToString ()); gameProtocol.AddMessage ("Send single answer to server: method SetTestAnswer");
 		Debug.Log (gameProtocol.GetLog ());
 
-		bool 	receive_fight_result = false;
 		string 	ErrorMessage = "";
 		bool 	errorSendAnswer = false;
 		bool 	errorAskRoundResult = false;
 		bool 	errorFightState = false;
 
 		float 	timer = 0; 
-		float 	timeOut = 5;
+		float 	timeOut = 2;
 		bool 	timeOutError = false;
-		int 	Attempts = 6;
+		int 	Attempts = 5;
 		int 	AttemptCount = 0;
 		bool	reflexLeft = false;
 
@@ -540,6 +784,7 @@ public class OnlineGame : MonoBehaviour
 
 			timeOutError = false;
 			timer = 0;
+			error = false;
 
 			while (!www.isDone) {
 
@@ -560,6 +805,7 @@ public class OnlineGame : MonoBehaviour
 					Debug.Log (fftest.ToString ());
 					break;
 				} catch (System.Exception ex) {
+					error = true;
 					Debug.Log (ex.Message);
 				}
 
@@ -645,8 +891,6 @@ public class OnlineGame : MonoBehaviour
 		// Ask about opponent result
 		if (!error) {
 
-			int AttemptsCountForTakeResult = 5;
-
 			localFightStae = new Fight ();
 			localFightStae.FightState = 0;
 
@@ -703,6 +947,7 @@ public class OnlineGame : MonoBehaviour
 						}else{
 							fightsList[roundNumber] = localFightStae;
 						}
+						answerList[answerList.Count-1].roundResult = localFightStae;
 
 						if (localFightStae.OpponentScore > 0 && Mathf.Abs (localFightStae.InitiatorScore) > 0) {
 							if (currentFight.FightTypeId == 4) {
@@ -832,8 +1077,10 @@ public class OnlineGame : MonoBehaviour
 
 		}
 
-		if (fightsList [roundNumber].FightState == 4) {
-			fightsList [roundNumber].Winner = UserController.currentUser.Id;
+		if (fightsList != null && fightsList.Count > 0) {
+			if (fightsList [roundNumber].FightState == 4) {
+				fightsList [roundNumber].Winner = UserController.currentUser.Id;
+			}
 		}
 		//fightsList.Add (localFightStae);
 	
@@ -881,13 +1128,19 @@ public class OnlineGame : MonoBehaviour
 			gameProtocol.AddMessage ("Time:" + tm.ToString ()); gameProtocol.AddMessage ("Nex round"); 
 			Debug.Log ("Time:" + tm.ToString ());Debug.Log ("Nex round");
 
-			currentFight.FightState = -1;
+			//currentFight.FightState = -1;
 			pResultDelegate (fightsList);
 
 		} else if(localFightStae.FightState == 4){
 			
 			fightCanceled = true;
-			errP = screenManager.ShowErrorDialog ("Ваш противник покинул поединок.\n\nБой расформирован.", CancelFightWaitingForRoundResult);
+			string template = "Ваш проитвник покинул поединок.\n Вам присуждена победа.\n Вы получаете 2-ва балла.";
+
+			if (currentFight.Winner != UserController.currentUser.Id) {
+				template = "Ваш противник покинул поединок.\n\nБой расформирован.";
+			}
+
+			errP = screenManager.ShowErrorDialog (template, CancelFightWaitingForRoundResult);
 		}
 
 	}

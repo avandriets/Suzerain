@@ -150,10 +150,14 @@ public class GameType6 : GameBase {
 	}
 
 	IEnumerator FinishFill(){
-	
+
 		isActiveForm = false;
+		okButton.enabled = false;
+
 		yield return new WaitForSeconds(5);
+
 		isActiveForm = true;
+		okButton.enabled = true;
 
 		foreach (var c in answerListGameItem6) {
 			c.item = null;

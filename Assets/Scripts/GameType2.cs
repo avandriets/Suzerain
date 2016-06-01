@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class GameType2 : GameBase {
 
 	public	GameObject				itemButton;
+	public	GameObject				itemBigButton;
 
 	public	Transform				FoundCardPanel;
 	public	Transform				CardsSetPanel;
@@ -18,7 +19,7 @@ public class GameType2 : GameBase {
 
 	protected override void InitGameScreen(){
 
-		mQuestionState.text = currentTask.TextQuestion;
+		mQuestionState.text = System.Text.RegularExpressions.Regex.Unescape(currentTask.TextQuestion);
 
 		//string answer = getRightWord();
 
@@ -29,6 +30,9 @@ public class GameType2 : GameBase {
 		CreateGameObjects (arrLett);
 
 		inProgress = false;
+
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
 	}
 
 	protected override void PrepareScreenBeforFinishCall(){
@@ -52,7 +56,7 @@ public class GameType2 : GameBase {
 		foreach (var c in pLettersArray) {
 
 			GameObject	newButtonItem = null;
-			newButtonItem = Instantiate(itemButton) as GameObject;
+			newButtonItem = Instantiate(itemBigButton) as GameObject;
 			Game3TemplateButton button1 = newButtonItem.GetComponent<Game3TemplateButton>();
 
 			Game3Item gItem = new Game3Item ();
@@ -163,5 +167,21 @@ public class GameType2 : GameBase {
 		}
 
 		return word.ToUpper();
+	}
+
+	public void OnBackSpaceClick(){
+
+		for (int i = finishLettersList.Count - 1; i >= 0; i--) {
+
+			if (finishLettersList [i].item != null) {
+
+				if (finishLettersList [i].Letter.gameObject.activeSelf) {
+					finishLettersList [i].item = null;
+					finishLettersList [i].Letter.gameObject.SetActive (false);
+					finishLettersList [i].relateButton.Letter.gameObject.SetActive (true);
+					break;
+				}
+			}
+		}
 	}
 }

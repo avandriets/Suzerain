@@ -7,10 +7,13 @@ using System;
 using SimpleJSON;
 using System.IO;
 using Soomla.Store;
+#if UNITY_ANDROID
+using GooglePlayGames;
+#endif
 
-public class ProfileManager : MonoBehaviour {
+public class ProfileManager : BaseUIClass {
 
-	public Text 	nicname;
+	public Text			nicname;
 	public Toggle		toggleRussian;
 	public Toggle		toggleEnglish;
 
@@ -19,12 +22,13 @@ public class ProfileManager : MonoBehaviour {
 	public SendMessage 		pSendMessage;
 	private SendMessage		localSendMessage = null;
 
-	private WaitPanel	waitP 	= null;
-	private ErrorPanel	errP 	= null;
+//	private WaitPanel	waitPanel 	= null;
+//	private ErrorPanel	errorPanel 	= null;
+//	ScreensManager screensManager = null;
 	private InstructionDialog	instDialog = null;
 
+
 	bool wasShown = false;
-	ScreensManager screenManager = null;
 
 	public Text TextRank;
 	public Image avatar;
@@ -33,9 +37,10 @@ public class ProfileManager : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable() {
 	
+		//wasGetEmail = false;
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Profile screen"));
 
-		screenManager = ScreensManager.instance;
+		screensManager = ScreensManager.instance;
 
 		if(PlayerPrefs.HasKey("Volume")){
 			soundSlider.value = SetAudioLevels.volumeSize;
@@ -43,15 +48,15 @@ public class ProfileManager : MonoBehaviour {
 
 		if (!wasShown) {
 			
-			screenManager.InitTranslateList ();
+			screensManager.InitTranslateList ();
 			wasShown = true;
 		}
 
 		InitComponents();
 
-		screenManager.InitLanguage ();
-		screenManager.InitTranslateList ();
-		screenManager.TranslateUI ();
+		screensManager.InitLanguage ();
+		screensManager.InitTranslateList ();
+		screensManager.TranslateUI ();
 	}
 
 //	private void InitLang(){
@@ -78,7 +83,7 @@ public class ProfileManager : MonoBehaviour {
 				ScreensManager.LMan.setLanguageFromRes ("lang", "Russian");
 			}
 			
-			screenManager.TranslateUI ();
+			screensManager.TranslateUI ();
 		}
 	}
 
@@ -92,10 +97,7 @@ public class ProfileManager : MonoBehaviour {
 			}
 		}
 
-		//TextRank.text = Utility.getDcumentsPath ();
-		//
-
-		Utility.setAvatar(avatar,UserController.currentUser, Rose.statList);
+		Utility.setAvatar(avatar, Rose.statList);
 
 		nicname.text = UserController.currentUser.UserName;
 		
@@ -130,7 +132,7 @@ public class ProfileManager : MonoBehaviour {
 	public void SaveUser()
 	{
 
-		waitP = screenManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
+		waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
 
 		Debug.Log ("login to server.");
 		
@@ -170,16 +172,16 @@ public class ProfileManager : MonoBehaviour {
 	
 	public void LoginErrorAction()
 	{
-		errP.ClosePanel();
-		GameObject.Destroy(errP.gameObject);
-		errP = null;
+		errorPanel.ClosePanel();
+		GameObject.Destroy(errorPanel.gameObject);
+		errorPanel = null;
 	}
 	
 	IEnumerator WaitForRequest(WWW www)
 	{
 		yield return www;
 
-		screenManager.CloseWaitPanel (waitP);
+		screensManager.CloseWaitPanel (waitPanel);
 
 		// check for errors
 		if (www.error == null)
@@ -187,10 +189,10 @@ public class ProfileManager : MonoBehaviour {
 			Debug.Log("WWW Ok!: " + www.text);
 
 			UserController.authenticated = false;
-			screenManager.ShowMainScreen();
+			screensManager.ShowMainScreen();
 			
 		} else {
-			errP = screenManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
+			errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
 			Debug.Log("WWW Error: "+ www.error);
 		}    
 	}
@@ -199,7 +201,7 @@ public class ProfileManager : MonoBehaviour {
 	
 		SendMessage NewWaitPanel = GameObject.Instantiate(pSendMessage) as SendMessage;
 
-		NewWaitPanel.transform.SetParent(screenManager.currentScreenCanvas.transform);
+		NewWaitPanel.transform.SetParent(screensManager.currentScreenCanvas.transform);
 		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
 		NewWaitPanel.ShowDialog ("", SendMessageOptions, cancelMessageDialog);
 
@@ -237,7 +239,7 @@ public class ProfileManager : MonoBehaviour {
 
 		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) > 0) {
 			Debug.Log ("SOOMLA You already buy it.");
-			errP = screenManager.ShowErrorDialog("Вы уже отключили рекламу." ,LoginErrorAction);
+			errorPanel = screensManager.ShowErrorDialog("Вы уже отключили рекламу." ,LoginErrorAction);
 		} else {
 			Debug.Log ("SOOMLA BUY IT");
 			buyDialog.SetText (PaidVersionOkActionClick);
@@ -264,16 +266,38 @@ public class ProfileManager : MonoBehaviour {
 			VirtualGood vg = StoreInfo.Goods [0];
 			StoreInventory.TakeItem (vg.ItemId,1);
 			Debug.Log ("SOOMLA Cancel purch.");
-			errP = screenManager.ShowErrorDialog("Покупка отменена." ,LoginErrorAction);
+			errorPanel = screensManager.ShowErrorDialog("Покупка отменена." ,LoginErrorAction);
 		}
 	}
 
 	public void ShowInstructionDialog(){
-		instDialog = screenManager.ShowInstructionDialog(closeInstruction);
+		instDialog = screensManager.ShowInstructionDialog(closeInstruction);
 	}
 
 	public void closeInstruction(){
-		screenManager.CloseInstructionPanel (instDialog);
+		screensManager.CloseInstructionPanel (instDialog);
 		instDialog = null;
+	}
+		
+	public void LogOut(){
+
+		if (PlayerPrefs.GetInt ("regType") == Constants.GOOGLE_PLAY && Social.localUser.authenticated) {
+			#if UNITY_ANDROID
+			((GooglePlayGames.PlayGamesPlatform)Social.Active).SignOut ();
+			#endif
+		} else if (PlayerPrefs.GetInt ("regType") == Constants.FACEBOOK) {
+			Facebook.Unity.FB.LogOut ();
+		}
+
+		UserController.UserName = "";
+		UserController.currentUser		= null;
+		UserController.registered		= false;
+		UserController.authenticated	= false;
+
+		UserController.AccessToken = "";
+
+		PlayerPrefs.DeleteAll ();
+		screensManager.ShowRegistrationScreen ();
+
 	}
 }

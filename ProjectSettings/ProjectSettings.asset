@@ -90,16 +90,16 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.gcgamecore.suzerain
-  bundleVersion: 1.1
+  bundleVersion: 2.01
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
   productGUID: 76a2fd9b1d31b47208309ff660346dbb
-  AndroidBundleVersionCode: 28
-  AndroidMinSdkVersion: 9
-  AndroidPreferredInstallLocation: 1
+  AndroidBundleVersionCode: 39
+  AndroidMinSdkVersion: 15
+  AndroidPreferredInstallLocation: 0
   aotOptions: 
   apiCompatibilityLevel: 2
   stripEngineCode: 1

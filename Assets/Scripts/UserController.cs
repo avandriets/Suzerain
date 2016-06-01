@@ -6,17 +6,25 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
 using System.IO;
+using Facebook.Unity;
 
 public class UserController : MonoBehaviour {
 	
 	public static string	UserName;
 	public static string	eMail;
 	public static string	UserPassword;
+	public static string	AccessToken = "";
 	
 	public static bool		registered;
 	public static bool		authenticated;
+	public static bool		reNewStatistic = false;
 
 	public static User		currentUser;
+
+	public InitSocialNetworks initNetwork;
+
+	private ProcessLogInDelegate localLogInDelegate;
+	private float mLongitiude, mLatitude;
 
 	private static UserController s_Instance = null;
 	
@@ -46,7 +54,6 @@ public class UserController : MonoBehaviour {
 			return s_Instance;
 		}
 	}
-	
 
 	public void InitUserFromLocalStore()
 	{
@@ -66,7 +73,67 @@ public class UserController : MonoBehaviour {
 	
 	public void LogIn(ProcessLogInDelegate postLogInExecute, float longitiude, float latitude ){
 
-		StartCoroutine (LogInThread(postLogInExecute, longitiude, latitude));
+		localLogInDelegate = postLogInExecute;
+		mLongitiude = longitiude;
+		mLatitude	= latitude;
+
+		int regType = Constants.LOGIN_PASS;
+		if (PlayerPrefs.HasKey ("regType"))
+			regType = PlayerPrefs.GetInt ("regType");
+		else
+			PlayerPrefs.SetInt ("regType", Constants.LOGIN_PASS);
+		
+		if ((regType != Constants.LOGIN_PASS && AccessToken.Length > 0) || regType == Constants.LOGIN_PASS) {
+			StartCoroutine (LogInThread (postLogInExecute, longitiude, latitude));
+
+		} else if (regType == Constants.FACEBOOK && AccessToken.Length == 0) {
+			
+			Debug.Log ("FB ASK INIT");
+			if (!FB.IsInitialized) {
+				// Initialize the Facebook SDK
+				Debug.Log ("FB NOT IsInitialized");
+				FB.Init (InitCallback, null);
+			} else {
+				Debug.Log ("FB IsInitialized");
+				// Already initialized, signal an app activation App Event
+				Debug.Log ("FB ActivateApp ()");
+				FB.ActivateApp ();
+				initNetwork.RenewToken (SucsessGetToken, FailGetToken, regType);
+			}
+		} else if (regType == Constants.GOOGLE_PLAY && AccessToken.Length == 0){
+			Debug.Log ("INIT InitNetworks");
+			initNetwork.InitNetworks ();
+			Debug.Log ("INIT InitGoogle");
+			initNetwork.InitGoogle ();
+			Debug.Log ("INIT RenewToken");
+			initNetwork.RenewToken (SucsessGetToken, FailGetToken, regType);
+		}
+	}
+
+	private void InitCallback ()
+	{
+		if (FB.IsInitialized) {
+			// Signal an app activation App Event
+			FB.ActivateApp ();
+
+			initNetwork.RenewToken (SucsessGetToken, FailGetToken, PlayerPrefs.GetInt ("regType"));
+
+		} else {
+			Debug.Log ("Failed to Initialize the Facebook SDK");
+		}
+	}
+
+	public void SucsessGetToken(int typeRed, Dictionary<string,object> resuLtReg){
+
+		Debug.Log ("INIT SucsessGetToken");
+		AccessToken = resuLtReg ["token"].ToString();
+		StartCoroutine (LogInThread (localLogInDelegate, mLongitiude, mLatitude));
+
+	}
+
+	public void FailGetToken(int typeRed){
+
+		localLogInDelegate(true, Constants.LOGIN_ERROR, "");
 	}
 
 	public IEnumerator LogInThread(ProcessLogInDelegate postLogInExecute, float longitiude, float latitude){
@@ -79,34 +146,89 @@ public class UserController : MonoBehaviour {
 		WWWForm form = new WWWForm();
 		form.AddField("Content-Type", "text/json");
 
-		//POST
-		WWW www = new WWW(NetWorkUtils.buildLogInURL(), null, dictHeader);
+		int regType = PlayerPrefs.GetInt ("regType");
+
+		WWW www = null;
+
+		if (!authenticated) {
+			
+			if (regType == Constants.LOGIN_PASS) {
+				www = new WWW (NetWorkUtils.buildLogInURL (), null, dictHeader);
+			} else {
+				www = new WWW (NetWorkUtils.buildLogEXInURL (regType), null, dictHeader);
+			}
 	
-		while (!www.isDone)
-		{
-			yield return null;
+			while (!www.isDone) {
+				yield return null;
+			}
+
+			if (www.error == null) {
+				Debug.Log ("WWW login Ok!: " + www.text);
+				
+				var N = JSON.Parse (www.text);
+				var mLoginResult = N ["LoginResult"];
+
+				if (regType != Constants.LOGIN_PASS) {
+					mLoginResult = N ["LoginExResult"];
+				}
+
+				User loginUser = Utility.ParseGetUserResponse (mLoginResult.ToString ());
+				if (loginUser.Id != -1) {
+					UserController.currentUser = loginUser;
+					authenticated = true;
+					reNewStatistic = false;
+					ScreensManager.instance.InitLanguage ();
+				} else {
+					authenticated = false;
+					reNewStatistic = false;
+					Debug.Log ("WWW login error: " + www.error);
+					error = true;
+
+					postLogInExecute (true, "login error", loginUser.SysMessage);
+				}
+				//language			= currentUser.Language;
+			} else {
+				authenticated = false;
+				reNewStatistic = false;
+				Debug.Log ("WWW login error: " + www.error);
+				error = true;
+
+				postLogInExecute (true, Constants.LOGIN_ERROR, www.error + " " + www.text);
+			}
 		}
 
-		if (www.error == null)
-		{
-			Debug.Log("WWW login Ok!: " + www.text);
-				
-			var N = JSON.Parse(www.text);
-			var mLoginResult = N["LoginResult"];
-				
-			User loginUser 	= Utility.ParseGetUserResponse(mLoginResult.ToString());
-			UserController.currentUser			= loginUser;
-			authenticated 		= true;
-			ScreensManager.instance.InitLanguage ();
-			//language			= currentUser.Language;
-		}
-		else
-		{
-			authenticated = false;
-			Debug.Log("WWW login error: "+ www.error);
-			error = true;
+		if (reNewStatistic) {
+		
 
-			postLogInExecute(true, Constants.LOGIN_ERROR, www.error + " " + www.text);
+			www = new WWW (NetWorkUtils.buildUserInfoURL (UserController.currentUser.Id), form);
+
+			while (!www.isDone) {
+				yield return null;
+			}
+
+			if (www.error == null) {
+				Debug.Log ("WWW login Ok!: " + www.text);
+
+				var NN = JSON.Parse (www.text);
+				var mLoginResult1 = NN ["GetUserInfoResult"];
+
+				User loginUser1 = Utility.ParseGetUserResponse (mLoginResult1.ToString ());
+				string token = currentUser.Token;
+				loginUser1.Token = token;
+
+				UserController.currentUser = loginUser1;
+				reNewStatistic = false;
+				ScreensManager.instance.InitLanguage ();
+				//language			= currentUser.Language;
+			} else {
+				authenticated = false;
+				reNewStatistic = false;
+				Debug.Log ("WWW login error: " + www.error);
+				error = true;
+
+				postLogInExecute (true, Constants.LOGIN_ERROR, www.error + " " + www.text);
+			}
+
 		}
 
 		if (!error) {
@@ -118,6 +240,7 @@ public class UserController : MonoBehaviour {
 			}
 
 			if (www.error == null) {
+				Debug.Log ("WWW get URL Ok!: " + www.url);
 				Debug.Log ("WWW get State Ok!: " + www.text);
 
 				Rose.statList = Utility.GetListOfFightsStates (www.text);

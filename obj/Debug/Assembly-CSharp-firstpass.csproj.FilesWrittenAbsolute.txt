@@ -7,6 +7,7 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.UI.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Networking.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/ICSharpCode.SharpZipLib.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/wp-store.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Unity.SerializationLogic.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Unity.DataContract.dll
@@ -16,8 +17,4 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Unity.CecilTools.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Mdb.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/wp-store.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/soomla-wp-core.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/LitJson.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/AdjustUnityWP.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/AdjustUnityWS.dll

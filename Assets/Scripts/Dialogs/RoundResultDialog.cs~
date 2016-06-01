@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using Soomla.Store;
 
 
 public class RoundResultDialog : MonoBehaviour {
@@ -13,8 +14,12 @@ public class RoundResultDialog : MonoBehaviour {
 	public List<Image>	fightsImageList;
 	public Text			scoreUser;
 
-	public void SetText(List<Fight> fight, int roundNum){
+	public GameObject	rightAnswerObject;
+	public Text			answerDescription;
 
+	public void SetText(List<Fight> fight, List<TaskAnswer> answers, List<TestTask> 		tasksList){
+
+		int roundNum = answers.Count;
 		Sprite spriteDraft	= null;
 		Sprite spriteWin	= null;
 		Sprite spriteLose	= null;
@@ -51,6 +56,8 @@ public class RoundResultDialog : MonoBehaviour {
 				fightsImageList[fight.IndexOf(currentFight)].sprite = spriteLose;
 			}
 		}
+
+		//actionDescription.text = System.Text.RegularExpressions.Regex.Unescape(FightResultDescription.getExtendetLoseDescription (fight[fight.Count-1]));
 			
 		scoreUser.text = FightResultDescription.getScoreBothPlayers (fight[fight.Count-1]);
 
@@ -58,9 +65,18 @@ public class RoundResultDialog : MonoBehaviour {
 
 		GameObject.Find("TextRound").GetComponent<Text>().text = ScreensManager.LMan.getString ("@round");
 
+		//Show right answer
+		if(/*StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE 
+			&& */ (fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
+			|| fight[fight.Count-1].FightTypeId == 5)){
+			rightAnswerObject.SetActive (true);
+			answerDescription.text = tasksList[answers.Count-1].GetRightAnswer();
+		}
+
 	}
 
 	public void ClosePanel () {
+		rightAnswerObject.SetActive (false);
 		fightResultPanelObject.SetActive (false);
 	}
 }

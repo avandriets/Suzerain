@@ -2,19 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using GoogleMobileAds.Api;
 using UnityEngine.Events;
 using Soomla.Store;
+using Facebook.Unity;
 
-public class MainScreenManager : MonoBehaviour {
 
-	private WaitPanel	waitPanel  = null;
-	private ErrorPanel	errorPanel = null;
-	private WaitOpponentDialog		waitForOpponentPanel	= null;
-	private InstructionDialog		instDialog = null;
+public class MainScreenManager : BaseUIClass
+{
 
-	UserController 	user_controller = null;
-	ScreensManager	screensManager	= null;
+	UserController user_controller = null;
+	bool firstStart = false;
 
 	public RectTransform firstRing;
 	public RectTransform secondRing;
@@ -31,44 +28,40 @@ public class MainScreenManager : MonoBehaviour {
 	SoundManager soundMan = null;
 	public Toggle muteButton;
 
-	public static int gameCounts = Constants.adShowsCount;
 	public MedalShowDialog	shieldDialog;
-	bool firstStart = false;
-
-	InterstitialAd interstitial;
+	public RankDialog		rankDialog;
 	public static GoogleAnalyticsV4 googleAnalytics;
-
 	public GameObject spr1;
 	public GameObject spr2;
 
-	void OnEnable(){
+	public Text GameTypeCaption;
 
-		googleAnalytics = GameObject.Find("GAv4").GetComponent<GoogleAnalyticsV4>();
+	public LiveMessenger	messengerLive;
+
+	public GameObject ProRing;
+	public GameObject UsualRing;
+
+	public InitSocialNetworks	initNetwork;
+	public FightsPanel			mFightPanel;
+
+	protected InstructionDialog 	instDialog 				= null;
+
+	public InvitationDialog invitationDlg;
+
+	void OnEnable ()
+	{
+		
+		googleAnalytics = GameObject.Find ("GAv4").GetComponent<GoogleAnalyticsV4> ();
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
 
 		InitUser ();
-		StartCoroutine(	RotateRings ());
+		StartCoroutine (RotateRings ());
 
-		if (gameCounts == 0) {
-
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) == 0) {
-				
-				//if (!Utility.StopCoroutine) {
-					RequestInterstitial ();
-				//}
-
-			}
-
-			gameCounts = Constants.adShowsCount;
-		}
-
-		//centerElement.setDataToRose (null);
 		centerElement.toZeroPosition ();
-		//centerElement.ShowData ();
 
 
 		if (!InitMuteState) {
-			soundMan = GameObject.Find("MusicManager").GetComponent<SoundManager>();
+			soundMan = GameObject.Find ("MusicManager").GetComponent<SoundManager> ();
 			InitMuteState = true;
 		}
 
@@ -76,74 +69,89 @@ public class MainScreenManager : MonoBehaviour {
 
 		SoundManager.InitMuteState (muteButton);
 
-		muteButton.onValueChanged.AddListener ( (value) => {   // you are missing this
-			handleCheckbox(value);       // this is just a basic method call within another method
+		muteButton.onValueChanged.AddListener ((value) => {   // you are missing this
+			handleCheckbox (value);       // this is just a basic method call within another method
 		}   // and this one
 		);
 	}
 
-	void handleCheckbox(bool value)
+	void handleCheckbox (bool value)
 	{
 		soundMan.OnMuteButtonClick ();
 	}
 
-	IEnumerator RotateRings() {
+	IEnumerator RotateRings ()
+	{
 
-			float startingTime = 0;
+		float startingTime = 0;
 
-			while (gameObject.activeSelf) {
+		while (gameObject.activeSelf) {
 
-				startingTime += Time.deltaTime;
+			startingTime += Time.deltaTime;
+			spr1.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
 
-				spr1.transform.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-				//spr2.transform.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
-					
-//				firstRing.rotation = Quaternion.Euler (0, 0, 25 * startingTime);
-//				secondRing.rotation = Quaternion.Euler (0, 0, -25 * startingTime);
-
-				if (startingTime > 360)
-					startingTime = 0;
+			if (startingTime > 360)
+				startingTime = 0;
 			
-				//Debug.Log (" RotateRings RotateRings RotateRings RotateRings RotateRings !!!!!");
-				//yield return new WaitForSeconds(1);
-				yield return null;
+			yield return null;
+		}
+	}
+
+	public void OnFightClick (int pFightType)
+	{
+
+		return;
+
+		//TODO fight choice
+//		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType > 0) {
+//			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
+//
+//			OnlineGame ing = OnlineGame.instance;
+//			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+//		}
+	}
+
+	public void MainButtonFightClick(){
+		mFightPanel.SetText (fightFromPanel);
+	}
+
+
+	public void fightFromPanel(int pFightType){
+
+		if (pFightType >= 0) {
+
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType == 0) {
+				waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
+
+				OnlineGame ing = OnlineGame.instance;
+				ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+
+			} else {
+
+				errorPanel = screensManager.ShowErrorDialog ("Выбор поединка доступен в PREMIUM версии игры.", ErrorCancelByServer);
+
 			}
 
+		} else if (pFightType == -1) {
+			screensManager.ShowFriendsScreen ();
+		}else if (pFightType == -5) {
+			errorPanel = screensManager.ShowErrorDialog ("Сезон тренировок для подготовки к «Летнему турниру Сюзерена» начнется в июне 2016 года", ErrorCancelByServer);
+		}else if (pFightType == -6) {
+			errorPanel = screensManager.ShowErrorDialog ("Ближайший «Летний турнир Сюзерена» начнется в июле 2016 года", ErrorCancelByServer);
+		}
+
 	}
 
-	public void OnFightClick(){
-
-		// Builder Hit with minimum required Event parameters.
-		googleAnalytics.LogEvent(new EventHitBuilder()
-			.SetEventCategory("game")
-			.SetEventAction("ask for game"));
-		
-		waitForOpponentPanel = screensManager.ShowWaitOpponentDialog("Вызываю на дуэль",CancelFightByUser);
-
-		OnlineGame ing = OnlineGame.instance;
-		ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest);
-	}
-		
-	public void CancelFightByUser(){
+	public void CancelFightByUser ()
+	{
 
 		OnlineGame ing = OnlineGame.instance;
 		ing.CancelFight ();
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void CancelFightByServer(){
-
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@fight_finished_by_server"), ErrorCancelByServer);
-		SoundManager.ChoosePlayMusic (0);
-	}
-
-	public void ReadyToFight(){
+	public void ReadyToFight ()
+	{
 		
 		if (waitForOpponentPanel != null) {
 			waitForOpponentPanel.ClosePanel ();
@@ -152,33 +160,16 @@ public class MainScreenManager : MonoBehaviour {
 		}
 
 		screensManager.ShowGameScreen ();
-		//SoundManager.ChoosePlayMusic (2);
 	}
-
-	public void ErrorFightRequest(){
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
-		SoundManager.ChoosePlayMusic (0);
-	}
-
-	public void ErrorCancelByServer(){
-		GameObject.Destroy(errorPanel.gameObject);
-		errorPanel = null;
-		SoundManager.ChoosePlayMusic (0);
-	}
-
-	public void onClickClearSettings()
+		
+	public void onClickClearSettings ()
 	{
 		PlayerPrefs.DeleteAll ();
 		Application.Quit ();
 	}
 
-	public void InitUser(){
+	public void InitUser ()
+	{
 
 		user_controller	= UserController.instance;
 		screensManager	= ScreensManager.instance;
@@ -188,109 +179,134 @@ public class MainScreenManager : MonoBehaviour {
 		if (UserController.registered) {
 			
 
-			if(!UserController.authenticated){
+		if (!UserController.authenticated || UserController.reNewStatistic) {
 				
-				waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString ("@connecting"));
+				waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
 
-				user_controller.LogIn (InitLabels, -1 , -1);
-			}else{
-				InitLabels(false,"","");
+				user_controller.LogIn (InitLabels, -1, -1);
+			} else {
+				InitLabels (false, "", "");
 			}
 
 		} else {
 			firstStart = true;
-			screensManager.ShowRegistrationScreen();			
+			screensManager.ShowRegistrationScreen ();			
 		}
 
 	}
 
-	public void InitLabels(bool error, string source_error, string error_text){
+	public void InitLabels (bool error, string source_error, string error_text)
+	{
 
-		if(waitPanel != null)
+		if (waitPanel != null)
 			screensManager.CloseWaitPanel (waitPanel);
 
 		screensManager.InitTranslateList ();
 		screensManager.TranslateUI ();
 
 		if (error == false) {
-			//Init user interface
 
-			//if (!Utility.StopCoroutine) {
-				//googleAnalytics.LogScreen ("Main Menu");
-				//Builder Hit with all App View parameters (all parameters required):
-				//googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
-			//}
-			
+			messengerLive.StartPulseRequest ();
+
+
 			TextNickName.text	= UserController.currentUser.UserName;
 
 			if (Rose.statList.Count > 0) {
 				if (Rose.statList [0].Fights >= Constants.fightsCount) {
-					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
+					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));
+
+					if (TextRank.text.Length == 0) {
+						TextRank.text = Rose.statList [0].Fights.ToString ();
+					}
+
 				} else {
-					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString(); // ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));	
+					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
 				}
 			}
 
-			string shieldNumber = Utility.getNumberOfShield (UserController.currentUser, Rose.statList);
 
+			string shieldNumber = Utility.getNumberOfShield (Rose.statList).shieldNumber;
 			if (!Utility.ShieldIsOwned (shieldNumber)) {
 				shieldDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
 			}
 
+			if (shieldNumber != "1") {
+				string differenceNumber = Utility.GetDifference (UserController.currentUser, Rose.statList);
+				if (!Utility.DifferenceIsOwned (differenceNumber)) {
+					if (differenceNumber != "") {
+						rankDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+					}
+				}
+			}
+
 			if (firstStart) {
-				//instDialog.ShowDialog ();
-				instDialog = screensManager.ShowInstructionDialog(closeInstruction);
+
+				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
+
 				firstStart = false;
 			}
 
-			//TextRank.text = Utility.getDcumentsPath ();
-			Utility.setAvatar (avatar, UserController.currentUser, Rose.statList);
+			int showInvitation = 1;
+			if (PlayerPrefs.HasKey ("showInvitation")) {
+				showInvitation = 0;
+			}
+			else {
+				PlayerPrefs.SetInt ("showInvitation", 1);
+				invitationDlg.ShowDialog ();
+			}
+
+			Utility.setAvatar (avatar, Rose.statList);
 
 			if (Rose.statList [0].Fights >= Constants.fightsCount) {				
 				centerElement.ShowData ();
 			}
 
+			//Show ring
+			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
+				ProRing.SetActive (true);
+				UsualRing.SetActive (false);
+
+				//eagle.gameObject.SetActive (true);
+				//Utility.setEagle (eagle, Rose.statList);
+			}
+
+			if (UserController.currentUser.SysMessage != null && UserController.currentUser.SysMessage.Length > 0) {
+				string sysMessage = UserController.currentUser.SysMessage;
+				UserController.currentUser.SysMessage = "";
+
+				errorPanel = screensManager.ShowErrorDialog (sysMessage, ErrorCancelByServer);
+			}
+
 		} else {
-			if(source_error == Constants.LOGIN_ERROR){				
-				errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@connection_error"), OnErrorButtonClick);
-			}else{
-				errorPanel = screensManager.ShowErrorDialog(error_text, OnErrorButtonClick);
+			if (source_error == Constants.LOGIN_ERROR) {				
+				errorPanel = screensManager.ShowErrorDialog (ScreensManager.LMan.getString ("@connection_error"), OnErrorButtonClick);
+			} else {
+				errorPanel = screensManager.ShowErrorDialog (error_text, OnErrorButtonClick);
 			}
 		}
 	}
 
-	public void closeInstruction(){
+	public void closeInstruction ()
+	{
 		screensManager.CloseInstructionPanel (instDialog);
 		instDialog = null;
 	}
 
-	public void shielClosedDialog(){
+	public void shielClosedDialog ()
+	{
 	
 	}
 
-	public void OnErrorButtonClick(){
-
-		GameObject.Destroy(errorPanel.gameObject);
+	public void OnErrorButtonClick ()
+	{
+		GameObject.Destroy (errorPanel.gameObject);
 		errorPanel = null;
 
-		//if (!UserController.registered) {
-			Application.Quit();
-		//}
-
+		Application.Quit ();
 	}
 
-	void Update(){
-
-//		if (gameObject.activeSelf) {
-//
-//			startingTime1 += Time.deltaTime;
-//
-//			firstRing.rotation  = Quaternion.Euler(0,0,25*startingTime1);
-//			secondRing.rotation = Quaternion.Euler(0,0,-25*startingTime1);
-//
-//			if (startingTime1 > 360)
-//				startingTime1 = 0;
-//		}
+	void Update ()
+	{
 
 		if (Input.GetKey (KeyCode.Escape)) {
 			Debug.Log ("Click exit action");
@@ -309,41 +325,4 @@ public class MainScreenManager : MonoBehaviour {
 		}
 	}
 
-	private void RequestInterstitial()
-	{
-		if (interstitial != null) {
-			interstitial.Destroy ();
-			interstitial = null;
-		}
-		
-		#if UNITY_ANDROID
-		string adUnitId = Constants.FULL_SIZE_BANNER_ID_KEY_ANDROID;
-		#elif UNITY_IPHONE
-		string adUnitId = Constants.FULL_SIZE_BANNER_ID_KEY_IOS;
-		#else
-		string adUnitId = "unexpected_platform";
-		#endif
-
-		// Initialize an InterstitialAd.
-		interstitial = new InterstitialAd(adUnitId);
-
-		interstitial.OnAdLoaded += HandleOnAdLoaded;
-
-		// Create an empty ad request.
-		AdRequest request = new AdRequest.Builder()
-		.TagForChildDirectedTreatment(true)
-		.Build();
-		// Load the interstitial with the request.
-		interstitial.LoadAd(request);
-	}
-
-	public void HandleOnAdLoaded(object sender, System.EventArgs args)
-	{
-		Debug.Log ("AdMOB big was loaded");
-		// Handle the ad loaded event.
-
-		if (interstitial.IsLoaded ()) {
-			interstitial.Show ();
-		}
-	}
 }

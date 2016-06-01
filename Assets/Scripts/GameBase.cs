@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public abstract class GameBase : MonoBehaviour {
 
+	public 	Button					okButton;
+
 	protected List<TaskAnswer> 		answerList 	= null;
 	protected List<TestTask> 		tasksList 	= null;
 	protected TestTask 				currentTask = null;
@@ -22,10 +24,13 @@ public abstract class GameBase : MonoBehaviour {
 
 	protected int 	Delay = 0;
 	protected bool	isActiveForm = true;
+	protected OnlineGame	ong;
 
 	public void InitGameObject(List<TestTask> pTasksList, FinishAnswerDelegate pFinishDelegate, RoundResultDelegate roundRes,RefreshGameScreen refreshAction , ClockObject	pClock, int GameDuration){
 
 		screenManager 	= ScreensManager.instance;
+		ong				= OnlineGame.instance;
+
 		answerList 		= null;
 		tasksList		= pTasksList;
 
@@ -38,21 +43,43 @@ public abstract class GameBase : MonoBehaviour {
 
 		clock.stopTime = 0;
 		clock.finishTime = GameDuration;
+		clock.GameType = 0;
 
 		inProgress = false;
 
 		InitGameScreen ();
+
+		//StartCoroutine (WaitForReading ());
+	}
+
+	protected IEnumerator WaitForReading(){
+		
+		inProgress = true;
+		isActiveForm = false;
+
+		if(okButton != null)
+			okButton.enabled = false;
+
+		yield return new WaitForSeconds(0);
+
+		isActiveForm = true;
+		inProgress = false;
+
+		if(okButton != null)
+			okButton.enabled = true;
+
+		clock.StartTimer (onAnswer);
 	}
 
 	protected abstract void InitGameScreen ();
 
 	public virtual void StartGame(){
-		clock.StartTimer (onAnswer);
+		//clock.StartTimer (onAnswer);
 	}
 
 	public void onAnswer(bool autoAnswer){
 
-		if (inProgress)
+		if (inProgress || isActiveForm == false)
 			return;
 
 		inProgress = true;
@@ -99,12 +126,12 @@ public abstract class GameBase : MonoBehaviour {
 
 		//Show round result screen for more than one rounds
 		if (tasksList.Count > 1) {
-			roundResultDialog = screenManager.ShowResultDialog (fightResult, answerList.Count);
+			roundResultDialog = screenManager.ShowResultDialog (fightResult, answerList, tasksList);
 			yield return new WaitForSeconds (3);
 			screenManager.CloseResultDialogPanel (roundResultDialog);
 		}
 
-		if (answerList.Count != tasksList.Count) {
+		if (answerList.Count != tasksList.Count && ong.currentFight.FightState == -1){
 
 			Debug.Log ("InitGameScreen");
 			InitGameScreen ();
@@ -113,7 +140,7 @@ public abstract class GameBase : MonoBehaviour {
 		} else {
 
 			Debug.Log ("PrepareScreenBeforFinishCall");
-			PrepareScreenBeforFinishCall();
+			PrepareScreenBeforFinishCall ();
 
 			finishDelegate (answerList);
 		}

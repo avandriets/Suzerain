@@ -18,22 +18,30 @@ public delegate void ParseFightsDelegate(string fightsList);
 public delegate void TimerStopDelegate();
 
 public delegate void CancelFightByServerDelegate();
+public delegate void CancelFightDelegate(Fight pFight);
 public delegate void CancelFughtByUserDelegate();
 public delegate void ReadyToFight();
 public delegate void ErrorToFight();
+
+public delegate void SucsessRegistrationDelegate(int typeRed, Dictionary<string,object> logInDetails);
+public delegate void FailRegistrationDelegate(int typeRed);
+
+public delegate void AskForFightDelegate(int fightId);
 
 public static class Utility {
 
 	public static bool StopCoroutine = true;
 
-	public static bool	TESTING_MODE = true;
-	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
-	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
+	public static bool	TESTING_MODE	= false;
+	public static bool	ShowRightAnswer = true;
+
+	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
+	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
 	public static string LOGIN_URL			= "Login";
 	public static string LETSFIGHT_URL		= "LetsFight";
 	public static string STATE_FIGTS_URL	= "GetUserStats";
 	public static string STATE_LOCATION_FIGTS_URL	= "GetLocStats";
-	public static string REGISTER_USER_URL	= "RegisterUser";
+	public static string REGISTER_USER_URL	= "RegisterUserEx";
 	public static string STATE_FIGHT_URL	= "GetFightState";
 	public static string TASK_URL			= "GetTask";
 	public static string SET_ANSWER_URL		= "SetAnswer";
@@ -52,6 +60,66 @@ public static class Utility {
 	public static string SET_RANGE_ANSWER_URL	= "SetTestAnswer";
 	public static string GET_ROUND_STATE_URL	= "GetRoundState";
 	public static string FIGHT_REJECT_URL	= "RejectFight";
+
+	public static shieldDataObj[] shieldsArray = new shieldDataObj[] {
+		new shieldDataObj(1, 0   ,99  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ"), 
+		new shieldDataObj(2, 100 ,299 ,"2", "СТАЛЬНОЙ ЩИТ"), 
+		new shieldDataObj(3, 300 ,699 ,"3", "БРОНЗОВЫЙ ЩИТ"),
+		new shieldDataObj(4, 700 ,1499,"4", "СЕРЕБРЯНЫЙ ЩИТ"),
+		new shieldDataObj(5, 1500,2999,"5", "ЗОЛОТОЙ ЩИТ"),
+		new shieldDataObj(6, 3000,4999,"6", "ПЛАТИНОВЫЙ ЩИТ"),
+		new shieldDataObj(7, 5000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ")
+	};
+
+	public static string getRegistrationType(int regType){
+
+		string authType;
+
+		if (regType == Constants.GOOGLE_PLAY) {
+			authType = "GP";
+		} else if (regType == Constants.FACEBOOK) {
+			authType = "FB";
+		} else {
+			authType = "LOC";
+		}
+
+		return authType;
+	}
+
+	public static List<Friend> ParseFriendsJsonList(string pJsonStr, string nameOfCollection){
+
+		var N = JSON.Parse(pJsonStr);
+		var mGetResult = N[nameOfCollection].AsArray;
+		List<Friend> newObj = new List<Friend> ();
+
+		foreach (var item in mGetResult) {
+			Friend newItem = ParseGetFriendResponse(item.ToString());
+			newObj.Add(newItem);
+		}
+
+		return newObj;
+	}
+
+	public static List<Friend> GetListOfFriends(string pJsonStr){
+
+		return ParseFriendsJsonList(pJsonStr,"GetFriendsResult" );
+	}
+
+	public static Friend ParseGetFriendResponse(string pJsonStr){
+
+		var mGetResult = JSON.Parse(pJsonStr);
+
+		Friend newObj = new Friend ();
+
+		newObj.UserId		= mGetResult ["UserId"].AsInt;
+		newObj.UserName		= mGetResult ["UserName"];
+		newObj.Result		= mGetResult ["Result"].AsDouble;
+		newObj.State 		= mGetResult ["State"].AsInt;
+		newObj.Rank 		= mGetResult ["Rank"].AsInt;
+		newObj.Score 		= mGetResult ["Score"].AsInt;
+
+		return newObj;
+	}
 
 	public static List<FightStat> GetListOfFightsStates(string pJsonStr){
 
@@ -96,6 +164,7 @@ public static class Utility {
 		newObj.Result 		= mGetResult ["Result"].AsDouble; 
 		newObj.LocalStatus 	= mGetResult ["LocalStatus"].AsInt;
 		newObj.GlobalStatus = mGetResult ["GlobalStatus"].AsInt;
+		newObj.Score = mGetResult ["Score"].AsInt;
 	
 		return newObj;
 	}
@@ -190,9 +259,41 @@ public static class Utility {
 		newObj.Token 	 	= N ["Token"].Value;
 		newObj.GameStatus  	= N ["GameStatus"].AsInt;
 		newObj.RankId  		= N ["RankId"].AsInt;
+		newObj.SysMessage	= N ["SysMessage"].Value;
 		
 		return newObj;
 	}
+
+
+	public static Fight ParseFightWthFriendResponse(string pJsonStr){
+
+		var N = JSON.Parse(pJsonStr);
+		var mLetsFightResult = N["LetsFightWithFriendResult"];
+
+		Fight fightObj = new Fight ();
+
+		fightObj.Id					= mLetsFightResult ["Id"].AsInt;
+		fightObj.InitiatorId		= mLetsFightResult ["InitiatorId"].AsInt;
+		fightObj.FightState			= mLetsFightResult ["FightState"].AsInt;
+		fightObj.FightTypeId		= mLetsFightResult ["FightTypeId"].AsInt;
+		fightObj.TaskId				= mLetsFightResult ["TaskId"].AsInt;
+		fightObj.OpponentId			= mLetsFightResult ["OpponentId"].AsInt;
+		fightObj.InitiatorScore		= mLetsFightResult ["InitiatorScore"].AsInt;
+		fightObj.InitiatorAnswer	= mLetsFightResult ["InitiatorAnswer"].AsInt; 
+		fightObj.OpponentScore 		= mLetsFightResult ["OpponentScore"].AsInt;
+		fightObj.OpponentAnswer		= mLetsFightResult ["OpponentAnswer"].AsInt;
+		fightObj.Winner 			= mLetsFightResult ["Winner"].AsInt;
+		fightObj.Looser 			= mLetsFightResult ["Looser"].AsInt;
+		fightObj.IsDraw				= mLetsFightResult ["IsDraw"].AsBool;
+
+		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
+		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
+
+		return fightObj;
+	}
+
 
 	public static Fight ParseFightResponse(string pJsonStr){
 
@@ -217,6 +318,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -244,6 +347,8 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -271,6 +376,37 @@ public static class Utility {
 
 		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
 		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
+
+		return fightObj;
+	}
+
+	public static Fight ParseFightStateResponseByNode(string pJsonStr, string nodeName){
+
+		var N = JSON.Parse(pJsonStr);
+		var mLetsFightResult = N[nodeName];
+
+		Fight fightObj = new Fight ();
+
+		fightObj.Id					= mLetsFightResult ["Id"].AsInt;
+		fightObj.InitiatorId		= mLetsFightResult ["InitiatorId"].AsInt;
+		fightObj.FightState			= mLetsFightResult ["FightState"].AsInt;
+		fightObj.FightTypeId		= mLetsFightResult ["FightTypeId"].AsInt;
+		fightObj.TaskId				= mLetsFightResult ["TaskId"].AsInt;
+		fightObj.OpponentId			= mLetsFightResult ["OpponentId"].AsInt;
+		fightObj.InitiatorScore		= mLetsFightResult ["InitiatorScore"].AsInt;
+		fightObj.InitiatorAnswer	= mLetsFightResult ["InitiatorAnswer"].AsInt; 
+		fightObj.OpponentScore 		= mLetsFightResult ["OpponentScore"].AsInt;
+		fightObj.OpponentAnswer		= mLetsFightResult ["OpponentAnswer"].AsInt;
+		fightObj.Winner 			= mLetsFightResult ["Winner"].AsInt;
+		fightObj.Looser 			= mLetsFightResult ["Looser"].AsInt;
+		fightObj.IsDraw				= mLetsFightResult ["IsDraw"].AsBool;
+
+		fightObj.RealInitiatorAnswer	= mLetsFightResult ["RealInitiatorAnswer"].AsInt;
+		fightObj.RealOpponentAnswer		= mLetsFightResult ["RealOpponentAnswer"].AsInt;
+		fightObj.WinnerScore	= mLetsFightResult ["WinnerScore"].AsInt;
+		fightObj.LooserScore		= mLetsFightResult ["LooserScore"].AsInt;
 
 		return fightObj;
 	}
@@ -345,6 +481,46 @@ public static class Utility {
 		return buffer;
 	}
 
+	public static bool DifferenceIsOwned(string shieldNum){
+
+		//PlayerPrefs.DeleteKey ("shields");
+
+		if (PlayerPrefs.HasKey ("difference")) {
+
+			string values = PlayerPrefs.GetString ("difference");
+
+			JSONArray listNode = new JSONArray();
+			listNode = JSON.Parse (values).AsArray;
+
+			foreach (JSONData i in listNode) {
+				if (i.Value == shieldNum) {
+					return true;
+				}
+			}
+
+			JSONNode jnod = new JSONNode();
+			jnod.Add (shieldNum);
+
+			listNode.Add (shieldNum);
+			PlayerPrefs.SetString ("difference", listNode.ToString());
+
+			return false;
+
+		}else{
+			JSONArray listNode = new JSONArray();
+
+			JSONNode jnod = new JSONNode();
+			jnod.Add (shieldNum);
+
+			listNode.Add (shieldNum);
+
+			PlayerPrefs.SetString ("difference", listNode.ToString());
+
+			return true;
+		}
+
+	}
+
 	public static bool ShieldIsOwned(string shieldNum){
 
 		//PlayerPrefs.DeleteKey ("shields");
@@ -385,80 +561,89 @@ public static class Utility {
 			
 	}
 
+	public static string getDifferenceDescription(User user, List<FightStat> fightStat){
+
+		string temlate = "Лучше всего Вы проявили себя в поединках {0}.\n\nВы получаете титул \"{1}\".\n\nПоздравляем!";
+		double maxResult = -1;
+		int FightType = -1;
+
+		if (getNumberOfShield ( fightStat).shieldNumber != "1") {
+			foreach (var c in fightStat) {
+				if (c.FightTypeId != 0) {
+					if (c.Result > maxResult) {
+						maxResult = c.Result;
+						FightType = c.FightTypeId;
+					}
+				}
+			}
+
+			//return getRunkByNumber (FightType);
+		} else {
+			return "";
+		}
+
+		return string.Format(temlate, ScreensManager.LMan.getString(FightTypeName(FightType)), ScreensManager.LMan.getString(getRunkByNumber (FightType)));
+	}
+		
 	public static string getShieldDescription(User user, List<FightStat> fightStat){
 	
-		string image = "1";
+		string temlate = "Вы одержали {0} побед\n\nзаработав {1} баллов.\n\nВы получаете {2}.\n\nПоздравляем!";
+
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "Вы побеждаете в более чем \n\n30% поединков.\n\nВы получаете \n\nСТАЛЬНОЙ ЩИТ.";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "Вы побеждаете в более чем \n\n40% поединков.\n\nВы получаете \n\nБРОНЗОВЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "Вы побеждаете в более чем \n\n50% поединков.\n\nВы получаете \n\nСЕРЕБРЯНЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "Вы побеждаете в более чем \n\n60% поединков.\n\nВы получаете \n\nЗОЛОТОЙ ЩИТ.";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "Вы побеждаете в более чем \n\n70% поединков.\n\nВы получаете \n\nПЛАТИНОВЫЙ ЩИТ.";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "Вы побеждаете в более чем \n\n80% поединков.\n\nВы получаете \n\nКРИСТАЛЬНЫЙ ЩИТ.";
+
+				var image = getShieldNumByScore (c.Score);
+				if (image.shieldNumber != "1")
+					temlate = string.Format (temlate, c.RowWins, c.Score, image.description);
+				else {
+					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nПоздравляем и желаем хороших дуэлей!";
 				}
 			}
 		}
 
-		return image;
+		return temlate;
 	}
 
-	public static string getNumberOfShield(User user, List<FightStat> fightStat){
+	public static shieldDataObj getShieldNumByScore(double fightStat){
+
+		for (int i = 0; i < shieldsArray.Length; i++) {
+			if (shieldsArray [i].startScore <= fightStat && shieldsArray [i].endScore >= fightStat) {
+				return shieldsArray [i];
+			}
+		}
+
+		return shieldsArray [0];
+	}
+
+	public static shieldDataObj getNumberOfShield(List<FightStat> fightStat){
 		
-		string image = "1";
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "2";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "3";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "4";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "5";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "6";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "7";
-				}
+
+				return getShieldNumByScore (c.Score);
+
 			}
 		}
 
-		return image;
+		return shieldsArray[0];
 	}
 
-	public static void setAvatar(Image imgAvatar, User user, List<FightStat> fightStat){
+	public static void setAvatar(Image imgAvatar, List<FightStat> fightStat){
 	
-		string image = "1";
-		foreach (var c in fightStat) {
-			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
-				if (c.Result * 100 <= 29) {
-					image = "1";
-				} else if (c.Result*100 <= 39 && c.Result*100 > 29) {
-					image = "2";
-				}else if (c.Result*100 <= 49 && c.Result*100 > 39) {
-					image = "3";
-				}else if (c.Result*100 <= 59 && c.Result*100 > 49) {
-					image = "4";
-				}else if (c.Result*100 <= 69 && c.Result*100 > 59) {
-					image = "5";
-				}else if (c.Result*100 <= 79 && c.Result*100 > 69) {
-					image = "6";
-				}else if (c.Result*100 <= 100 && c.Result*100 > 79) {
-					image = "7";
-				}
-			}
+		string image = getNumberOfShield(fightStat).shieldNumber;
+
+		Sprite spr = null;
+		Texture2D tex = (Texture2D)Resources.Load(image);
+		if (tex != null) {
+			spr = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
+
+			imgAvatar.sprite = spr;
 		}
+	}
+
+	public static void setAvatarByState(Image imgAvatar, double fightStat){
+
+		string image = getShieldNumByScore (fightStat).shieldNumber;
 
 		Sprite spr = null;
 		Texture2D tex = (Texture2D)Resources.Load(image);
@@ -474,14 +659,24 @@ public static class Utility {
 		double maxResult = -1;
 		int FightType = -1;
 
-		foreach (var c in fightStat) {
-			if (c.FightTypeId != 0 ) {
-				if (c.Result > maxResult) {
-					maxResult = c.Result;
-					FightType = c.FightTypeId;
+		if (getNumberOfShield ( fightStat).shieldNumber != "1") {
+			foreach (var c in fightStat) {
+				if (c.FightTypeId != 0) {
+					if (c.Result > maxResult) {
+						maxResult = c.Result;
+						FightType = c.FightTypeId;
+					}
 				}
 			}
+
+			return getRunkByNumber (FightType);
+		} else {
+			return "";
 		}
+			
+	}
+
+	public static string getRunkByNumber(int FightType){
 
 		switch (FightType) {
 		case 1:
@@ -498,7 +693,7 @@ public static class Utility {
 			return "@keeper";
 		case 7:
 			return "@prophet";
-			default:
+		default:
 			return "";
 		}
 
@@ -550,9 +745,4 @@ public static class Utility {
 
 		return new Color32(r, g, b, 1);
 	}
-
-//	public static double GetNumericPrice(this VirtualGood good)
-//	{
-//		return (good.PurchaseType as PurchaseWithMarket).MarketItem.Price;
-//	}
 }

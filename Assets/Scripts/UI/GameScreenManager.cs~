@@ -25,7 +25,9 @@ public class GameScreenManager : MonoBehaviour {
 	public GameType3 			gameType3;
 	public GameType4			gameType4;
 	public GameType5 			gameType5;
+	public GameType5_1 			gameType5_1;
 	public GameType6			gameType6;
+	public GameType6_1			gameType6_1;
 	public GameType7			gameType7;
 
 	public FightResultDialog 	fightResultDialog;
@@ -36,6 +38,9 @@ public class GameScreenManager : MonoBehaviour {
 	Sprite spriteLose	= null;
 	Sprite spriteDefault	= null;
 
+	private ErrorPanel	errorPanel = null;
+
+	ScreensManager	screensManager	= null;
 	bool fightStart = false;
 
 	private void showRoundsResults(){
@@ -52,6 +57,8 @@ public class GameScreenManager : MonoBehaviour {
 	}
 
 	void OnEnable(){
+
+		screensManager	= ScreensManager.instance;
 
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Game screen"));
 
@@ -96,10 +103,15 @@ public class GameScreenManager : MonoBehaviour {
 		ong				= OnlineGame.instance;
 		screenManager	= ScreensManager.instance;
 
-		ong.gameProtocol.SetValue("");
+		//ong.gameProtocol.SetValue("");
 
 		if (ong.currentFight.FightState != -1) {
-			screenManager.ShowMainScreen ();
+
+			if(!ong.mFightWithFriend || (ong.mFightWithFriend && ong.mFriendsFightOpponent))
+				screenManager.ShowMainScreen ();
+			else
+				screenManager.ShowFriendsScreen ();
+			
 		} else {
 
 			screenManager.InitTranslateList ();
@@ -127,13 +139,12 @@ public class GameScreenManager : MonoBehaviour {
 			introducePanel.ClosePanel ();
 			StartFight ();
 		}
-
 	}
 
 	public void InitOpponents(){
 	
-		Utility.setAvatar(You,		UserController.currentUser, Rose.statList);
-		Utility.setAvatar(Opponent,	ong.opponent, OnlineGame.statList);
+		Utility.setAvatar(You,		Rose.statList);
+		Utility.setAvatar(Opponent,	OnlineGame.statList);
 
 		YouName.text = UserController.currentUser.UserName;
 		OpponentName.text = ong.opponent.UserName;
@@ -143,51 +154,66 @@ public class GameScreenManager : MonoBehaviour {
 
 	public void StartFight(){
 
-		fightStart = true;
+		if (ong.tasksList.Count == 0) {
+			errorPanel = screensManager.ShowErrorDialog ("Ошибка вызо", finishGame);
+			finishGame ();
+		} else {
 
-		ong.gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString());
-		ong.gameProtocol.AddMessage ("Start fight");
-		ong.gameProtocol.AddMessage ("User: " + UserController.currentUser.UserName);
-		ong.gameProtocol.AddMessage ("Userid: " + UserController.currentUser.Id.ToString());
-		ong.gameProtocol.AddMessage ("FightTypeId: " + ong.currentFight.FightTypeId);
-		ong.gameProtocol.AddMessage ("fightID: " + ong.currentFight.Id);
+			fightStart = true;
 
-		Debug.Log ("Time: " + System.DateTime.Now.ToString());
-		Debug.Log ("Start fight");
-		Debug.Log ("User: " + UserController.currentUser.UserName);
-		Debug.Log ("Userid: " + UserController.currentUser.Id.ToString());
-		Debug.Log ("FightTypeId: " + ong.currentFight.FightTypeId);
-		Debug.Log ("fightID: " + ong.currentFight.Id);
+			Debug.Log ("Time: " + System.DateTime.Now.ToString ());
+			Debug.Log ("Start fight");
+			Debug.Log ("User: " + UserController.currentUser.UserName);
+			Debug.Log ("Userid: " + UserController.currentUser.Id.ToString ());
+			Debug.Log ("FightTypeId: " + ong.currentFight.FightTypeId);
+			Debug.Log ("fightID: " + ong.currentFight.Id);
 
+			gameTypeOneTwo.gameObject.SetActive (false);
+			gameType2.gameObject.SetActive (false);
+			gameType3.gameObject.SetActive (false);
+			gameType4.gameObject.SetActive (false);
+			//gameType5.gameObject.SetActive (false);
+			gameType5_1.gameObject.SetActive (false);
+			//gameType6.gameObject.SetActive (false);
+			gameType6_1.gameObject.SetActive (false);
+			gameType7.gameObject.SetActive (false);
 
-		if (ong.currentFight.FightTypeId == 1) {
-			gameTypeOneTwo.gameObject.SetActive (true);
-			gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
-			gameTypeOneTwo.StartGame ();
-		} else if (ong.currentFight.FightTypeId == 2){
-			gameType2.gameObject.SetActive (true);
-			gameType2.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 60);
-			gameType2.StartGame ();
-		} else if (ong.currentFight.FightTypeId == 3) {
-			gameType3.gameObject.SetActive (true);
-			gameType3.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 60);
-			gameType3.StartGame ();
-		}else if (ong.currentFight.FightTypeId == 4) {
-			gameType4.gameObject.SetActive (true);
-			gameType4.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
-			gameType4.StartGame ();
-		}else if (ong.currentFight.FightTypeId == 5) {
-			gameType5.gameObject.SetActive (true);
-			gameType5.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
-			gameType5.StartGame ();
-		}else if (ong.currentFight.FightTypeId == 6) {
-			gameType6.gameObject.SetActive (true);
-			gameType6.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
-			gameType6.StartGame ();
-		}else if (ong.currentFight.FightTypeId == 7) {
-			gameType7.gameObject.SetActive (true);
-			gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
-			gameType7.StartGame ();
+			if (ong.currentFight.FightTypeId == 1) {
+				gameTypeOneTwo.gameObject.SetActive (true);
+				gameTypeOneTwo.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameTypeOneTwo.StartGame ();
+			} else if (ong.currentFight.FightTypeId == 2) {
+				gameType2.gameObject.SetActive (true);
+				gameType2.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 60);
+				gameType2.StartGame ();
+			} else if (ong.currentFight.FightTypeId == 3) {
+				gameType3.gameObject.SetActive (true);
+				gameType3.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 60);
+				gameType3.StartGame ();
+			} else if (ong.currentFight.FightTypeId == 4) {
+				gameType4.gameObject.SetActive (true);
+				gameType4.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType4.StartGame ();
+			} else if (ong.currentFight.FightTypeId == 5) {
+//			gameType5.gameObject.SetActive (true);
+//			gameType5.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+//			gameType5.StartGame ();
+				gameType5_1.gameObject.SetActive (true);
+				gameType5_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 30);
+				gameType5_1.StartGame ();
+			} else if (ong.currentFight.FightTypeId == 6) {
+//			gameType6.gameObject.SetActive (true);
+//			gameType6.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+//			gameType6.StartGame ();
+				gameType6_1.gameObject.SetActive (true);
+				gameType6_1.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType6_1.StartGame ();
+
+			} else if (ong.currentFight.FightTypeId == 7) {
+				gameType7.gameObject.SetActive (true);
+				gameType7.InitGameObject (ong.tasksList, OnFinishGame, RoundResult, showRoundsResults, clock, 20);
+				gameType7.StartGame ();
+			}
 		}
 
 	}
@@ -199,9 +225,6 @@ public class GameScreenManager : MonoBehaviour {
 
 	public void OnFinishGame(List<TaskAnswer> 	answerList){
 
-		ong.gameProtocol.AddMessage ("Time: " + System.DateTime.Now.ToString());
-		ong.gameProtocol.AddMessage ("Finish game");
-
 		Debug.Log ("Time: " + System.DateTime.Now.ToString());
 		Debug.Log ("Finish game");
 
@@ -212,35 +235,62 @@ public class GameScreenManager : MonoBehaviour {
 
 	private void ShowFinalScreen(){
 
+		string template = "Вы получили {0} балл{1}";
+
+
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.loop = false;
 
 		if (ong.currentFight.IsDraw == true) {
 			SoundManager.ChoosePlayMusic (Constants.SoundDraft);
+			template = string.Format (template, ong.currentFight.WinnerScore,"");
 		} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
 			SoundManager.ChoosePlayMusic (Constants.SoundWin);
+			template = string.Format (template, ong.currentFight.WinnerScore, "а");
 		} else {
 			SoundManager.ChoosePlayMusic (Constants.SoundLose);
+			template = string.Format (template, ong.currentFight.LooserScore, "ов");
 		}
 
 		// Dont show fight result description if we have one fight
 		if (ong.tasksList.Count > 1) {
 			
 			if (ong.currentFight.IsDraw == true) {
-				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", 0, finishGame, ong.fightsList, template, "");
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", 1, finishGame, ong.fightsList, template, "");
 			} else {
-				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, "");
+				fightResultDialog.SetText ("", -1, finishGame, ong.fightsList, template, "");
 			}
 
 		} else {
 			
-			if (ong.currentFight.IsDraw == true) {			
-				fightResultDialog.SetText (FightResultDescription.getExtendetDraftDescription (ong.fightsList[0]), 0, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+			if (ong.currentFight.IsDraw == true) {
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetDraftDescription (ong.fightsList[0]), 
+					0, 
+					finishGame, 
+					ong.fightsList, 
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-				fightResultDialog.SetText (FightResultDescription.getExtendetWinDescription (ong.fightsList[0]), 1, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetWinDescription (ong.fightsList[0]), 
+					1, 
+					finishGame, 
+					ong.fightsList, 
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			} else {
-				fightResultDialog.SetText (FightResultDescription.getExtendetLoseDescription (ong.fightsList[0]), -1, finishGame, ong.fightsList, FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]));
+				fightResultDialog.SetText (
+					FightResultDescription.getExtendetLoseDescription (ong.fightsList[0]),
+					-1, 
+					finishGame, 
+					ong.fightsList, 
+					template,//FightResultDescription.getScoreBothPlayers(ong.fightsList[ong.fightsList.Count -1]),
+					ong.tasksList[ong.fightsList.Count -1].GetRightAnswer()
+				);
 			}
 
 		}
@@ -248,10 +298,9 @@ public class GameScreenManager : MonoBehaviour {
 
 	public void finishGame(){
 
-		StartCoroutine(ong.gameProtocol.SendMessageToSrv (ong.gameProtocol.GetLog()));
-		//ong.gameProtocol.SaveToFile (ong.currentFight.Id.ToString() + "_" + ong.currentFight.FightTypeId.ToString());
+		//UserController.authenticated = false;
+		UserController.reNewStatistic = true;
 
-		UserController.authenticated = false;
 		GameObject.Find ("MusicManager").GetComponent<SoundManager> ().musicSource.loop = true;
 		SoundManager.ChoosePlayMusic (Constants.SounrMainTheme);
 
@@ -268,7 +317,8 @@ public class GameScreenManager : MonoBehaviour {
 			gameType4.gameObject.SetActive (false);
 
 		}else if (ong.currentFight.FightTypeId == 5) {
-			gameType5.gameObject.SetActive (false);
+			//gameType5.gameObject.SetActive (false);
+			gameType5_1.gameObject.SetActive (false);
 
 		}else if (ong.currentFight.FightTypeId == 6) {
 			gameType6.gameObject.SetActive (false);
@@ -277,8 +327,35 @@ public class GameScreenManager : MonoBehaviour {
 			gameType7.gameObject.SetActive (false);
 		}
 
-		MainScreenManager.gameCounts -= 1;
-		screenManager.ShowMainScreen();
+		if (errorPanel != null) {
+			GameObject.Destroy (errorPanel.gameObject);
+			errorPanel = null;
+		}
+
+		if (!ong.mFightWithFriend || (ong.mFightWithFriend && ong.mFriendsFightOpponent)) {			
+
+			if (screenManager.mStartScreenCanvas != null) {
+
+				if (screenManager.mStartScreenCanvas == screenManager.mFriendsScreenCanvas) {
+					screenManager.ShowFriendsScreen ();
+				} else if (screenManager.mStartScreenCanvas == screenManager.mProfileScreenCanvas) {
+					screenManager.ShowProfileScreen ();
+				} else if (screenManager.mStartScreenCanvas == screenManager.mAchivmentScreenCanvas) {
+					screenManager.ShowAchivmentsScreen ();
+				} else {
+					screenManager.ShowMainScreen ();
+				}
+
+			}else{
+				screenManager.ShowMainScreen ();
+			}
+				
+			screenManager.mStartScreenCanvas = null;
+		}
+		else
+			screenManager.ShowFriendsScreen ();
+
+		ong.currentFight = null;
 	}
 
 }

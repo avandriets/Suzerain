@@ -22,11 +22,17 @@ public class GameType4 : GameBase {
 		finalNumber.SetDefaultColor();
 		finalNumber.SetNumber (0);
 
+		clock.GameType = 4;
+		clock.targetTime = currentTask.TaskId;
+
 		inProgress		= false;
+
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
 	}
 
 	public override void StartGame(){
-		clock.StartTimer (onAnswer);
+		//clock.StartTimer (onAnswer);
 	}
 
 	protected override int GetAnswer (){

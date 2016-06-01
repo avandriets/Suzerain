@@ -26,7 +26,7 @@ MonoBehaviour:
     - name: Soomla.Core.DebugMessages
       value: 
     - name: Soomla.Core.DebugUnityMessages
-      value: 
+      value: True
     - name: Soomla.Store.NoneBP
       value: 
     - name: Soomla.Store.AndroidPublicKey
@@ -34,4 +34,10 @@ MonoBehaviour:
     - name: Soomla.Store.AndroidTestPurchases
       value: 
     - name: Soomla.Store.PlaySsvValidation
+      value: 
+    - name: Soomla.Store.IosSSV
+      value: 
+    - name: Soomla.Store.WP8SimulatorBuild
+      value: 
+    - name: Soomla.Store.WP8TestMode
       value: 

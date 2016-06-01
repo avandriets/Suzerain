@@ -11,14 +11,13 @@ public class MedalShowDialog : MonoBehaviour {
 	public Image		ShieldIcon;
 	public Button 		okButton;
 
-	//private ErrorPanel  errorPanel;
 
 	public void InitDialog(User user, List<FightStat> fightStat, UnityAction okEvent){
 		ShowMedalPanelObject.SetActive (true);
 
 		ShieldDescription.text 	= System.Text.RegularExpressions.Regex.Unescape(Utility.getShieldDescription(user ,fightStat));
 
-		Utility.setAvatar (ShieldIcon, user, fightStat);
+		Utility.setAvatar (ShieldIcon,  fightStat);
 
 		okButton.onClick.RemoveAllListeners();
 		okButton.onClick.AddListener (okEvent);

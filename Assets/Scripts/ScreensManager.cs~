@@ -12,6 +12,9 @@ public class ScreensManager : MonoBehaviour {
 	public GameObject mProfileScreenCanvas;
 	public GameObject mGameScreenCanvas;
 	public GameObject mAchivmentScreenCanvas;
+	public GameObject mFriendsScreenCanvas;
+
+	public GameObject mStartScreenCanvas = null;
 
 	public GameObject	currentScreenCanvas = null;
 
@@ -21,6 +24,8 @@ public class ScreensManager : MonoBehaviour {
 	public WaitOpponentDialog	waitOpponentDialog;
 	public RoundResultDialog	roundResultDialog;
 	public InstructionDialog	instDialog;
+	public AcceptFightWithFriend	fightWithFriendDialog;
+
 
 	public static Lang 	LMan;
 
@@ -139,6 +144,19 @@ public class ScreensManager : MonoBehaviour {
 		}
 	}
 
+	public void ShowFriendsScreen()
+	{
+		if (currentScreenCanvas != null) {
+			currentScreenCanvas.SetActive(false);
+		}
+
+		currentScreenCanvas = mFriendsScreenCanvas;
+
+		if (!mFriendsScreenCanvas.activeSelf) {
+			mFriendsScreenCanvas.SetActive (true);
+		}
+	}
+
 	public void ShowRegistrationScreen()
 	{
 		if (currentScreenCanvas != null) {
@@ -191,13 +209,13 @@ public class ScreensManager : MonoBehaviour {
 		}
 	}
 		
-	public RoundResultDialog ShowResultDialog(List<Fight> message, int round){
+	public RoundResultDialog ShowResultDialog(List<Fight> message, List<TaskAnswer> answers, List<TestTask> 		tasksList){
 
 		RoundResultDialog NewWaitPanel = GameObject.Instantiate(roundResultDialog) as RoundResultDialog;
 
 		NewWaitPanel.transform.SetParent(currentScreenCanvas.transform);
 		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
-		NewWaitPanel.SetText(message, round);
+		NewWaitPanel.SetText(message,  answers, tasksList);
 
 		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
 		rctr.offsetMax = new Vector2(0,0);
@@ -314,5 +332,22 @@ public class ScreensManager : MonoBehaviour {
 			GameObject.Destroy (NewWaitPanel.gameObject);
 			NewWaitPanel = null;
 		}
+	}
+
+	public AcceptFightWithFriend CreateFightWithFriendDialog(){
+
+		AcceptFightWithFriend NewPanel = Instantiate(fightWithFriendDialog) as AcceptFightWithFriend;
+
+		//NewPanel.SetText(message, cancelButtonEvent);
+
+		NewPanel.transform.SetParent(currentScreenCanvas.transform);
+		NewPanel.transform.localScale = new Vector3(1,1,1);
+
+		RectTransform rctr = NewPanel.GetComponent<RectTransform>();
+		rctr.offsetMax = new Vector2(0,0);
+		rctr.offsetMin = new Vector2(0,0);
+		rctr.anchoredPosition3D = new Vector3(0,0,0);
+
+		return NewPanel;
 	}
 }

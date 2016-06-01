@@ -75,7 +75,7 @@ public class GameTypeOneTwo : GameBase {
 		mAnswerGroupGame3.SetAllTogglesOff ();
 
 		if (GameType () == 1) {
-			mQuestionState.text = currentTask.TextQuestion;
+			mQuestionState.text = System.Text.RegularExpressions.Regex.Unescape(currentTask.TextQuestion);
 			LabelAnsw1.text = currentTask.Ans1;
 			LabelAnsw2.text = currentTask.Ans2;
 			LabelAnsw3.text = currentTask.Ans3;
@@ -158,6 +158,31 @@ public class GameTypeOneTwo : GameBase {
 
 		inProgress = false;
 
+		clock.SetTime (clock.finishTime);
+		StartCoroutine (WaitForReading ());
+	}
+
+	protected new IEnumerator WaitForReading(){
+
+		inProgress = true;
+		isActiveForm = false;
+
+		mTogleAnwer1.enabled = false;
+		mTogleAnwer2.enabled = false;
+		mTogleAnwer3.enabled = false;
+		mTogleAnwer4.enabled = false;
+
+		yield return new WaitForSeconds(0);
+
+		isActiveForm = true;
+		inProgress = false;
+
+		mTogleAnwer1.enabled = true;
+		mTogleAnwer2.enabled = true;
+		mTogleAnwer3.enabled = true;
+		mTogleAnwer4.enabled = true;
+
+		clock.StartTimer (onAnswer);
 	}
 
 	protected override void PrepareScreenBeforFinishCall(){

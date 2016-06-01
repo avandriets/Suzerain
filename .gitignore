@@ -7,7 +7,7 @@
 [Ll]ibrary/
 sysinfo.txt
 *.stackdump
- 
+*.apk
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -21,7 +21,7 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
- 
+
 # ============ #
 # OS generated #
 # ============ #
