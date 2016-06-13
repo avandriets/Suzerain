@@ -248,7 +248,7 @@ public class OnlineGame : MonoBehaviour
 
 		if (request.error == null) {
 			Debug.Log ("State fight ! " + request.text);
-			tasksList = Utility.GetListOfTasks (request.text);
+			tasksList = Utility.GetListOfTasks (request.text, "GetTaskResult");
 
 		} else {
 			error = true;

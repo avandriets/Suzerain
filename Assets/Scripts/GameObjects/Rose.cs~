@@ -59,18 +59,14 @@ public class Rose : MonoBehaviour {
 
 	IEnumerator ShowSector(RectTransform sector, float maxValue) {
 
-		//if (!Utility.StopCoroutine) {
 			float startingTime = 0.47F;
 
 			while (startingTime <= maxValue) {
 
 				sector.transform.localScale = new Vector3 (startingTime, startingTime, 1); 
 				startingTime += 0.005F; 
-				//inProcess = true;
-				//yield return new WaitForSeconds(1);
-				//Debug.Log (" ShowSector ShowSector ShowSector ShowSector ShowSector !!!!!");
+
 				yield return null;
 			}
-		//}			
 	}
 }

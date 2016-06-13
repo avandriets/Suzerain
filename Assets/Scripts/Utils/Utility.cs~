@@ -6,7 +6,6 @@ using SimpleJSON;
 using System.IO;
 using System;
 using System.Globalization;
-using Soomla.Store;
 
 
 // Declare a delegate type for processing a book:
@@ -30,13 +29,29 @@ public delegate void AskForFightDelegate(int fightId);
 
 public static class Utility {
 
-	public static bool StopCoroutine = true;
+	//Statuses
+	public static int STATUS_GLOBAL = 0;
+	public static int STATUS_LOCAL = 1;
+	public static int STATUS_SQ = 2;
+
+	//Game types
+	public static int Znaniya	= 1;
+	public static int Logic		= 2;
+	public static int Mudrost 	= 3;
+	public static int Reflex	= 4;
+	public static int Razum		= 5;
+	public static int Iridizia	= 6;
+	public static int Intuition = 7;
+
+	public static int[] gameDurationArray = new int[] {20, 60, 60, 20, 30, 20, 20};
+
+	public static int[] trainingFightsArray = new int[] {Znaniya, Logic, Mudrost, Razum, Iridizia};
 
 	public static bool	TESTING_MODE	= false;
 	public static bool	ShowRightAnswer = true;
 
 	//public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:8062/SuzerainWcfService/SuzerainService/";
-	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9062/SuzerainWcfService/SuzerainService/";
+	public static string SERVICE_BASE_URL	= "http://suzerain.westeurope.cloudapp.azure.com:9064/SuzerainWcfService/SuzerainService/";
 	public static string LOGIN_URL			= "Login";
 	public static string LETSFIGHT_URL		= "LetsFight";
 	public static string STATE_FIGTS_URL	= "GetUserStats";
@@ -62,15 +77,15 @@ public static class Utility {
 	public static string FIGHT_REJECT_URL	= "RejectFight";
 
 	public static shieldDataObj[] shieldsArray = new shieldDataObj[] {
-		new shieldDataObj(1, 0   ,99  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ"), 
-		new shieldDataObj(2, 100 ,299 ,"2", "СТАЛЬНОЙ ЩИТ"), 
-		new shieldDataObj(3, 300 ,699 ,"3", "БРОНЗОВЫЙ ЩИТ"),
-		new shieldDataObj(4, 700 ,1499,"4", "СЕРЕБРЯНЫЙ ЩИТ"),
-		new shieldDataObj(5, 1500,2999,"5", "ЗОЛОТОЙ ЩИТ"),
-		new shieldDataObj(6, 3000,4999,"6", "ПЛАТИНОВЫЙ ЩИТ"),
-		new shieldDataObj(7, 5000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ")
+		new shieldDataObj(1, 0   ,29  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ", 20), 
+		new shieldDataObj(2, 30 ,99 ,"2", "СТАЛЬНОЙ ЩИТ", 30), 
+		new shieldDataObj(3, 100 ,199 ,"3", "БРОНЗОВЫЙ ЩИТ", 40),
+		new shieldDataObj(4, 200 ,499,"4", "СЕРЕБРЯНЫЙ ЩИТ", 50),
+		new shieldDataObj(5, 500,999,"5", "ЗОЛОТОЙ ЩИТ", 100),
+		new shieldDataObj(6, 1000,2999,"6", "ПЛАТИНОВЫЙ ЩИТ", 200),
+		new shieldDataObj(7, 3000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ", 500)
 	};
-
+				
 	public static string getRegistrationType(int regType){
 
 		string authType;
@@ -165,6 +180,7 @@ public static class Utility {
 		newObj.LocalStatus 	= mGetResult ["LocalStatus"].AsInt;
 		newObj.GlobalStatus = mGetResult ["GlobalStatus"].AsInt;
 		newObj.Score = mGetResult ["Score"].AsInt;
+		newObj.SQ = mGetResult ["SQ"].AsDouble;
 	
 		return newObj;
 	}
@@ -411,10 +427,10 @@ public static class Utility {
 		return fightObj;
 	}
 
-	public static List<TestTask> GetListOfTasks(string pJsonStr){
+	public static List<TestTask> GetListOfTasks(string pJsonStr, string typeOfmethod){
 
 		var N = JSON.Parse(pJsonStr);
-		var mGetResult = N["GetTaskResult"].AsArray;
+		var mGetResult = N[typeOfmethod].AsArray;
 		List<TestTask> newObj = new List<TestTask> ();
 
 		foreach (var item in mGetResult) {
@@ -480,73 +496,75 @@ public static class Utility {
 
 		return buffer;
 	}
+		
+	public static bool ItemsIsOwned(string shieldNum, string key, MainScreenManager profile){
 
-	public static bool DifferenceIsOwned(string shieldNum){
+		string values = UserController.currentUser.Motto;
 
-		//PlayerPrefs.DeleteKey ("shields");
+//		if (key == "eagles") {
+//			values = UserController.currentUser.Motto;
+//		} else if (key == "difference") {
+//			values = UserController.currentUser.AddressTo;
+//		}else if (key == "shields") {
+//			values = UserController.currentUser.SignName;
+//		}
 
-		if (PlayerPrefs.HasKey ("difference")) {
+		//profile.SaveUser ();
 
-			string values = PlayerPrefs.GetString ("difference");
+		if (values != null && values.Length > 0) {
+		
+			var jsonStr = JSON.Parse (values);//.AsArray;
 
-			JSONArray listNode = new JSONArray();
-			listNode = JSON.Parse (values).AsArray;
+			//JSONArray listNode = new JSONArray();
 
-			foreach (JSONData i in listNode) {
-				if (i.Value == shieldNum) {
-					return true;
+
+			var listNode = jsonStr [key].AsArray;
+
+			if (listNode != null) {
+				foreach (JSONData i in listNode) {
+					if (i.Value == shieldNum) {
+						return true;
+					}
 				}
+
+				JSONNode jnod = new JSONNode();
+				jnod.Add (shieldNum);
+
+				listNode.Add (shieldNum);
+
+				jsonStr [key] = listNode;
+
+			} else {
+			
+
+				JSONArray listNode1 = new JSONArray();
+
+				JSONNode jnod1 = new JSONNode();
+				jnod1.Add (shieldNum);
+
+				listNode1.Add (shieldNum);
+
+				jsonStr.Add (key,	listNode1);
 			}
 
-			JSONNode jnod = new JSONNode();
-			jnod.Add (shieldNum);
 
-			listNode.Add (shieldNum);
-			PlayerPrefs.SetString ("difference", listNode.ToString());
 
-			return false;
+			UserController.currentUser.Motto = jsonStr.ToString();
 
-		}else{
-			JSONArray listNode = new JSONArray();
+//			if (key == "eagles") {
+//				UserController.currentUser.Motto = listNode.ToString();
+//			} else if (key == "difference") {
+//				UserController.currentUser.AddressTo = listNode.ToString();
+//			}else if (key == "shields") {
+//				UserController.currentUser.SignName = listNode.ToString();
+//			}
 
-			JSONNode jnod = new JSONNode();
-			jnod.Add (shieldNum);
-
-			listNode.Add (shieldNum);
-
-			PlayerPrefs.SetString ("difference", listNode.ToString());
-
-			return true;
-		}
-
-	}
-
-	public static bool ShieldIsOwned(string shieldNum){
-
-		//PlayerPrefs.DeleteKey ("shields");
-
-		if (PlayerPrefs.HasKey ("shields")) {
-
-			string values = PlayerPrefs.GetString ("shields");
-
-			JSONArray listNode = new JSONArray();
-			listNode = JSON.Parse (values).AsArray;
-
-			foreach (JSONData i in listNode) {
-				if (i.Value == shieldNum) {
-					return true;
-				}
-			}
-
-			JSONNode jnod = new JSONNode();
-			jnod.Add (shieldNum);
-
-			listNode.Add (shieldNum);
-			PlayerPrefs.SetString ("shields", listNode.ToString());
+			profile.SaveUser ();
+			//PlayerPrefs.SetString (key, listNode.ToString());
 
 			return false;
-
-		}else{
+		} else {
+		
 			JSONArray listNode = new JSONArray();
 
 			JSONNode jnod = new JSONNode();
@@ -554,11 +572,73 @@ public static class Utility {
 
 			listNode.Add (shieldNum);
 
-			PlayerPrefs.SetString ("shields", listNode.ToString());
 
-			return true;
+			JSONClass rootNode = new JSONClass ();
+			rootNode.Add (key,	listNode);
+
+			UserController.currentUser.Motto = rootNode.ToString();
+
+//			if (key == "eagles") {
+//				UserController.currentUser.Motto = listNode.ToString();
+//			} else if (key == "difference") {
+//				UserController.currentUser.AddressTo = listNode.ToString();
+//			}else if (key == "shields") {
+//				UserController.currentUser.SignName = listNode.ToString();
+//			}
+
+			profile.SaveUser ();
+			//PlayerPrefs.SetString (key, listNode.ToString());
+
+			return false;
 		}
 			
+//		if (PlayerPrefs.HasKey (key)) {
+//
+//			string values = PlayerPrefs.GetString (key);
+//
+//			JSONArray listNode = new JSONArray();
+//			listNode = JSON.Parse (values).AsArray;
+//
+//			foreach (JSONData i in listNode) {
+//				if (i.Value == shieldNum) {
+//					return true;
+//				}
+//			}
+//
+//			JSONNode jnod = new JSONNode();
+//			jnod.Add (shieldNum);
+//
+//			listNode.Add (shieldNum);
+//			PlayerPrefs.SetString (key, listNode.ToString());
+//
+//			return false;
+//
+//		}else{
+//			JSONArray listNode = new JSONArray();
+//
+//			JSONNode jnod = new JSONNode();
+//			jnod.Add (shieldNum);
+//
+//			listNode.Add (shieldNum);
+//
+//			PlayerPrefs.SetString (key, listNode.ToString());
+//
+//			return true;
+//		}
+
+	}
+		
+	public static string getEagleDescription(User user, List<FightStat> fightStat){
+
+		string temlate = "Вы побеждаете в более чем {0}% поединков.\n\n Вы получаете {1} Орлел Интеллектуальной лиги.\n\n Вы получаете {2} талантов.";
+		var eagle = EaglsManager.getEagl (fightStat);
+
+		if (eagle != null) {
+			Storage.GiveMoney (eagle.reward);
+			return string.Format (temlate, eagle.startScore, eagle.description, eagle.reward);
+		}
+
+		return "";
 	}
 
 	public static string getDifferenceDescription(User user, List<FightStat> fightStat){
@@ -587,16 +667,20 @@ public static class Utility {
 		
 	public static string getShieldDescription(User user, List<FightStat> fightStat){
 	
-		string temlate = "Вы одержали {0} побед\n\nзаработав {1} баллов.\n\nВы получаете {2}.\n\nПоздравляем!";
+		string temlate = "Вы одержали {0} побед\n\nзаработав {1} баллов.\n\nВы получаете {2}.\nВы получаете {3} талантов\n\nПоздравляем!";
 
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
 
 				var image = getShieldNumByScore (c.Score);
-				if (image.shieldNumber != "1")
-					temlate = string.Format (temlate, c.RowWins, c.Score, image.description);
+
+				if (image.shieldNumber != "1") {
+					temlate = string.Format (temlate, c.RowWins, c.Score, image.description, image.reward);
+					Storage.GiveMoney (image.reward);
+				}
 				else {
-					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nПоздравляем и желаем хороших дуэлей!";
+					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nВы получаете 20 талантов\nПоздравляем и желаем хороших дуэлей!";
+					Storage.GiveMoney (image.reward);
 				}
 			}
 		}
@@ -744,5 +828,33 @@ public static class Utility {
 		byte b = byte.Parse(hexstring.Substring(4, 2), NumberStyles.HexNumber);
 
 		return new Color32(r, g, b, 1);
+	}
+
+	public static bool hasSubscription(){
+
+		return TestPurch.hasSubscriptionRequest ();
+	}
+		
+	public static void setEagle(Image imgAvatar, List<FightStat> fightStat){
+
+		string image = "";
+
+		eaglsData eagle = EaglsManager.getEagl (fightStat);
+
+		if (eagle == null) {
+			return;
+		}
+			
+		image = "eagle" + eagle.eagleNumber;
+
+		Sprite spr = null;
+		Texture2D tex = (Texture2D)Resources.Load(image);
+		if (tex != null) {
+			spr = Sprite.Create (tex, new Rect (0, 0, tex.width, tex.height), new Vector2 (0.5f, 0.5f));
+
+			imgAvatar.sprite = spr;
+		} else {
+			imgAvatar.gameObject.SetActive (false);
+		}
 	}
 }

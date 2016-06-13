@@ -3,17 +3,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
-using Soomla.Store;
 
 
 public class FriendsManager : BaseUIClass {
 
-//	private WaitPanel	waitPanel  = null;
-//	private ErrorPanel	errorPanel = null;
-//	ScreensManager		screensManager	= null;
-
 	private ErrorPanelTwoButtons errorPanelTwoButtons = null;
-
 
 	public	GameObject				friendButton;
 	public	Transform				ListFriendsPanel;
@@ -27,7 +21,6 @@ public class FriendsManager : BaseUIClass {
 	public Text	searchField;
 
 	private Friend currentFriend;
-	//private WaitOpponentDialog		waitForOpponentPanel	= null;
 
 	public LiveMessenger	messengerLive;
 
@@ -263,29 +256,29 @@ public class FriendsManager : BaseUIClass {
 		SoundManager.ChoosePlayMusic (0);
 	}
 
-	public void CancelFightByServer(Fight pFight){
+//	public void CancelFightByServer(Fight pFight){
+//
+//		if (waitForOpponentPanel != null) {
+//			waitForOpponentPanel.ClosePanel ();
+//			GameObject.Destroy (waitForOpponentPanel.gameObject);
+//			waitForOpponentPanel = null;
+//		}
+//
+//		if (pFight.Id == 0) {
+//			errorPanel = screensManager.ShowErrorDialog ("Отказано в поединке", ErrorCancelByServer);
+//		}else if(pFight.Id == -1){
+//			errorPanel = screensManager.ShowErrorDialog ("Ваш друг не вошел в игру", ErrorCancelByServer);
+//		}else if(pFight.Id == -2){
+//			errorPanel = screensManager.ShowErrorDialog ("Ваш друг уже вызван на поединок", ErrorCancelByServer);
+//		}
+//		SoundManager.ChoosePlayMusic (0);
+//	}
 
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		if (pFight.Id == 0) {
-			errorPanel = screensManager.ShowErrorDialog ("Отказано в поединке", ErrorCancelByServer);
-		}else if(pFight.Id == -1){
-			errorPanel = screensManager.ShowErrorDialog ("Ваш друг не вошел в игру", ErrorCancelByServer);
-		}else if(pFight.Id == -2){
-			errorPanel = screensManager.ShowErrorDialog ("Ваш друг уже вызван на поединок", ErrorCancelByServer);
-		}
-		SoundManager.ChoosePlayMusic (0);
-	}
-
-	public void ErrorCancelByServer(){
-		GameObject.Destroy(errorPanel.gameObject);
-		errorPanel = null;
-		SoundManager.ChoosePlayMusic (0);
-	}
+//	public void ErrorCancelByServer(){
+//		GameObject.Destroy(errorPanel.gameObject);
+//		errorPanel = null;
+//		SoundManager.ChoosePlayMusic (0);
+//	}
 
 	public void ReadyToFight(){
 
@@ -298,17 +291,17 @@ public class FriendsManager : BaseUIClass {
 		screensManager.ShowGameScreen ();
 	}
 
-	public void ErrorFightRequest(){
-		
-		if (waitForOpponentPanel != null) {
-			waitForOpponentPanel.ClosePanel ();
-			GameObject.Destroy (waitForOpponentPanel.gameObject);
-			waitForOpponentPanel = null;
-		}
-
-		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
-		SoundManager.ChoosePlayMusic (0);
-	}
+//	public void ErrorFightRequest(){
+//		
+//		if (waitForOpponentPanel != null) {
+//			waitForOpponentPanel.ClosePanel ();
+//			GameObject.Destroy (waitForOpponentPanel.gameObject);
+//			waitForOpponentPanel = null;
+//		}
+//
+//		errorPanel = screensManager.ShowErrorDialog(ScreensManager.LMan.getString ("@server_side_error"), ErrorCancelByServer);
+//		SoundManager.ChoosePlayMusic (0);
+//	}
 
 	IEnumerator DeleteFriendServer(){
 
@@ -336,4 +329,15 @@ public class FriendsManager : BaseUIClass {
 			errorPanel = screensManager.ShowErrorDialog("Ошбика удаления друга", OnErrorButtonClick);
 		}
 	}
+
+//	void Update ()
+//	{
+//
+//		if (Input.GetKey (KeyCode.Escape)) {
+//			Debug.Log ("Click back");
+//			#if UNITY_ANDROID
+//			screensManager.ShowMainScreen();
+//			#endif
+//		}
+//	}
 }

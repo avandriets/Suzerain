@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
-using Soomla.Store;
 
 
 public class FightResultDialog : MonoBehaviour
@@ -18,10 +17,19 @@ public class FightResultDialog : MonoBehaviour
 	public GameObject imageLose;
 	public GameObject imageDraft;
 
-	public GameObject	rightAnswerObject;
-	public Text			answerDescription;
+	//public GameObject	rightAnswerObject;
+	//public Text			answerDescription;
 
 	public List<Image>	fightsImageList;
+
+	public GameObject	buyButton;
+	public Text			rightAnswer;
+	public Text			askMoney;
+	public GameObject	wrongAnswerObject;
+	public Image oneTalant;
+	public Image twoTalant;
+
+	int fightType;
 
 	public void SetText (string text, int fightState, UnityAction okEvent, List<Fight> fight, string scrUs, string pRightAnswer)
 	{
@@ -104,19 +112,83 @@ public class FightResultDialog : MonoBehaviour
 		
 		okButton.gameObject.SetActive (true);
 
-		//Show right answer
-		if(/*StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE &&*/ fight.Count == 1 && 
-			(fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
-				|| fight[fight.Count-1].FightTypeId == 5)){
+		fightType = fight [0].FightTypeId;
 
-			rightAnswerObject.SetActive (true);
-			answerDescription.text = pRightAnswer;
+		bool showRightAnswer = false;
+		foreach(var ii in fight){
+			if (ii.Looser == UserController.currentUser.Id) {
+				showRightAnswer = true;
+			}
+		}
+
+		rightAnswer.text = pRightAnswer;
+
+		if (fight.Count == 1 && 
+			(fight [0].FightTypeId != Utility.Intuition &&
+		     fight [0].FightTypeId != Utility.Reflex &&
+			fight [0].FightTypeId != Utility.Iridizia)) {
+		
+			if (showRightAnswer) {
+				if (fight [0].FightTypeId == Utility.Mudrost || fight [0].FightTypeId == Utility.Logic || fight [0].FightTypeId == Utility.Razum) {
+					askMoney.text = string.Format ("открыть за {0} таланта", 2);
+					twoTalant.gameObject.SetActive (true);
+				} else {
+					askMoney.text = string.Format ("открыть за {0} талант", 1);
+					oneTalant.gameObject.SetActive (true);
+				}
+
+				buyButton.gameObject.SetActive (true);
+				wrongAnswerObject.gameObject.SetActive (true);
+			}
+		}
+
+//		//Show right answer
+//		if(fight.Count == 1 && 
+//			(fight[fight.Count-1].FightTypeId == 1 || fight[fight.Count-1].FightTypeId == 2 || fight[fight.Count-1].FightTypeId == 3 
+//				|| fight[fight.Count-1].FightTypeId == 5)){
+//
+//			rightAnswerObject.SetActive (true);
+//			answerDescription.text = pRightAnswer;
+//		}
+//
+//		if (Storage.GetMoneyBalance () > 0) {
+//
+//			buyButton.gameObject.SetActive (false);
+//			rightAnswer.gameObject.SetActive (true);
+//
+//			if (fightType == Utility.Mudrost || fightType == Utility.Logic) {
+//				Storage.TakeMoney (2);
+//			} else {
+//				Storage.TakeMoney (1);
+//			}
+//		}
+
+	}
+
+	public void showRightAnswer(){
+
+		if (Storage.GetMoneyBalance () > 0) {
+
+			buyButton.gameObject.SetActive (false);
+			rightAnswer.gameObject.SetActive (true);
+
+			if (fightType == Utility.Mudrost || fightType == Utility.Logic || fightType == Utility.Razum) {
+				Storage.TakeMoney (2);
+			} else {
+				Storage.TakeMoney (1);
+			}
 		}
 	}
 
 	public void ClosePanel ()
 	{
-		rightAnswerObject.SetActive (false);
+		oneTalant.gameObject.SetActive (false);
+		twoTalant.gameObject.SetActive (false);
+
+		buyButton.gameObject.SetActive(true);
+		rightAnswer.gameObject.SetActive (false);
+		wrongAnswerObject.gameObject.SetActive (false);
+
 		imageLose.SetActive (false);
 		imageDraft.SetActive (false);
 		imageWin.SetActive (false);

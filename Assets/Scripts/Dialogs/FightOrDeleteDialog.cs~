@@ -20,6 +20,9 @@ public class FightOrDeleteDialog : MonoBehaviour {
 	public Button 		fight6Button;
 	public Button 		fight7Button;
 
+	public GameObject	paidVersionAskForFight;
+	public GameObject	freeVersionVersionAskForFightCAPTION;
+
 	private FightWithFriend mFightDelegate;
 
 	public void ShowDialog(string pUserName, UnityAction noEvent, FightWithFriend pFightDelegate){
@@ -29,11 +32,14 @@ public class FightOrDeleteDialog : MonoBehaviour {
 		AddPanelObject.SetActive (true);
 		UserName.text = pUserName;
 
-		//Yes button
-//		yesButton.onClick.RemoveAllListeners();
-//		yesButton.onClick.AddListener (yesEvent);
-//		yesButton.onClick.AddListener (ClosePanel);
-//		yesButton.gameObject.SetActive (true);
+
+		if (Utility.TESTING_MODE || Utility.hasSubscription()) {
+			freeVersionVersionAskForFightCAPTION.SetActive (false);
+			paidVersionAskForFight.SetActive (true);
+		} else {
+			freeVersionVersionAskForFightCAPTION.SetActive (true);
+			paidVersionAskForFight.SetActive (false);
+		}
 
 		//No button
 		noButton.onClick.RemoveAllListeners();

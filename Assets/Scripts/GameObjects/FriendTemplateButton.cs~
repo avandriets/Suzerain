@@ -15,6 +15,7 @@ public class FriendTemplateButton : MonoBehaviour {
 	public Text 	NameUser;
 	public Text 	rankUser;
 	public Text 	sCore;
+	public Text 	sQ;
 
 	[HideInInspector]
 	public Friend friend;

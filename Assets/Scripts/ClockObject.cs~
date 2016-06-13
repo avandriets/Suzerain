@@ -37,6 +37,9 @@ public class ClockObject : MonoBehaviour {
 	public int		GameType 	= 0;
 	public float	targetTime 	= 0;
 
+	public bool invertTimer = true;
+	public bool showMinutes;
+
 	public void initClockImages(){
 
 		Texture2D tex = (Texture2D)Resources.Load("LampClock/0");
@@ -119,24 +122,39 @@ public class ClockObject : MonoBehaviour {
 		sec2OLD = -1;
 		milsec1OLD = -1; 
 		milsec2OLD = -1;
+		System.TimeSpan t;
 
 		float partAfterPoint;
 
 		while (startingTime <= finishTime && inProcess) {
 
-			showTime = finishTime - startingTime;
+			if (invertTimer) {
+				showTime = finishTime - startingTime;
+			} else {
+				showTime = startingTime;
+			}
 
-			if (GameType == 4 && showTime > targetTime - 3f && showTime < targetTime + 3f && !blamba.activeSelf)
+			if (blamba != null && GameType == Utility.Reflex && showTime > targetTime - 3f && showTime < targetTime + 3f && !blamba.activeSelf)
 				blamba.SetActive (true);
 
-			if (GameType == 4 && showTime < targetTime - 3f && blamba.activeSelf)
+			if (blamba != null && GameType == Utility.Reflex && showTime < targetTime - 3f && blamba.activeSelf)
 				blamba.SetActive (false);
 
-			sec1 = (int)showTime / 10;
-			sec2 = (int)showTime - sec1*10;
-			partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
-			milsec1 = (int)partAfterPoint / 10;
-			milsec2 = (int)partAfterPoint - milsec1 * 10;
+			if (!showMinutes) {
+				sec1 = (int)showTime / 10;
+				sec2 = (int)showTime - sec1 * 10;
+				partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
+				milsec1 = (int)partAfterPoint / 10;
+				milsec2 = (int)partAfterPoint - milsec1 * 10;
+			} else {
+
+				t = System.TimeSpan.FromSeconds( (double)showTime );
+
+				sec1 = (int)t.Minutes / 10;
+				sec2 = (int)t.Minutes - sec1 * 10;
+				milsec1 = (int)t.Seconds / 10;
+				milsec2 = (int)t.Seconds - milsec1 * 10;
+			}
 
 			if(sec1 != sec1OLD )
 				setImage (SR_ImgSec1, sec1);
@@ -160,11 +178,12 @@ public class ClockObject : MonoBehaviour {
 
 			startingTime += Time.deltaTime;
 
-			//Debug.Log (" Clock Clock Clock Clock Clock !!!!!");
 			yield return null;
 		}
 
-		blamba.SetActive (false);
+		if (blamba != null) {
+			blamba.SetActive (false);
+		}
 		
 		if (inProcess == true) {
 			timeEndDelegate (true);
@@ -181,13 +200,31 @@ public class ClockObject : MonoBehaviour {
 
 		int sec1, sec2, milsec1, milsec2;
 
+		System.TimeSpan t;
+
 		showTime = pTime;
 
-		sec1 = (int)showTime / 10;
-		sec2 = (int)showTime - sec1*10;
-		partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
-		milsec1 = (int)partAfterPoint / 10;
-		milsec2 = (int)partAfterPoint - milsec1 * 10;
+		if (!showMinutes) {
+			sec1 = (int)showTime / 10;
+			sec2 = (int)showTime - sec1 * 10;
+			partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
+			milsec1 = (int)partAfterPoint / 10;
+			milsec2 = (int)partAfterPoint - milsec1 * 10;
+		} else {
+
+			t = System.TimeSpan.FromSeconds( (double)showTime );
+
+			sec1 = (int)t.Minutes / 10;
+			sec2 = (int)t.Minutes - sec1 * 10;
+			milsec1 = (int)t.Seconds / 10;
+			milsec2 = (int)t.Seconds - milsec1 * 10;
+		}
+
+//		sec1 = (int)showTime / 10;
+//		sec2 = (int)showTime - sec1*10;
+//		partAfterPoint = (showTime - Mathf.Floor (showTime)) * 100;
+//		milsec1 = (int)partAfterPoint / 10;
+//		milsec2 = (int)partAfterPoint - milsec1 * 10;
 
 		setImage (SR_ImgSec1, sec1);
 		setImage (SR_ImgSec2, sec2);
@@ -220,30 +257,5 @@ public class ClockObject : MonoBehaviour {
 			targImg.sprite = num9;
 		}
 	}
-
-//	private void setImage(Image targImg, int number){
-//
-//		if (number == 0) {
-//			targImg.sprite = num0;
-//		} else if (number == 1) {
-//			targImg.sprite = num1;
-//		} else if (number == 2) {
-//			targImg.sprite = num2;
-//		} else if (number == 3) {
-//			targImg.sprite = num3;
-//		} else if (number == 4) {
-//			targImg.sprite = num4;
-//		} else if (number == 5) {
-//			targImg.sprite = num5;
-//		} else if (number == 6) {
-//			targImg.sprite = num6;
-//		} else if (number == 7) {
-//			targImg.sprite = num7;
-//		} else if (number == 8) {
-//			targImg.sprite = num8;
-//		} else if (number == 9) {
-//			targImg.sprite = num9;
-//		}
-//	}
 
 }

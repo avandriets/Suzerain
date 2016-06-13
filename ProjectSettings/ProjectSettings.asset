@@ -97,7 +97,7 @@ PlayerSettings:
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
   productGUID: 76a2fd9b1d31b47208309ff660346dbb
-  AndroidBundleVersionCode: 39
+  AndroidBundleVersionCode: 46
   AndroidMinSdkVersion: 15
   AndroidPreferredInstallLocation: 0
   aotOptions: 
@@ -484,13 +484,17 @@ PlayerSettings:
   WebGL::useEmbeddedResources: 0
   XboxOne::enus: 1
   stringPropertyNames:
+  - Build_ServiceEnabled::Build_ServiceEnabled
+  - UNet_ServiceEnabled::UNet_ServiceEnabled
   - WebGL::emscriptenArgs
   - WebGL::template
   - additionalIl2CppArgs::additionalIl2CppArgs
+  Build_ServiceEnabled::Build_ServiceEnabled: False
+  UNet_ServiceEnabled::UNet_ServiceEnabled: True
   WebGL::emscriptenArgs: 
   WebGL::template: APPLICATION:Default
   additionalIl2CppArgs::additionalIl2CppArgs: 
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: 29bda093-e62c-406c-b435-860363590f2e
+  projectName: Suzerain
+  organizationId: alex-610715
   cloudEnabled: 0

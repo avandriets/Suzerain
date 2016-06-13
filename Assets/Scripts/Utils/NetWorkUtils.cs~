@@ -31,6 +31,7 @@ public class NetWorkUtils : MonoBehaviour {
 		var postScoreURL = Utility.SERVICE_BASE_URL;
 
 		var method = "GetTopTen";
+		//var method = "GetTopSQ";
 
 		var userToken 		= "token=";
 
@@ -40,6 +41,24 @@ public class NetWorkUtils : MonoBehaviour {
 
 		return postScoreURL;
 	}
+
+	public static string buildRequestToGetTOPSQ(){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "GetTopSQ";
+
+		var userToken	= "token=";
+
+		postScoreURL = postScoreURL + method + "?" + userToken + UserController.currentUser.Token;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+	}
+
 
 
 	public static string buildRequestGetNumPlayers(){
@@ -149,6 +168,48 @@ public class NetWorkUtils : MonoBehaviour {
 		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
 
 		return postScoreURL;
+	}
+
+	public static string buildRequestToGetTrainingQuestion(int pFightType){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "GetTrainingQuestion";
+
+		var userToken 		= "token=";
+		var fightType			= "fightType=";
+
+
+		postScoreURL = postScoreURL + method + "?" + userToken + UserController.currentUser.Token + "&" + fightType + pFightType.ToString();
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+
+	}
+
+
+	public static string buildRequestTSendSQ (int rightAnswersCount,int timeInGameSec ){
+
+		Debug.Log ("build LogIn URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "EndTraining";
+
+		var num				= "num=";
+		var time			= "time=";
+		var userToken 		= "token=";
+
+
+		postScoreURL = postScoreURL + method + "?" + num + rightAnswersCount.ToString() + "&" + time + timeInGameSec.ToString() + "&" + userToken + UserController.currentUser.Token ;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+
 	}
 
 	public static string buildLogEXInURL(int regtype){

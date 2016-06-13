@@ -20,12 +20,8 @@ public class AchivmentsScreenManager : BaseUIClass {
 	public GameObject GOcolorRing;
 	public GameObject GOcaptionRing;
 
-//	ScreensManager screensManager;
-//
-//	ErrorPanel	errorPanel 	= null;
-//	WaitPanel	waitPanel 	= null;
-
-	bool itIsGlobalStatus = true;
+	int currentStatus = Utility.STATUS_SQ;
+	//bool itIsGlobalStatus = true;
 
 	float longitude = 0;
 	float lattitude = 0;
@@ -78,16 +74,25 @@ public class AchivmentsScreenManager : BaseUIClass {
 	}
 
 	public void InitAchivments(){
-	
-		if (Rose.statList [0].Fights >= Constants.fightsCount) {
+
+		if (currentStatus == Utility.STATUS_GLOBAL) {			
 			TextRating.text = Rose.statList [0].GlobalStatus.ToString ();
 			ActiveStatus.text = "Глобальный статус";
 			After.text = "";
 			ratingButton.gameObject.SetActive (true);
-		} else {
-			After.text = "Через";
-			TextRating.text = (Constants.fightsCount - Rose.statList [0].Fights).ToString();
-			ActiveStatus.text = "Глобальный статус";
+
+		} else if(currentStatus == Utility.STATUS_LOCAL){
+			TextRating.text = Rose.statList [0].LocalStatus.ToString ();
+			ActiveStatus.text = "Локальный статус";
+			After.text = "";
+			ratingButton.gameObject.SetActive (true);
+
+		}else if(currentStatus == Utility.STATUS_SQ){
+			TextRating.text = string.Format ("{0:N2}", Rose.statList [0].SQ);
+			ActiveStatus.text = "SQ статус";
+			After.text = "";
+			ratingButton.gameObject.SetActive (true);
+
 		}
 
 		//ShowStatus ();
@@ -95,6 +100,21 @@ public class AchivmentsScreenManager : BaseUIClass {
 		TextCount.text = Rose.statList [0].Fights.ToString();
 
 		TextNickName.text = UserController.UserName;
+	}
+
+
+	public void ShowSQStatus(){
+
+		if (Rose.statList [0].Fights >= Constants.fightsCount) {
+			if (Rose.statList [0].Fights >= Constants.fightsCount) {
+				TextRating.text = Rose.statList [0].SQ.ToString ();
+			} else {
+				TextRating.text = "0";
+			}
+		}
+
+		ActiveStatus.text 	= "SQ статус";
+		currentStatus 	= Utility.STATUS_SQ;
 	}
 
 	public void ShowGlobalStatus(){
@@ -108,7 +128,7 @@ public class AchivmentsScreenManager : BaseUIClass {
 		}
 			
 		ActiveStatus.text 	= "Глобальный статус";
-		itIsGlobalStatus 	= true;
+		currentStatus 	= Utility.STATUS_GLOBAL;
 	}
 
 	public void ShowLocalStatus(){
@@ -117,14 +137,12 @@ public class AchivmentsScreenManager : BaseUIClass {
 		After.text = "";
 		TextRating.text = "0";//Rose.statList [0].LocalStatus.ToString ();
 
-		//if (lattitude == 0) {
-			waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
-			StartCoroutine (GetLocation (GetStatisticWithLocation));
-		//}
+		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
+		StartCoroutine (GetLocation (GetStatisticWithLocation));
 
 
 		ActiveStatus.text 	= "Локальный статус";
-		itIsGlobalStatus 	= false;
+		currentStatus 	= Utility.STATUS_LOCAL;
 	}
 
 	public void GetStatisticWithLocation(){
@@ -225,32 +243,38 @@ public class AchivmentsScreenManager : BaseUIClass {
 
 	public void ShowStatus(){
 
-			if (itIsGlobalStatus) {
+		if (currentStatus == Utility.STATUS_SQ) {
 				//turn on local status
 				ShowLocalStatus ();
-			} else {
+		} else if(currentStatus == Utility.STATUS_LOCAL){
 				//turn on global status
 				ShowGlobalStatus ();
-			}
+		}else if(currentStatus == Utility.STATUS_GLOBAL){
+			//turn on global status
+			ShowSQStatus ();
+		}
 
 	}
 
 	public void ShowRatingPanel(){
 	
-		StartCoroutine (ShowTop100(itIsGlobalStatus));
+		StartCoroutine (ShowTop100(currentStatus));
 	}
 
-	IEnumerator ShowTop100(bool pGlobalRat){
+	IEnumerator ShowTop100(int pCurrentStatus){
 
-		string postScoreURL;
-		string header;
+		string postScoreURL = "";
+		string header = "";
 
-		if (!pGlobalRat) {
+		if (pCurrentStatus == Utility.STATUS_LOCAL) {
 			postScoreURL = NetWorkUtils.buildRequestGetLocalTopTen (longitude, lattitude);
 			header = "Локальный";
-		} else {
+		} else if(pCurrentStatus == Utility.STATUS_GLOBAL){
 			postScoreURL = NetWorkUtils.buildRequestToGetTOP100 ();
 			header = "Глобальный";
+		}else if(pCurrentStatus == Utility.STATUS_SQ){
+			postScoreURL = NetWorkUtils.buildRequestToGetTOPSQ ();
+			header = "Рейтинг SQ";
 		}
 		
 //		var dictHeader = new Dictionary<string, string> ();
@@ -273,12 +297,14 @@ public class AchivmentsScreenManager : BaseUIClass {
 			Debug.Log ("Get friends URL ! " + request.url);
 			Debug.Log ("Get friends done ! " + request.text);
 
-			List<Friend> foundUsers;
+			List<Friend> foundUsers = null;
 
-			if (!pGlobalRat) {
+			if (pCurrentStatus == Utility.STATUS_LOCAL) {
 				foundUsers = Utility.ParseFriendsJsonList (request.text, "GetLocalTopTenResult");
-			} else {
+			} else if(pCurrentStatus == Utility.STATUS_GLOBAL){
 				foundUsers = Utility.ParseFriendsJsonList (request.text, "GetTopTenResult");
+			}else if(pCurrentStatus == Utility.STATUS_SQ){
+				foundUsers = Utility.ParseFriendsJsonList (request.text, "GetTopSQResult");
 			}
 
 			postScoreURL = NetWorkUtils.buildRequestGetNumPlayers ();
@@ -328,4 +354,15 @@ public class AchivmentsScreenManager : BaseUIClass {
 			yield return null;
 		}
 	}
+
+//	void Update ()
+//	{
+//
+//		if (Input.GetKey (KeyCode.Escape)) {
+//			Debug.Log ("Click back");
+//			#if UNITY_ANDROID
+//			screensManager.ShowMainScreen();
+//			#endif
+//		}
+//	}
 }

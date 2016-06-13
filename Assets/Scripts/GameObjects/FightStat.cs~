@@ -11,6 +11,7 @@ public class FightStat
 	public int RowWins { get; set; }        //количество побед, одержанных подряд в данном типе игры
 	public int Score { get; set; }          //счет игрока
 	public double Result { get; set; }      //процент побед к общему числу игр
+	public double SQ { get; set; }           //Коэффициент SQ
 	public int LocalStatus { get; set; }    //локальный статус (место в локальном рейтинге)
 	public int GlobalStatus { get; set; }   //глобальный статус (место в глобальном рейтинге)
 }

@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class BaseUIClass : MonoBehaviour {
 
+
+	public PurchaseVisualObject purchaseVisualObject;
 	protected WaitPanel				waitPanel				= null;
 	protected ErrorPanel			errorPanel				= null;
 	protected WaitOpponentDialog 	waitForOpponentPanel	= null;
@@ -112,5 +114,6 @@ public class BaseUIClass : MonoBehaviour {
 
 		screensManager.ShowGameScreen ();
 	}
+
 
 }

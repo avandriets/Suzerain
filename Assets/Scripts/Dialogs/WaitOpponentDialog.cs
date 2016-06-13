@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System.Collections;
-using Soomla.Store;
+
 
 public class WaitOpponentDialog : MonoBehaviour {
 

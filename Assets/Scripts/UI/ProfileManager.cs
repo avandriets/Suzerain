@@ -22,9 +22,6 @@ public class ProfileManager : BaseUIClass {
 	public SendMessage 		pSendMessage;
 	private SendMessage		localSendMessage = null;
 
-//	private WaitPanel	waitPanel 	= null;
-//	private ErrorPanel	errorPanel 	= null;
-//	ScreensManager screensManager = null;
 	private InstructionDialog	instDialog = null;
 
 
@@ -32,7 +29,7 @@ public class ProfileManager : BaseUIClass {
 
 	public Text TextRank;
 	public Image avatar;
-	public PaidVersinDialog buyDialog;
+
 
 	// Use this for initialization
 	void OnEnable() {
@@ -132,7 +129,7 @@ public class ProfileManager : BaseUIClass {
 	public void SaveUser()
 	{
 
-		waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
+		//waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
 
 		Debug.Log ("login to server.");
 		
@@ -144,20 +141,16 @@ public class ProfileManager : BaseUIClass {
 		var motto 		= "motto=";
 		var countryId 	= "countryId=";
 		var languageId 	= "languageId=";
-
-//		JSONClass rootNode = new JSONClass();		
-//		rootNode.Add ("Mask",	new JSONData(currentMask));
-//		rootNode.Add ("Avatar",	new JSONData(currentAvatar));
-//
-//		JSONClass saveAvatar = new JSONClass();
-//		saveAvatar.Add("AvatarAndMask",rootNode);
-//		InitUserScripts.currentUser.Motto = saveAvatar.ToString ();
+		var AddressTo = "AddressTo=";
+		var SignName = "SignName=";
 		
 		postScoreURL = 
 			postScoreURL + method + "?" 
 				+ token + UserController.currentUser.Token + "&"
 				+ birthDate + "01/01/0001" + "&"
 				+ motto + System.Uri.EscapeUriString (UserController.currentUser.Motto) + "&"
+				+ AddressTo + System.Uri.EscapeUriString (UserController.currentUser.AddressTo) + "&"
+			+ SignName + System.Uri.EscapeUriString (UserController.currentUser.SignName) + "&"
 				+ countryId + UserController.currentUser.CountryId + "&"
 				+ languageId + UserController.currentUser.LanguageId;
 
@@ -181,14 +174,14 @@ public class ProfileManager : BaseUIClass {
 	{
 		yield return www;
 
-		screensManager.CloseWaitPanel (waitPanel);
+		//screensManager.CloseWaitPanel (waitPanel);
 
 		// check for errors
 		if (www.error == null)
 		{
 			Debug.Log("WWW Ok!: " + www.text);
 
-			UserController.authenticated = false;
+			//UserController.authenticated = false;
 			screensManager.ShowMainScreen();
 			
 		} else {
@@ -233,43 +226,6 @@ public class ProfileManager : BaseUIClass {
 		localSendMessage = null;		
 	}
 
-	public void OnBuyClick(){
-		
-		Debug.Log ("SOOMLA count = " + StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId).ToString() );
-
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) > 0) {
-			Debug.Log ("SOOMLA You already buy it.");
-			errorPanel = screensManager.ShowErrorDialog("Вы уже отключили рекламу." ,LoginErrorAction);
-		} else {
-			Debug.Log ("SOOMLA BUY IT");
-			buyDialog.SetText (PaidVersionOkActionClick);
-		}
-	}
-
-	public void OnRestoreClick(){
-		SoomlaStore.RestoreTransactions ();
-	}
-
-	public void PaidVersionOkActionClick(){
-		
-		try{
-			
-			StoreInventory.BuyItem (BuyItems.NO_ADS_NONCONS.ItemId);
-
-		}catch(System.Exception ex){
-			Debug.Log ("SOOMLA BUY ERROR " + ex.Message);
-		}
-	}
-
-	public void CancelPurch(){
-		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) > 0) {
-			VirtualGood vg = StoreInfo.Goods [0];
-			StoreInventory.TakeItem (vg.ItemId,1);
-			Debug.Log ("SOOMLA Cancel purch.");
-			errorPanel = screensManager.ShowErrorDialog("Покупка отменена." ,LoginErrorAction);
-		}
-	}
-
 	public void ShowInstructionDialog(){
 		instDialog = screensManager.ShowInstructionDialog(closeInstruction);
 	}
@@ -300,4 +256,15 @@ public class ProfileManager : BaseUIClass {
 		screensManager.ShowRegistrationScreen ();
 
 	}
+
+//	void Update ()
+//	{
+//
+//		if (Input.GetKey (KeyCode.Escape) && this.gameObject.activeSelf) {
+//			Debug.Log ("Click back");
+//			#if UNITY_ANDROID
+//			screensManager.ShowMainScreen();
+//			#endif
+//		}
+//	}
 }

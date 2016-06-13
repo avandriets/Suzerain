@@ -6,7 +6,7 @@ using Soomla.Store;
 public class PurchaseManager : MonoBehaviour {
 
 	private ErrorPanel		errorPanel = null;
-	private ScreensManager	screensManager	= null;
+//	private ScreensManager	screensManager	= null;
 	private static PurchaseManager s_Instance = null;
 
 	// This defines a static instance property that attempts to find the manager object in the scene and
@@ -21,7 +21,7 @@ public class PurchaseManager : MonoBehaviour {
 
 			// If it is still null, create a new instance
 			if (s_Instance == null) {
-				GameObject obj = new GameObject("PurchaseManager");
+				GameObject obj = new GameObject("SoomlaPurchManager");
 				s_Instance = obj.AddComponent(typeof (PurchaseManager)) as PurchaseManager;
 				Debug.Log ("Could not locate an AManager object. \n ScreensManager was Generated Automaticly.");
 			}
@@ -55,8 +55,8 @@ public class PurchaseManager : MonoBehaviour {
 	public void onMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string, string> extra) {
 		Debug.Log ("onMarketPurchase");
 
-		screensManager	= ScreensManager.instance;
-		errorPanel = screensManager.ShowErrorDialog("Покупка прошла успешно.", ErrorEvent);
+		//screensManager	= ScreensManager.instance;
+		//errorPanel = screensManager.ShowErrorDialog("Покупка прошла успешно.", ErrorEvent);
 	}
 
 	/// <summary>
@@ -66,8 +66,8 @@ public class PurchaseManager : MonoBehaviour {
 	public void onMarketRefund(PurchasableVirtualItem pvi) {
 		Debug.Log ("onMarketRefund");
 
-		screensManager	= ScreensManager.instance;
-		errorPanel = screensManager.ShowErrorDialog("Покупка отменена.", ErrorEvent);
+		//screensManager	= ScreensManager.instance;
+		//errorPanel = screensManager.ShowErrorDialog("Покупка отменена.", ErrorEvent);
 	}
 
 	/// <summary>
@@ -77,7 +77,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onItemPurchased(PurchasableVirtualItem pvi, string payload) {
 		Debug.Log ("onItemPurchased");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onItemPurchased", ErrorEvent);
 	}
 
@@ -88,7 +88,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onMarketPurchaseStarted(PurchasableVirtualItem pvi) {
 		Debug.Log ("onMarketPurchaseStarted");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onMarketPurchaseStarted", ErrorEvent);
 	}
 
@@ -99,7 +99,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onItemPurchaseStarted(PurchasableVirtualItem pvi) {
 		Debug.Log ("onItemPurchaseStarted");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onItemPurchaseStarted", ErrorEvent);
 	}
 
@@ -112,7 +112,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 		Debug.Log ("onCurrencyBalanceChanged");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onCurrencyBalanceChanged", ErrorEvent);
 	}
 
@@ -125,7 +125,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
 		Debug.Log ("onGoodBalanceChanged");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onGoodBalanceChanged", ErrorEvent);
 	}
 
@@ -135,7 +135,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onRestoreTransactionsStarted() {
 		Debug.Log ("onRestoreTransactionsStarted");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onRestoreTransactionsStarted", ErrorEvent);
 	}
 
@@ -146,7 +146,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onRestoreTransactionsFinished(bool success) {
 		Debug.Log ("onRestoreTransactionsFinished");
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onRestoreTransactionsFinished", ErrorEvent);
 	}
 
@@ -158,7 +158,7 @@ public class PurchaseManager : MonoBehaviour {
 		
 		Debug.Log ("SOOMLA ExampleEventHandler error with code: " + errorCode);
 
-		screensManager	= ScreensManager.instance;
+		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("Ошибка подключения к магазину приложений: " + errorCode, ErrorEvent);
 	}
 

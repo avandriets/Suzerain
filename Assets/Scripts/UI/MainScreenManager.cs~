@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
-using Soomla.Store;
 using Facebook.Unity;
 
 
@@ -46,13 +45,18 @@ public class MainScreenManager : BaseUIClass
 
 	protected InstructionDialog 	instDialog 				= null;
 
-	public InvitationDialog invitationDlg;
+	public Image eagle;
+
+	public NewEagleDialog newEagleDialog;
 
 	void OnEnable ()
 	{
-		
+
+		Debug.Log ("Analitycs.InitUser Analitycs.");
 		googleAnalytics = GameObject.Find ("GAv4").GetComponent<GoogleAnalyticsV4> ();
+		Debug.Log ("Analitycs.Found component.");
 		googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Main Menu"));
+		Debug.Log ("Analitycs. Send log.");
 
 		InitUser ();
 		StartCoroutine (RotateRings ());
@@ -73,6 +77,22 @@ public class MainScreenManager : BaseUIClass
 			handleCheckbox (value);       // this is just a basic method call within another method
 		}   // and this one
 		);
+
+		purchaseVisualObject.changeSubscriptionDelegate += SubscriptionChange;
+	}
+
+	private void SubscriptionChange(){
+
+		//Show ring
+		if (Utility.TESTING_MODE || Utility.hasSubscription()) {
+			ProRing.SetActive (true);
+			UsualRing.SetActive (false);
+
+			InitVisualComponents ();
+
+//			eagle.gameObject.SetActive (true);
+//			Utility.setEagle (eagle, Rose.statList);
+		}
 	}
 
 	void handleCheckbox (bool value)
@@ -100,15 +120,12 @@ public class MainScreenManager : BaseUIClass
 	public void OnFightClick (int pFightType)
 	{
 
-		return;
+		if (Utility.TESTING_MODE || Utility.hasSubscription()) {
+			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
-		//TODO fight choice
-//		if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType > 0) {
-//			waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
-//
-//			OnlineGame ing = OnlineGame.instance;
-//			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
-//		}
+			OnlineGame ing = OnlineGame.instance;
+			ing.AskForFight (CancelFightByServer, ReadyToFight, ErrorFightRequest, pFightType);
+		}
 	}
 
 	public void MainButtonFightClick(){
@@ -120,7 +137,7 @@ public class MainScreenManager : BaseUIClass
 
 		if (pFightType >= 0) {
 
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE || pFightType == 0) {
+			if (Utility.TESTING_MODE || pFightType == 0 || Utility.hasSubscription()) {
 				waitForOpponentPanel = screensManager.ShowWaitOpponentDialog ("Вызываю на дуэль", CancelFightByUser);
 
 				OnlineGame ing = OnlineGame.instance;
@@ -135,9 +152,7 @@ public class MainScreenManager : BaseUIClass
 		} else if (pFightType == -1) {
 			screensManager.ShowFriendsScreen ();
 		}else if (pFightType == -5) {
-			errorPanel = screensManager.ShowErrorDialog ("Сезон тренировок для подготовки к «Летнему турниру Сюзерена» начнется в июне 2016 года", ErrorCancelByServer);
-		}else if (pFightType == -6) {
-			errorPanel = screensManager.ShowErrorDialog ("Ближайший «Летний турнир Сюзерена» начнется в июле 2016 года", ErrorCancelByServer);
+			screensManager.ShowTrainingScreen ();
 		}
 
 	}
@@ -195,6 +210,85 @@ public class MainScreenManager : BaseUIClass
 
 	}
 
+	public void InitVisualComponents(){
+	
+		purchaseVisualObject.initSubAndCurrency ();
+
+		messengerLive.StartPulseRequest ();
+
+
+		TextNickName.text	= UserController.currentUser.UserName;
+
+		if (Rose.statList.Count > 0) {
+			if (Rose.statList [0].Fights >= Constants.fightsCount) {
+				TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));
+
+				if (TextRank.text.Length == 0) {
+					TextRank.text = Rose.statList [0].Fights.ToString ();
+				}
+
+			} else {
+				TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
+			}
+		}
+
+
+		string shieldNumber = Utility.getNumberOfShield (Rose.statList).shieldNumber;
+		if (!Utility.ItemsIsOwned (shieldNumber, "shields", this)) {
+			shieldDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+		}
+
+		if (shieldNumber != "1") {
+			string differenceNumber = Utility.GetDifference (UserController.currentUser, Rose.statList);
+			if (!Utility.ItemsIsOwned (differenceNumber, "difference", this)) {
+				if (differenceNumber != "") {
+					rankDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+				}
+			}
+		}
+
+		if (firstStart) {
+
+			instDialog = screensManager.ShowInstructionDialog (closeInstruction);
+
+			firstStart = false;
+		}
+
+		Utility.setAvatar (avatar, Rose.statList);
+
+		if (Rose.statList [0].Fights >= Constants.fightsCount) {				
+			centerElement.ShowData ();
+		}
+
+		//Show ring
+		if (Utility.TESTING_MODE || Utility.hasSubscription()) {
+			ProRing.SetActive (true);
+			UsualRing.SetActive (false);
+
+			if (shieldNumber != "1" /*&& shieldNumber != "2"*/) {
+
+				var eagleCur = EaglsManager.getEagl ( Rose.statList);
+				if (eagleCur != null) {
+
+					eagle.gameObject.SetActive (true);
+					Utility.setEagle (eagle, Rose.statList);
+
+					if (!Utility.ItemsIsOwned (eagleCur.eagleNumber, "eagles", this)) {							
+						newEagleDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
+					}
+				}
+			}
+		}
+
+		if (UserController.currentUser.SysMessage != null && UserController.currentUser.SysMessage.Length > 0) {
+			string sysMessage = UserController.currentUser.SysMessage;
+			UserController.currentUser.SysMessage = "";
+
+			errorPanel = screensManager.ShowErrorDialog (sysMessage, ErrorCancelByServer);
+		}
+
+	}
+
 	public void InitLabels (bool error, string source_error, string error_text)
 	{
 
@@ -206,76 +300,7 @@ public class MainScreenManager : BaseUIClass
 
 		if (error == false) {
 
-			messengerLive.StartPulseRequest ();
-
-
-			TextNickName.text	= UserController.currentUser.UserName;
-
-			if (Rose.statList.Count > 0) {
-				if (Rose.statList [0].Fights >= Constants.fightsCount) {
-					TextRank.text = ScreensManager.LMan.getString (Utility.GetDifference (UserController.currentUser, Rose.statList));
-
-					if (TextRank.text.Length == 0) {
-						TextRank.text = Rose.statList [0].Fights.ToString ();
-					}
-
-				} else {
-					TextRank.text = "Через " + (Constants.fightsCount - Rose.statList [0].Fights).ToString ();
-				}
-			}
-
-
-			string shieldNumber = Utility.getNumberOfShield (Rose.statList).shieldNumber;
-			if (!Utility.ShieldIsOwned (shieldNumber)) {
-				shieldDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
-			}
-
-			if (shieldNumber != "1") {
-				string differenceNumber = Utility.GetDifference (UserController.currentUser, Rose.statList);
-				if (!Utility.DifferenceIsOwned (differenceNumber)) {
-					if (differenceNumber != "") {
-						rankDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
-					}
-				}
-			}
-
-			if (firstStart) {
-
-				instDialog = screensManager.ShowInstructionDialog (closeInstruction);
-
-				firstStart = false;
-			}
-
-			int showInvitation = 1;
-			if (PlayerPrefs.HasKey ("showInvitation")) {
-				showInvitation = 0;
-			}
-			else {
-				PlayerPrefs.SetInt ("showInvitation", 1);
-				invitationDlg.ShowDialog ();
-			}
-
-			Utility.setAvatar (avatar, Rose.statList);
-
-			if (Rose.statList [0].Fights >= Constants.fightsCount) {				
-				centerElement.ShowData ();
-			}
-
-			//Show ring
-			if (StoreInventory.GetItemBalance (BuyItems.NO_ADS_NONCONS.ItemId) != 0 || Utility.TESTING_MODE) {
-				ProRing.SetActive (true);
-				UsualRing.SetActive (false);
-
-				//eagle.gameObject.SetActive (true);
-				//Utility.setEagle (eagle, Rose.statList);
-			}
-
-			if (UserController.currentUser.SysMessage != null && UserController.currentUser.SysMessage.Length > 0) {
-				string sysMessage = UserController.currentUser.SysMessage;
-				UserController.currentUser.SysMessage = "";
-
-				errorPanel = screensManager.ShowErrorDialog (sysMessage, ErrorCancelByServer);
-			}
+			InitVisualComponents ();
 
 		} else {
 			if (source_error == Constants.LOGIN_ERROR) {				
@@ -325,4 +350,71 @@ public class MainScreenManager : BaseUIClass
 		}
 	}
 
+	public void SaveUser()
+	{
+
+		//waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
+
+		Debug.Log ("login to server.");
+
+		var postScoreURL 	= Utility.SERVICE_BASE_URL;		
+		var method 			= Utility.EDIT_USER_URL;
+
+		var token 		= "token=";
+		var birthDate 	= "birthDate=";
+		var motto 		= "motto=";
+		var countryId 	= "countryId=";
+		var languageId 	= "languageId=";
+		var AddressTo = "AddressTo=";
+		var SignName = "SignName=";
+
+		var country = 102;
+		if (UserController.currentUser.CountryId != 0)
+			country = UserController.currentUser.CountryId;
+
+		var lang = 2;
+		if (UserController.currentUser.LanguageId != 0)
+			lang = UserController.currentUser.LanguageId;
+
+		postScoreURL = 
+			postScoreURL + method + "?" 
+			+ token + UserController.currentUser.Token + "&"
+			+ birthDate + "01/01/0001" + "&"
+			+ motto + System.Uri.EscapeUriString (UserController.currentUser.Motto) + "&"
+//			+ AddressTo + System.Uri.EscapeUriString (UserController.currentUser.AddressTo) + "&"
+//			+ SignName + System.Uri.EscapeUriString (UserController.currentUser.SignName) + "&"
+//			+ motto + "" + "&"
+//			+ AddressTo + "midved" + "&"
+//			+ SignName + "prived" + "&"
+			+ countryId + country + "&"
+			+ languageId + lang;
+
+		WWWForm form = new WWWForm();
+		form.AddField("Content-Type", "text/json");
+
+		var request = new WWW(postScoreURL, form);
+
+		StartCoroutine(WaitForRequest(request));
+
+	}
+
+	IEnumerator WaitForRequest(WWW www)
+	{
+		yield return www;
+
+		//screensManager.CloseWaitPanel (waitPanel);
+
+		// check for errors
+		if (www.error == null)
+		{
+			Debug.Log("WWW Ok!: " + www.text);
+
+			//UserController.authenticated = false;
+			//screensManager.ShowMainScreen();
+
+		} else {
+			//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
+			Debug.LogError("WWW Error: "+ www.error);
+		}    
+	}
 }

@@ -18,3 +18,11 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/soomla-wp-core.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Common.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Editor.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Security.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Stores.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Apple.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/winrt.dll

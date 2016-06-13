@@ -60,7 +60,8 @@ public class LiveMessenger : MonoBehaviour {
 					|| screensManager.mAchivmentScreenCanvas == screensManager.currentScreenCanvas
 					|| screensManager.mProfileScreenCanvas == screensManager.currentScreenCanvas
 					|| screensManager.mFriendsScreenCanvas == screensManager.currentScreenCanvas) &&
-				ing.currentFight == null) {
+				ing.currentFight == null )
+			{
 
 				BaseUIClass scrOfApp = (BaseUIClass)screensManager.currentScreenCanvas.GetComponent(typeof(BaseUIClass));
 				fightId = mGetResult;
@@ -72,7 +73,7 @@ public class LiveMessenger : MonoBehaviour {
 				Debug.Log ("You was asked to fight ! ");
 			}
 
-			Debug.Log ("Send puse done ! " + request.text);
+			//Debug.Log ("Send puse done ! " + request.text);
 		} else {
 
 			Debug.LogError ("WWW Error: " + request.error);

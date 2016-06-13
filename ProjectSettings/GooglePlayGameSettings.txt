@@ -1,4 +1,4 @@
-lastUpgrade=00932
+lastUpgrade=00934
 proj.AppId=489051386383
 and.BundleId=com.gcgamecore.suzerain
 proj.classDir=Assets
@@ -7,4 +7,4 @@ and.ResourceData=%3c%3fxml+version%3d%221.0%22+encoding%3d%22utf-8%22%3f%3e%0a%3
 and.ClientId=489051386383-g03vifa51k07iilbrpsmoh67r3c7chbh.apps.googleusercontent.com
 proj.requireGPlus=true
 android.SetupDone=true
-proj.pluginVersion=0.9.32
+proj.pluginVersion=0.9.34

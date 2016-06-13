@@ -24,7 +24,7 @@ MonoBehaviour:
     - name: Soomla.Core.SoomlaSecret
       value: 7659ed4a-b434-42d6-88ee-6daf3711dca6
     - name: Soomla.Core.DebugMessages
-      value: 
+      value: True
     - name: Soomla.Core.DebugUnityMessages
       value: True
     - name: Soomla.Store.NoneBP

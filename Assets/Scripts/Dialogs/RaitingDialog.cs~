@@ -55,6 +55,7 @@ public class RaitingDialog : MonoBehaviour {
 			}
 
 			button1.number.text = c.State.ToString();
+			button1.sQ.text = string.Format ("{0:N2}", c.SQ);
 			button1.friend = c;
 
 			button1.NameUser.text = c.UserName;

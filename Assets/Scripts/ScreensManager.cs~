@@ -13,7 +13,9 @@ public class ScreensManager : MonoBehaviour {
 	public GameObject mGameScreenCanvas;
 	public GameObject mAchivmentScreenCanvas;
 	public GameObject mFriendsScreenCanvas;
+	public GameObject mTrainingScreenCanvas;
 
+	[HideInInspector]
 	public GameObject mStartScreenCanvas = null;
 
 	public GameObject	currentScreenCanvas = null;
@@ -26,12 +28,88 @@ public class ScreensManager : MonoBehaviour {
 	public InstructionDialog	instDialog;
 	public AcceptFightWithFriend	fightWithFriendDialog;
 
+	//Subscription
+	public BuySubscriptionDialog 	buySuscriptionDlg;
+	public BuyTalantsDialog 		buyTalantsDlg;
+
+	public GameTypeOneTwo	game1;
+	public GameType2		game2;
+	public GameType3		game3;
+	public GameType4		game4;
+	public GameType5_1		game5;
+	public GameType6_1		game6;
+	public GameType7		game7;
 
 	public static Lang 	LMan;
 
 	private static ScreensManager s_Instance = null;
 
 	public Dictionary<GameObject,Dictionary<Text,string>> mTextDict = new Dictionary<GameObject,Dictionary<Text,string>>();
+
+	public BuyTalantsDialog GetBuyTalantsDlg(){
+
+		BuyTalantsDialog NewWaitPanel = GameObject.Instantiate(buyTalantsDlg) as BuyTalantsDialog;
+
+		NewWaitPanel.transform.SetParent(currentScreenCanvas.transform);
+		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
+
+		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
+		rctr.offsetMax = new Vector2(0,0);
+		rctr.offsetMin = new Vector2(0,0);
+
+		rctr.anchoredPosition3D = new Vector3(0,0,0);
+
+		return NewWaitPanel;
+	}
+
+	public BuySubscriptionDialog GetBuySubscriptionDlg(){
+
+		BuySubscriptionDialog NewWaitPanel = GameObject.Instantiate(buySuscriptionDlg) as BuySubscriptionDialog;
+
+		NewWaitPanel.transform.SetParent(currentScreenCanvas.transform);
+		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
+
+		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
+		rctr.offsetMax = new Vector2(0,0);
+		rctr.offsetMin = new Vector2(0,0);
+
+		rctr.anchoredPosition3D = new Vector3(0,0,0);
+
+		return NewWaitPanel;
+	}
+
+	public GameBase GetGameByNumber(Transform pGameContainer, int pGameNumner){
+
+		GameBase NewWaitPanel = null;
+
+		if (pGameNumner == Utility.Znaniya) {
+			NewWaitPanel = GameObject.Instantiate (game1) as GameTypeOneTwo;
+		}else if(pGameNumner == Utility.Logic){
+			NewWaitPanel = GameObject.Instantiate (game2) as GameType2;
+		}else if(pGameNumner == Utility.Mudrost){
+			NewWaitPanel = GameObject.Instantiate (game3) as GameType3;
+		}else if(pGameNumner == Utility.Reflex){
+			NewWaitPanel = GameObject.Instantiate (game4) as GameType4;
+		}else if(pGameNumner == Utility.Razum){
+			NewWaitPanel = GameObject.Instantiate (game5) as GameType5_1;
+		}else if(pGameNumner == Utility.Iridizia){
+			NewWaitPanel = GameObject.Instantiate (game6) as GameType6_1;
+		}else if(pGameNumner == Utility.Intuition){
+			NewWaitPanel = GameObject.Instantiate (game7) as GameType7;
+		}
+
+		NewWaitPanel.transform.SetParent(pGameContainer);
+		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
+
+		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
+		rctr.offsetMax = new Vector2(0,0);
+		rctr.offsetMin = new Vector2(0,0);
+
+		rctr.anchoredPosition3D = new Vector3(0,0,0);
+
+		return NewWaitPanel;
+	}
+
 
 	public void InitTranslateList(){
 
@@ -154,6 +232,19 @@ public class ScreensManager : MonoBehaviour {
 
 		if (!mFriendsScreenCanvas.activeSelf) {
 			mFriendsScreenCanvas.SetActive (true);
+		}
+	}
+
+	public void ShowTrainingScreen()
+	{
+		if (currentScreenCanvas != null) {
+			currentScreenCanvas.SetActive(false);
+		}
+
+		currentScreenCanvas = mTrainingScreenCanvas;
+
+		if (!mTrainingScreenCanvas.activeSelf) {
+			mTrainingScreenCanvas.SetActive (true);
 		}
 	}
 

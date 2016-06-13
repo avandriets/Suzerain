@@ -20,7 +20,7 @@ public class RankDialog : MonoBehaviour {
 		ShieldDescription.text 	= System.Text.RegularExpressions.Regex.Unescape(Utility.getDifferenceDescription(user ,fightStat));
 
 		Utility.setAvatar (avatar, fightStat);
-		rankText.text = Utility.GetDifference (null, fightStat);
+		rankText.text = ScreensManager.LMan.getString(Utility.GetDifference (null, fightStat));
 
 		okButton.onClick.RemoveAllListeners();
 		okButton.onClick.AddListener (okEvent);

@@ -9,4 +9,5 @@ public class Friend
 	public int Rank { get; set; }           //звание
 	public int Score { get; set; }          //баллы
 	public int State { get; set; }         // Служебное
+	public double SQ { get; set; }          //SQ
 }
