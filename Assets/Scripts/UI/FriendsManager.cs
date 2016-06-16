@@ -26,7 +26,7 @@ public class FriendsManager : BaseUIClass {
 
 	public void onSearchClick(){
 
-		waitPanel = screensManager.ShowWaitDialog("Получение данных");
+		waitPanel = screensManager.ShowWaitDialog("Получение данных", false);
 
 		if (searchField.text.Length > 0) {
 			StartCoroutine (SerchFriendsOnServer (searchField.text));
@@ -88,7 +88,7 @@ public class FriendsManager : BaseUIClass {
 	
 		screensManager	= ScreensManager.instance;
 
-		waitPanel = screensManager.ShowWaitDialog("Получение данных");
+		waitPanel = screensManager.ShowWaitDialog("Получение данных", false);
 
 		PrepareList ();
 
@@ -228,7 +228,7 @@ public class FriendsManager : BaseUIClass {
 
 	public void DeleteUser(){
 	
-		waitPanel = screensManager.ShowWaitDialog("Удаление друга");
+		waitPanel = screensManager.ShowWaitDialog("Удаление друга", false);
 
 		StartCoroutine (DeleteFriendServer());
 	}

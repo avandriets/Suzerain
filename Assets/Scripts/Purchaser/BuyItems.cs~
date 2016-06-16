@@ -62,7 +62,7 @@ public class BuyItems : IStoreAssets {
 	"10 Talents",                                   // name
 	"",                       // description
 	TEN_TALENT_PACK_PRODUCT_ID,                                   // item id
-	10,												// number of currencies in the pack
+	50,												// number of currencies in the pack
 	TALENT_CURRENCY_ITEM_ID,                        // the currency associated with this pack
 	new PurchaseWithMarket(TEN_TALENT_PACK_PRODUCT_ID, 0.99)
 	);
@@ -71,7 +71,7 @@ public class BuyItems : IStoreAssets {
 	"30 Talents",                                   // name
 	"",                       // description
 	THIRTY_TALENT_PACK_PRODUCT_ID,                                   // item id
-	30,												// number of currencies in the pack
+	100,												// number of currencies in the pack
 	TALENT_CURRENCY_ITEM_ID,                        // the currency associated with this pack
 	new PurchaseWithMarket(THIRTY_TALENT_PACK_PRODUCT_ID, 0.99)
 	);
@@ -80,7 +80,7 @@ public class BuyItems : IStoreAssets {
 	"50 Talents",                                   // name
 	"",                       // description
 	FIFTY_TALENT_PACK_PRODUCT_ID,                                   // item id
-	50,												// number of currencies in the pack
+	300,												// number of currencies in the pack
 	TALENT_CURRENCY_ITEM_ID,                        // the currency associated with this pack
 	new PurchaseWithMarket(FIFTY_TALENT_PACK_PRODUCT_ID, 0.99)
 	);
@@ -89,7 +89,7 @@ public class BuyItems : IStoreAssets {
 	"50 Talents",                                   // name
 	"",                       // description
 	HUNDRED_TALENT_PACK_PRODUCT_ID,                                   // item id
-	100,												// number of currencies in the pack
+	500,												// number of currencies in the pack
 	TALENT_CURRENCY_ITEM_ID,                        // the currency associated with this pack
 	new PurchaseWithMarket(HUNDRED_TALENT_PACK_PRODUCT_ID, 0.99)
 	);

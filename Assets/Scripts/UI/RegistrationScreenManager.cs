@@ -68,7 +68,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 
 		screensManager	= ScreensManager.instance;
 
-		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения ...");
+		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения ...", false);
 
 		screensManager.InitLanguage ();
 		screensManager.InitTranslateList ();
@@ -257,7 +257,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 	
 		UserController user_controller	= UserController.instance;
 
-		waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString ("@connecting"));
+		waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString ("@connecting"), false);
 		user_controller.LogIn (InitLabels, longitude , lattitude);
 
 	}
@@ -344,7 +344,7 @@ public class RegistrationScreenManager : MonoBehaviour {
 		
 		var request = new WWW(postScoreURL, null, dictHeader);
 
-		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString("@registration"));
+		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString("@registration"), false);
 
 		StartCoroutine(WaitForRequest(request, regType));
 		
@@ -492,13 +492,13 @@ public class RegistrationScreenManager : MonoBehaviour {
 	}
 
 	public void GoogleGetToken(){
-		waitPanel = screensManager.ShowWaitDialog("Authenticating...");
+		waitPanel = screensManager.ShowWaitDialog("Authenticating...", false);
 		initNetwork.GoogleGetToken (SucsessRegistration, FailRegistration);
 	}
 
 	public void FBLogin(){
 		
-		waitPanel = screensManager.ShowWaitDialog("Authenticating...");
+		waitPanel = screensManager.ShowWaitDialog("Authenticating...", false);
 		initNetwork.FBLogin (SucsessRegistration, FailRegistration);
 	}
 

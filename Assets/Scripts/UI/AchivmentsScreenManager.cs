@@ -33,6 +33,9 @@ public class AchivmentsScreenManager : BaseUIClass {
 	public Image		CristallShield, shield1, shield2, progressBar;
 	public GameObject	cristallShieldObject, shieldProgress;
 
+	public Image eagle;
+	public Text winPersentage;
+
 	void OnEnable(){
 
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Achivment screen"));
@@ -71,6 +74,20 @@ public class AchivmentsScreenManager : BaseUIClass {
 			ScoreText.text = Rose.statList [0].Score.ToString () + "/" + nextShield.startScore.ToString ();
 		}
 
+		string shieldNumber = Utility.getNumberOfShield (Rose.statList).shieldNumber;
+
+		winPersentage.text = string.Format ("{0:N1}% {1}", Rose.statList [0].Result * 100, "побед");
+		if (shieldNumber != "1" && shieldNumber != "2") {
+
+			var eagleCur = EaglsManager.getEagl ( Rose.statList);
+			if (eagleCur != null) {
+
+				eagle.gameObject.SetActive (true);
+				Utility.setEagle (eagle, Rose.statList);
+
+			}
+		}
+
 	}
 
 	public void InitAchivments(){
@@ -89,7 +106,7 @@ public class AchivmentsScreenManager : BaseUIClass {
 
 		}else if(currentStatus == Utility.STATUS_SQ){
 			TextRating.text = string.Format ("{0:N2}", Rose.statList [0].SQ);
-			ActiveStatus.text = "SQ статус";
+			ActiveStatus.text = "Suzerain quotient";
 			After.text = "";
 			ratingButton.gameObject.SetActive (true);
 
@@ -113,7 +130,7 @@ public class AchivmentsScreenManager : BaseUIClass {
 			}
 		}
 
-		ActiveStatus.text 	= "SQ статус";
+		ActiveStatus.text 	= "Suzerain quotient";
 		currentStatus 	= Utility.STATUS_SQ;
 	}
 
@@ -137,7 +154,7 @@ public class AchivmentsScreenManager : BaseUIClass {
 		After.text = "";
 		TextRating.text = "0";//Rose.statList [0].LocalStatus.ToString ();
 
-		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения");
+		waitPanel = screensManager.ShowWaitDialog ("Определение местоположения", false);
 		StartCoroutine (GetLocation (GetStatisticWithLocation));
 
 
@@ -149,7 +166,7 @@ public class AchivmentsScreenManager : BaseUIClass {
 		
 		UserController usrc = UserController.instance;
 
-		waitPanel = screensManager.ShowWaitDialog ("Получение статистики");
+		waitPanel = screensManager.ShowWaitDialog ("Получение статистики", false);
 		usrc.LogIn (InitLocalRating, longitude, lattitude);
 	}
 

@@ -133,6 +133,8 @@ public class InitSocialNetworks : MonoBehaviour {
 			if (!Social.localUser.authenticated) {
 				// Authenticate
 
+				Debug.Log ("INIT Constants.GOOGLE_PLAY NOT authenticated"); 
+
 				Social.localUser.Authenticate ((bool success) => {
 
 					if (success) {
@@ -149,13 +151,16 @@ public class InitSocialNetworks : MonoBehaviour {
 						}
 						);
 					}else{
-						FBLogin (successDlg, failDlg);
+						//FBLogin (successDlg, failDlg);
+
+						Debug.Log ("INIT failDlg (Constants.GOOGLE_PLAY)  status ");
+						failDlg (Constants.GOOGLE_PLAY);
 					}
 				});
 
 			} else {
 				
-				Debug.Log ("INIT Constants.GOOGLE_PLAY"); 
+				Debug.Log ("INIT Constants.GOOGLE_PLAY Social.localUser.authenticated"); 
 				PlayGamesPlatform.Instance.GetServerAuthCode ((CommonStatusCodes status, string code) => {
 					if (status == CommonStatusCodes.Success || status == CommonStatusCodes.SuccessCached) {
 						Debug.Log ("INIT StartCoroutine (getGoogleToken (successDlg))"); 
@@ -199,11 +204,21 @@ public class InitSocialNetworks : MonoBehaviour {
 	}
 
 	public void FBLogin(SucsessRegistrationDelegate successDlg, FailRegistrationDelegate failDlg){
+
+		Debug.Log ("MYFACEBOOK LOGIN START");
 		mSuccessDlg = successDlg;
 		mFailDlg = failDlg;
 
 		var perms = new List<string>(){"public_profile", "email", "user_friends"};
-		FB.LogInWithReadPermissions(perms, AuthCallback);
+		if (!FB.IsLoggedIn) {
+			Debug.Log ("MYFACEBOOK NOT LOGIN");
+			FB.LogInWithReadPermissions (perms, AuthCallback);
+		} else {
+			Debug.Log ("MYFACEBOOK FETCH PROFILE");
+			FetchFBProfile ();
+		}
+
+		Debug.Log ("MYFACEBOOK LOGIN END");
 	}
 
 	private void AuthCallback (ILoginResult result) {

@@ -77,13 +77,13 @@ public static class Utility {
 	public static string FIGHT_REJECT_URL	= "RejectFight";
 
 	public static shieldDataObj[] shieldsArray = new shieldDataObj[] {
-		new shieldDataObj(1, 0   ,29  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ", 20), 
-		new shieldDataObj(2, 30 ,99 ,"2", "СТАЛЬНОЙ ЩИТ", 30), 
-		new shieldDataObj(3, 100 ,199 ,"3", "БРОНЗОВЫЙ ЩИТ", 40),
-		new shieldDataObj(4, 200 ,499,"4", "СЕРЕБРЯНЫЙ ЩИТ", 50),
-		new shieldDataObj(5, 500,999,"5", "ЗОЛОТОЙ ЩИТ", 100),
-		new shieldDataObj(6, 1000,2999,"6", "ПЛАТИНОВЫЙ ЩИТ", 200),
-		new shieldDataObj(7, 3000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ", 500)
+		new shieldDataObj(1, 0   ,29  ,"1", "ЖЕЛЕЗНЫЙ ЩИТ", 10), 
+		new shieldDataObj(2, 30 ,99 ,"2", "СТАЛЬНОЙ ЩИТ", 15), 
+		new shieldDataObj(3, 100 ,199 ,"3", "БРОНЗОВЫЙ ЩИТ", 20),
+		new shieldDataObj(4, 200 ,499,"4", "СЕРЕБРЯНЫЙ ЩИТ", 25),
+		new shieldDataObj(5, 500,999,"5", "ЗОЛОТОЙ ЩИТ", 30),
+		new shieldDataObj(6, 1000,2999,"6", "ПЛАТИНОВЫЙ ЩИТ", 50),
+		new shieldDataObj(7, 3000,10000,"7", "КРИСТАЛЬНЫЙ ЩИТ", 100)
 	};
 				
 	public static string getRegistrationType(int regType){
@@ -132,6 +132,7 @@ public static class Utility {
 		newObj.State 		= mGetResult ["State"].AsInt;
 		newObj.Rank 		= mGetResult ["Rank"].AsInt;
 		newObj.Score 		= mGetResult ["Score"].AsInt;
+		newObj.SQ 		= mGetResult ["SQ"].AsDouble;
 
 		return newObj;
 	}
@@ -630,12 +631,12 @@ public static class Utility {
 		
 	public static string getEagleDescription(User user, List<FightStat> fightStat){
 
-		string temlate = "Вы побеждаете в более чем {0}% поединков.\n\n Вы получаете {1} Орлел Интеллектуальной лиги.\n\n Вы получаете {2} талантов.";
+		string temlate = "Вы побеждаете в более чем {0}% поединков.\n\n Вы получаете {1} Орлел Интеллектуальной лиги.";
 		var eagle = EaglsManager.getEagl (fightStat);
 
 		if (eagle != null) {
-			Storage.GiveMoney (eagle.reward);
-			return string.Format (temlate, eagle.startScore, eagle.description, eagle.reward);
+			//Storage.GiveMoney (eagle.reward);
+			return string.Format (temlate, eagle.startScore, eagle.description);
 		}
 
 		return "";
@@ -667,7 +668,7 @@ public static class Utility {
 		
 	public static string getShieldDescription(User user, List<FightStat> fightStat){
 	
-		string temlate = "Вы одержали {0} побед\n\nзаработав {1} баллов.\n\nВы получаете {2}.\nВы получаете {3} талантов\n\nПоздравляем!";
+		string temlate = "Вы одержали {0} побед\n\nВы заработали {1} баллов.\n\nВы получаете {2}.\n\nВы получаете {3} талантов\n\nПоздравляем!";
 
 		foreach (var c in fightStat) {
 			if (c.FightTypeId == 0 && c.Fights >= Constants.fightsCount) {
@@ -679,7 +680,7 @@ public static class Utility {
 					Storage.GiveMoney (image.reward);
 				}
 				else {
-					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nВы получаете 20 талантов\nПоздравляем и желаем хороших дуэлей!";
+					temlate = "Вы вошли в Интеллектуальную лигу.\n\nВы получаете ЖЕЛЕЗНЫЙ ЩИТ.\n\nВы получаете 20 талантов\n\nПоздравляем и желаем хороших дуэлей!";
 					Storage.GiveMoney (image.reward);
 				}
 			}

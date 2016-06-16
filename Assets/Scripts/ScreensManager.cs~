@@ -324,13 +324,13 @@ public class ScreensManager : MonoBehaviour {
 	}
 
 
-	public WaitPanel ShowWaitDialog(string message){
+	public WaitPanel ShowWaitDialog(string message, bool pShowCitates){
 		
 		WaitPanel NewWaitPanel = GameObject.Instantiate(waitPanel) as WaitPanel;
 		
 		NewWaitPanel.transform.SetParent(currentScreenCanvas.transform);
 		NewWaitPanel.transform.localScale = new Vector3(1,1,1);
-		NewWaitPanel.SetText (message);
+		NewWaitPanel.SetText (message, pShowCitates);
 		
 		RectTransform rctr = NewWaitPanel.GetComponent<RectTransform>();
 		rctr.offsetMax = new Vector2(0,0);

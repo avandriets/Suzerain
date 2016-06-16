@@ -47,6 +47,32 @@ public class PurchaseManager : MonoBehaviour {
 
 	}
 
+	IEnumerator SendBalanceToServer(int balance)
+	{
+		var postScoreURL = NetWorkUtils.buildRequestToSendBalance (balance);
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (postScoreURL);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		// check for errors
+		if (request.error == null)
+		{
+			Debug.Log("WWW Ok!: " + request.text);
+		} else {
+			//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
+			Debug.LogError("WWW Error: "+ request.error);
+		}
+	}
+
 	/// <summary>
 	/// Handles a market purchase event.
 	/// </summary>
@@ -112,6 +138,7 @@ public class PurchaseManager : MonoBehaviour {
 	public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 		Debug.Log ("onCurrencyBalanceChanged");
 
+		StartCoroutine(SendBalanceToServer(balance));
 		//screensManager	= ScreensManager.instance;
 		//errorPanel = screensManager.ShowErrorDialog("onCurrencyBalanceChanged", ErrorEvent);
 	}

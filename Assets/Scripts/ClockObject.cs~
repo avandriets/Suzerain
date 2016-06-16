@@ -134,11 +134,11 @@ public class ClockObject : MonoBehaviour {
 				showTime = startingTime;
 			}
 
-			if (blamba != null && GameType == Utility.Reflex && showTime > targetTime - 3f && showTime < targetTime + 3f && !blamba.activeSelf)
-				blamba.SetActive (true);
-
-			if (blamba != null && GameType == Utility.Reflex && showTime < targetTime - 3f && blamba.activeSelf)
-				blamba.SetActive (false);
+//			if (blamba != null && GameType == Utility.Reflex && showTime > targetTime - 3f && showTime < targetTime + 3f && !blamba.activeSelf)
+//				blamba.SetActive (true);
+//
+//			if (blamba != null && GameType == Utility.Reflex && showTime < targetTime - 3f && blamba.activeSelf)
+//				blamba.SetActive (false);
 
 			if (!showMinutes) {
 				sec1 = (int)showTime / 10;
@@ -181,9 +181,9 @@ public class ClockObject : MonoBehaviour {
 			yield return null;
 		}
 
-		if (blamba != null) {
-			blamba.SetActive (false);
-		}
+//		if (blamba != null) {
+//			blamba.SetActive (false);
+//		}
 		
 		if (inProcess == true) {
 			timeEndDelegate (true);

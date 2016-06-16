@@ -24,6 +24,7 @@ public class TrainingManager : BaseUIClass {
 	public EndTrainingRound		endTrainingRound;
 
 	public Text gameTypeText;
+	public GameObject ROGA;
 
 	void OnEnable (){
 
@@ -31,7 +32,7 @@ public class TrainingManager : BaseUIClass {
 
 		initComponents ();
 
-		waitPanel = screensManager.ShowWaitDialog("Получение данных");
+		waitPanel = screensManager.ShowWaitDialog("Получение данных", false);
 
 		clock.initClockImages ();
 		clock.invertTimer = false;
@@ -49,6 +50,8 @@ public class TrainingManager : BaseUIClass {
 		userAnswer = null;
 		timeInGameSec = 0;
 		rightAnswersCount = 0;
+
+		ROGA.SetActive (true);
 
 		finishTrainingDialog.ClosePanel();
 		endTrainingRound.ClosePanel();
@@ -196,7 +199,9 @@ public class TrainingManager : BaseUIClass {
 	}
 		
 	public void EndGame(){
-		finishTrainingDialog.ShowDialog (rightAnswersCount, timeInGameSec, closeTraining);
+
+		ROGA.SetActive (false);
+		finishTrainingDialog.ShowDialog ((float)rightAnswersCount - timeInGameSec / 100f, rightAnswersCount, timeInGameSec, closeTraining);
 	}
 
 	public void ContinueFight(){
@@ -209,8 +214,9 @@ public class TrainingManager : BaseUIClass {
 		if (userAnswer.Answer > 0 && rightAnswersCount > 0 && timeInGameSec >0) {
 			StartCoroutine (SendSQToServer());
 		}
-
+		ROGA.SetActive (true);
 		UserController.reNewStatistic = true;
+		SoundManager.ChoosePlayMusic (0);
 		screensManager.ShowMainScreen ();
 	}
 

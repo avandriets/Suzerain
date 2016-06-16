@@ -61,7 +61,7 @@ public class BaseUIClass : MonoBehaviour {
 			mAcceptFightDialogWithFriend = null;
 		}
 
-		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
+		waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"), false);
 		OnlineGame ing = OnlineGame.instance;
 		StartCoroutine (ing.AcceptFightWithFriendByID (currentFightId, CancelFightByServer, IntoFight, ErrorFightRequest));		
 	}

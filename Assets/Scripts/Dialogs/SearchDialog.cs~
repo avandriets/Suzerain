@@ -46,7 +46,7 @@ public class SearchDialog : MonoBehaviour {
 	}
 
 	public void AddToFriendYes(){
-		waitPanel = screensManager.ShowWaitDialog("Добавление друга");
+		waitPanel = screensManager.ShowWaitDialog("Добавление друга", false);
 
 		StartCoroutine (AddFriendServer());
 	}

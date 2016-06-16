@@ -16,11 +16,11 @@ MonoBehaviour:
   - 984797301574830
   appLabels:
   - "\u0421\u044E\u0437\u0435\u0440\u0435\u043D android"
-  cookie: 1
-  logging: 1
-  status: 1
+  cookie: 0
+  logging: 0
+  status: 0
   xfbml: 0
-  frictionlessRequests: 1
+  frictionlessRequests: 0
   iosURLSuffix: 
   appLinkSchemes:
   - list: []

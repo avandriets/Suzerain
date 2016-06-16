@@ -520,7 +520,7 @@ public class OnlineGame : MonoBehaviour
 		resultDelegate = pResultDelegate;
 
 		screenManager = ScreensManager.instance;
-		waitP = screenManager.ShowWaitDialog (ScreensManager.LMan.getString ("@find_result"));
+		waitP = screenManager.ShowWaitDialog (ScreensManager.LMan.getString ("@find_result"), true);
 
 		bool error = false;
 
@@ -600,7 +600,7 @@ public class OnlineGame : MonoBehaviour
 	{
 		
 		while (!www.isDone) {
-			waitP.SetDebugMessage (" Wait for global fight state");
+			//waitP.SetDebugMessage (" Wait for global fight state");
 			yield return null;
 		}
 
@@ -621,10 +621,10 @@ public class OnlineGame : MonoBehaviour
 			Debug.Log ("request " + www.url);
 			Debug.Log ("global fight state  " + currentFight.FightState.ToString ());
 
-			waitP.SetDebugMessage (" Send request OK \n" +
-			" Time: " + System.DateTime.Now.ToString () + "\n" +
-			"global fight state  " + currentFight.FightState.ToString ()
-			);
+//			waitP.SetDebugMessage (" Send request OK \n" +
+//			" Time: " + System.DateTime.Now.ToString () + "\n" +
+//			"global fight state  " + currentFight.FightState.ToString ()
+//			);
 
 			if (currentFight.FightState == 2) {
 				screenManager.CloseWaitPanel (waitP);
@@ -651,10 +651,10 @@ public class OnlineGame : MonoBehaviour
 			Debug.Log ("request " + www.url);
 			Debug.Log ("ERROR  " + www.text + www.error);
 
-			waitP.SetDebugMessage (" Send request ERROR \n" +
-			" Time: " + System.DateTime.Now.ToString () + "\n" +
-			"ERROR  " + www.text + www.error
-			);
+//			waitP.SetDebugMessage (" Send request ERROR \n" +
+//			" Time: " + System.DateTime.Now.ToString () + "\n" +
+//			"ERROR  " + www.text + www.error
+//			);
 
 			screenManager.CloseWaitPanel (waitP);
 			errP = screenManager.ShowErrorDialog (www.text, CancelFightWaitingForResult);
@@ -773,7 +773,7 @@ public class OnlineGame : MonoBehaviour
 		roundNumber = fightsList.Count;
 
 		//SHOW waiting screen
-		waitP = screenManager.ShowWaitDialog (ScreensManager.LMan.getString ("@find_result"));
+		waitP = screenManager.ShowWaitDialog (ScreensManager.LMan.getString ("@find_result"), true);
 
 		bool error = false;
 

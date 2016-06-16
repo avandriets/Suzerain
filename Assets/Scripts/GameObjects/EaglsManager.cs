@@ -5,11 +5,11 @@ using System.Collections.Generic;
 public static class EaglsManager {
 
 	public static eaglsData[] eaglsArray = new eaglsData[]{
-		new eaglsData(1, 50   ,59  ,"1", "Железный", 25), 
-		new eaglsData(2, 60   ,69  ,"2", "Стальной", 50),
-		new eaglsData(3, 70   ,79  ,"3", "Серебряный", 100),
-		new eaglsData(4, 80   ,89  ,"4", "Золотой", 200),
-		new eaglsData(5, 90   ,200  ,"5", "Кристальный", 500)
+		new eaglsData(1, 30   ,39  ,"1", "Железный", 25), 
+		new eaglsData(2, 40   ,49  ,"2", "Стальной", 50),
+		new eaglsData(3, 50   ,59  ,"3", "Серебряный", 100),
+		new eaglsData(4, 70   ,79  ,"4", "Золотой", 200),
+		new eaglsData(5, 80   ,200  ,"5", "Кристальный", 500)
 	};
 
 	public static eaglsData getEagleNumByScore(double pScore){

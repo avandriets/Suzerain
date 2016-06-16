@@ -29,10 +29,16 @@ public class FightResultDialog : MonoBehaviour
 	public Image oneTalant;
 	public Image twoTalant;
 
+	public Image oneTalantPrise;
+	public Image twoTalantPrise;
+
 	int fightType;
 
 	public void SetText (string text, int fightState, UnityAction okEvent, List<Fight> fight, string scrUs, string pRightAnswer)
 	{
+
+		twoTalantPrise.gameObject.SetActive (false);
+		oneTalantPrise.gameObject.SetActive (false);
 
 		Sprite spriteDraft		= null;
 		Sprite spriteWin		= null;
@@ -72,7 +78,9 @@ public class FightResultDialog : MonoBehaviour
 		fightResultPanelObject.SetActive (true);
 
 		if (fight.Count > 1) {
+			
 			foreach (var currentFight in fight) {
+				
 				if (currentFight.IsDraw == true) {
 					fightsImageList [fight.IndexOf (currentFight)].sprite = spriteDraft;
 				} else if (currentFight.Winner == UserController.currentUser.Id) {
@@ -80,6 +88,17 @@ public class FightResultDialog : MonoBehaviour
 				} else {
 					fightsImageList [fight.IndexOf (currentFight)].sprite = spriteLose;
 				}
+
+//				var ong = OnlineGame.instance;
+//
+//				if (!ong.mFightWithFriend) {
+//					if (Utility.hasSubscription ()) {
+//						twoTalantPrise.gameObject.SetActive (true);
+//					} else {
+//						oneTalantPrise.gameObject.SetActive (true);
+//					}
+//				}
+
 			}
 		} else {
 			
@@ -90,6 +109,13 @@ public class FightResultDialog : MonoBehaviour
 				fightsImageList [1].sprite = spriteDraft;
 			} else if (fight[0].Winner == UserController.currentUser.Id) {
 				fightsImageList [1].sprite = spriteWin;
+
+//				if (Utility.hasSubscription ()) {
+//					twoTalantPrise.gameObject.SetActive (true);
+//				} else {
+//					oneTalantPrise.gameObject.SetActive (true);
+//				}
+
 			} else {
 				fightsImageList [1].sprite = spriteLose;
 			}
@@ -104,6 +130,16 @@ public class FightResultDialog : MonoBehaviour
 			imageDraft.SetActive (true);
 		} else {
 			imageWin.SetActive (true);
+
+			var ong = OnlineGame.instance;
+
+			if (!ong.mFightWithFriend) {
+				if (Utility.hasSubscription ()) {
+					twoTalantPrise.gameObject.SetActive (true);
+				} else {
+					oneTalantPrise.gameObject.SetActive (true);
+				}
+			}
 		}
 
 		okButton.onClick.RemoveAllListeners ();
@@ -116,7 +152,7 @@ public class FightResultDialog : MonoBehaviour
 
 		bool showRightAnswer = false;
 		foreach(var ii in fight){
-			if (ii.Looser == UserController.currentUser.Id) {
+			if (ii.Looser == UserController.currentUser.Id || (ii.IsDraw && ii.RealInitiatorAnswer < 0 && ii.RealOpponentAnswer < 0)) {
 				showRightAnswer = true;
 			}
 		}
@@ -182,6 +218,10 @@ public class FightResultDialog : MonoBehaviour
 
 	public void ClosePanel ()
 	{
+
+		twoTalantPrise.gameObject.SetActive (false);
+		oneTalantPrise.gameObject.SetActive (false);
+
 		oneTalant.gameObject.SetActive (false);
 		twoTalant.gameObject.SetActive (false);
 

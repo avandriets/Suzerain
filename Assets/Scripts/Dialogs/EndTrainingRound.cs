@@ -23,6 +23,8 @@ public class EndTrainingRound : MonoBehaviour {
 
 	int fightType;
 
+	ErrorPanel errorPanel;
+
 	public void ShowDialog(int pFightType, TaskAnswer userAnswer, TestTask testTask, UnityAction endEvent, UnityAction nextRoundEvent){
 		mPanelObject.SetActive (true);
 
@@ -69,7 +71,17 @@ public class EndTrainingRound : MonoBehaviour {
 			} else {
 				Storage.TakeMoney (1);
 			}
+		} else {
+			ScreensManager scr = ScreensManager.instance;
+			errorPanel = scr.ShowErrorDialog ("На Вашем счету сейчас нет талантов. Пожалуйста, добудьте таланты в дуэлях или приобретите в магазине.", closeErrorPanel);
 		}
+	}
+
+	private void closeErrorPanel(){
+
+		GameObject.Destroy (errorPanel);
+		errorPanel = null;
+
 	}
 
 	public void ClosePanel () {

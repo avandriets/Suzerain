@@ -203,13 +203,19 @@ public class GameScreenManager : MonoBehaviour {
 			SoundManager.ChoosePlayMusic (Constants.SoundDraft);
 			template = string.Format (template, ong.currentFight.WinnerScore,"", "");
 		} else if (ong.currentFight.Winner == UserController.currentUser.Id) {
-			if (Utility.hasSubscription ()) {
-				Storage.GiveMoney (2);
-				template = string.Format (template, ong.currentFight.WinnerScore, "а", " + 2 таланта");
+			
+			if (!ong.mFightWithFriend) {
+				if (Utility.hasSubscription ()) {
+					Storage.GiveMoney (2);
+					template = string.Format (template, ong.currentFight.WinnerScore, "а", "\n\nВы получили 2 таланта");
+				} else {
+					Storage.GiveMoney (1);
+					template = string.Format (template, ong.currentFight.WinnerScore, "а", "\n\nВы получили 1 талант");
+				}
 			} else {
-				Storage.GiveMoney (1);
-				template = string.Format (template, ong.currentFight.WinnerScore, "а", " + 1 талант");
+				template = string.Format (template, ong.currentFight.WinnerScore, "а", "");
 			}
+
 			SoundManager.ChoosePlayMusic (Constants.SoundWin);
 
 		} else {

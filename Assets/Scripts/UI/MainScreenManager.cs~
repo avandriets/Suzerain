@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using Facebook.Unity;
+using SimpleJSON;
 
 
 public class MainScreenManager : BaseUIClass
@@ -152,6 +153,7 @@ public class MainScreenManager : BaseUIClass
 		} else if (pFightType == -1) {
 			screensManager.ShowFriendsScreen ();
 		}else if (pFightType == -5) {
+			SoundManager.ChoosePlayMusic (8);
 			screensManager.ShowTrainingScreen ();
 		}
 
@@ -196,7 +198,7 @@ public class MainScreenManager : BaseUIClass
 
 		if (!UserController.authenticated || UserController.reNewStatistic) {
 				
-				waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"));
+				waitPanel = screensManager.ShowWaitDialog (ScreensManager.LMan.getString ("@connecting"), false);
 
 				user_controller.LogIn (InitLabels, -1, -1);
 			} else {
@@ -247,9 +249,14 @@ public class MainScreenManager : BaseUIClass
 			}
 		}
 
+
+
 		if (firstStart) {
 
 			instDialog = screensManager.ShowInstructionDialog (closeInstruction);
+
+			StartCoroutine (RestoreBalance ());
+			//Storage.GiveMoney (UserController.currentUser.CurrentScore);
 
 			firstStart = false;
 		}
@@ -264,18 +271,18 @@ public class MainScreenManager : BaseUIClass
 		if (Utility.TESTING_MODE || Utility.hasSubscription()) {
 			ProRing.SetActive (true);
 			UsualRing.SetActive (false);
+		}
 
-			if (shieldNumber != "1" /*&& shieldNumber != "2"*/) {
+		if (shieldNumber != "1" && shieldNumber != "2") {
 
-				var eagleCur = EaglsManager.getEagl ( Rose.statList);
-				if (eagleCur != null) {
+			var eagleCur = EaglsManager.getEagl ( Rose.statList);
+			if (eagleCur != null) {
 
-					eagle.gameObject.SetActive (true);
-					Utility.setEagle (eagle, Rose.statList);
+				eagle.gameObject.SetActive (true);
+				Utility.setEagle (eagle, Rose.statList);
 
-					if (!Utility.ItemsIsOwned (eagleCur.eagleNumber, "eagles", this)) {							
-						newEagleDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
-					}
+				if (!Utility.ItemsIsOwned (eagleCur.eagleNumber, "eagles", this)) {							
+					newEagleDialog.InitDialog (UserController.currentUser, Rose.statList, shielClosedDialog);
 				}
 			}
 		}
@@ -353,8 +360,6 @@ public class MainScreenManager : BaseUIClass
 	public void SaveUser()
 	{
 
-		//waitPanel = screensManager.ShowWaitDialog(ScreensManager.LMan.getString("save_profile_label"));
-
 		Debug.Log ("login to server.");
 
 		var postScoreURL 	= Utility.SERVICE_BASE_URL;		
@@ -381,11 +386,6 @@ public class MainScreenManager : BaseUIClass
 			+ token + UserController.currentUser.Token + "&"
 			+ birthDate + "01/01/0001" + "&"
 			+ motto + System.Uri.EscapeUriString (UserController.currentUser.Motto) + "&"
-//			+ AddressTo + System.Uri.EscapeUriString (UserController.currentUser.AddressTo) + "&"
-//			+ SignName + System.Uri.EscapeUriString (UserController.currentUser.SignName) + "&"
-//			+ motto + "" + "&"
-//			+ AddressTo + "midved" + "&"
-//			+ SignName + "prived" + "&"
 			+ countryId + country + "&"
 			+ languageId + lang;
 
@@ -402,19 +402,51 @@ public class MainScreenManager : BaseUIClass
 	{
 		yield return www;
 
-		//screensManager.CloseWaitPanel (waitPanel);
-
 		// check for errors
 		if (www.error == null)
 		{
 			Debug.Log("WWW Ok!: " + www.text);
-
-			//UserController.authenticated = false;
-			//screensManager.ShowMainScreen();
 
 		} else {
 			//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
 			Debug.LogError("WWW Error: "+ www.error);
 		}    
 	}
+
+	IEnumerator RestoreBalance()
+	{
+		var postScoreURL = NetWorkUtils.buildRequestToSendBalance (-1);
+
+		var dictHeader = new Dictionary<string, string> ();
+		dictHeader.Add ("Content-Type", "text/json");
+
+		WWWForm form = new WWWForm ();
+		form.AddField ("Content-Type", "text/json");
+
+		var request = new WWW (postScoreURL);
+
+		while (!request.isDone) {
+			yield return null;
+		}
+
+		// check for errors
+		if (request.error == null)
+		{
+			Debug.Log("WWW Ok!: " + request.text);
+
+			var Ntest = JSON.Parse (request.text);
+			int fftest = Ntest ["SetMoneyResult"].AsInt;
+
+			//errorPanel = screensManager.ShowErrorDialog(request.text ,ErrorCancelByServer);
+
+			if (fftest > 0) {
+				Storage.GiveMoney (fftest);
+			}
+
+		} else {
+			//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
+			Debug.LogError("WWW Error: "+ request.error);
+		}  
+	}
+
 }

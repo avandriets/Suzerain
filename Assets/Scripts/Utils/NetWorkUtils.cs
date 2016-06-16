@@ -190,6 +190,25 @@ public class NetWorkUtils : MonoBehaviour {
 
 	}
 
+	public static string buildRequestToSendBalance (int pBalance){
+
+		Debug.Log ("build SetAward URL");
+
+		var postScoreURL = Utility.SERVICE_BASE_URL;
+
+		var method = "SetMoney";
+
+		var money			= "money=";
+		var userToken 		= "token=";
+
+
+		postScoreURL = postScoreURL + method + "?" + money + pBalance.ToString() + "&" + userToken + UserController.currentUser.Token ;
+
+		postScoreURL = System.Uri.EscapeUriString (postScoreURL);
+
+		return postScoreURL;
+
+	}
 
 	public static string buildRequestTSendSQ (int rightAnswersCount,int timeInGameSec ){
 
