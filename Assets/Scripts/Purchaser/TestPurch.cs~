@@ -52,12 +52,25 @@ public class TestPurch : MonoBehaviour, IStoreListener {
 	[HideInInspector]
 	public static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 
-	public static string noADSProductId = "no_ads_product";
 
-	public static string SUBSCRIPTION_MONTH			= "monthly_subscription";
-	public static string SUBSCRIPTION_3_MONTH		= "3_month_subscription";
-	public static string SUBSCRIPTION_6_MONTH		= "6_month_subscription";
-	public static string SUBSCRIPTION_YEAR_MONTH	= "year_subscription";
+	//public static string NO_ADS_PRODUCT_ID = "android.test.purchased";
+	#if UNITY_ANDROID
+		public static string noADSProductId = "no_ads_product";
+		public static string SUBSCRIPTION_MONTH			= "monthly_subscription";
+		public static string SUBSCRIPTION_3_MONTH		= "3_month_subscription";
+		public static string SUBSCRIPTION_6_MONTH		= "6_month_subscription";
+		public static string SUBSCRIPTION_YEAR_MONTH	= "year_subscription";
+	#elif UNITY_IPHONE
+		public static string noADSProductId = "com.gamecore.suzerain.no_ads_product";
+
+		public static string SUBSCRIPTION_MONTH			= "com.gamecore.suzerain.monthly_subscription";
+		public static string SUBSCRIPTION_3_MONTH		= "com.gamecore.suzerain.3_month_subscription";
+		public static string SUBSCRIPTION_6_MONTH		= "com.gamecore.suzerain.6_month_subscription";
+		public static string SUBSCRIPTION_YEAR_MONTH	= "com.gamecore.suzerain.year_subscription";
+	#else
+		public static string NO_ADS_PRODUCT_ID = "com.gamecore.suzerain.no_ads_product";
+	#endif
+
 
 	//public static string kProductIDSubscription =  "subscription";
 

@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using Facebook.Unity;
 using SimpleJSON;
+using Soomla;
+using Soomla.Store;
 
 
 public class MainScreenManager : BaseUIClass
@@ -440,6 +442,10 @@ public class MainScreenManager : BaseUIClass
 			//errorPanel = screensManager.ShowErrorDialog(request.text ,ErrorCancelByServer);
 
 			if (fftest > 0) {
+
+				if(Storage.GetMoneyBalance() > 0)
+					Storage.TakeMoney (Storage.GetMoneyBalance());
+				
 				Storage.GiveMoney (fftest);
 			}
 

@@ -31,22 +31,16 @@ public class BuyItems : IStoreAssets {
 		return new VirtualCategory[]{};
 	}
 		
-	public const string TALENT_CURRENCY_ITEM_ID      = "currency_talent";
+	public const string TALENT_CURRENCY_ITEM_ID      		= "currency_talent";
 
+
+
+	//public static string NO_ADS_PRODUCT_ID = "android.test.purchased";
+	public static string NO_ADS_PRODUCT_ID = "no_ads_product";
 	public const string TEN_TALENT_PACK_PRODUCT_ID      	= "10_talents";
 	public const string THIRTY_TALENT_PACK_PRODUCT_ID      	= "30_talents";
 	public const string FIFTY_TALENT_PACK_PRODUCT_ID      	= "50_talents";
 	public const string HUNDRED_TALENT_PACK_PRODUCT_ID      = "100_talents";
-
-
-	//public static string NO_ADS_PRODUCT_ID = "android.test.purchased";
-	#if UNITY_ANDROID
-	public static string NO_ADS_PRODUCT_ID = "no_ads_product";
-	#elif UNITY_IPHONE
-	public static string NO_ADS_PRODUCT_ID = "com.gamecore.suzerain.no_ads_product";
-	#else
-	public static string NO_ADS_PRODUCT_ID = "com.gamecore.suzerain.no_ads_product";
-	#endif
 
 	/** Virtual Currencies **/
 
