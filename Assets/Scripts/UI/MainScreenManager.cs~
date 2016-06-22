@@ -13,7 +13,9 @@ public class MainScreenManager : BaseUIClass
 {
 
 	UserController user_controller = null;
-	bool firstStart = false;
+
+	[HideInInspector]
+	public static bool firstStart = false;
 
 	public RectTransform firstRing;
 	public RectTransform secondRing;
@@ -441,11 +443,10 @@ public class MainScreenManager : BaseUIClass
 
 			//errorPanel = screensManager.ShowErrorDialog(request.text ,ErrorCancelByServer);
 
-			if (fftest > 0) {
+			if (fftest > 0 && SoomlaStore.Initialized) {
 
-				if(Storage.GetMoneyBalance() > 0)
-					Storage.TakeMoney (Storage.GetMoneyBalance());
-				
+				//if(Storage.GetMoneyBalance() > 0)
+				//	Storage.TakeMoney (Storage.GetMoneyBalance());
 				Storage.GiveMoney (fftest);
 			}
 

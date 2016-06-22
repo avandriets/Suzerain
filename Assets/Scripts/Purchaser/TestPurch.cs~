@@ -105,34 +105,126 @@ public class TestPurch : MonoBehaviour, IStoreListener {
 		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
 		// if the Product ID was configured differently between Apple and Google stores. Also note that
 		// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
-		// must only be referenced here. 
-		builder.AddProduct(SUBSCRIPTION_MONTH, ProductType.Subscription,
-			new IDs(){	
-				{ SUBSCRIPTION_MONTH,		GooglePlay.Name },
-			}
-		);
+		// must only be referenced here.
 
-		builder.AddProduct(SUBSCRIPTION_3_MONTH, ProductType.Subscription,
+		#if UNITY_ANDROID
+			builder.AddProduct(SUBSCRIPTION_MONTH, ProductType.Subscription,
 			new IDs(){	
-				{ SUBSCRIPTION_3_MONTH, 	GooglePlay.Name },
+			{ SUBSCRIPTION_MONTH,		GooglePlay.Name },
 			}
-		);
+			);
 
-		builder.AddProduct(SUBSCRIPTION_6_MONTH, ProductType.Subscription,
+			builder.AddProduct(SUBSCRIPTION_3_MONTH, ProductType.Subscription,
 			new IDs(){	
-				{ SUBSCRIPTION_6_MONTH, 	GooglePlay.Name },
+			{ SUBSCRIPTION_3_MONTH, 	GooglePlay.Name },
 			}
-		);
+			);
 
-		builder.AddProduct(SUBSCRIPTION_YEAR_MONTH, ProductType.Subscription,
+			builder.AddProduct(SUBSCRIPTION_6_MONTH, ProductType.Subscription,
 			new IDs(){	
-				{ SUBSCRIPTION_YEAR_MONTH, 	GooglePlay.Name },
+			{ SUBSCRIPTION_6_MONTH, 	GooglePlay.Name },
 			}
-		);
+			);
+
+			builder.AddProduct(SUBSCRIPTION_YEAR_MONTH, ProductType.Subscription,
+			new IDs(){	
+			{ SUBSCRIPTION_YEAR_MONTH, 	GooglePlay.Name },
+			}
+			);
+		#elif UNITY_IPHONE
+			builder.AddProduct(SUBSCRIPTION_MONTH, ProductType.Subscription,
+			new IDs(){	
+				{ SUBSCRIPTION_MONTH,		AppleAppStore.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_3_MONTH, ProductType.Subscription,
+			new IDs(){	
+				{ SUBSCRIPTION_3_MONTH, 	AppleAppStore.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_6_MONTH, ProductType.Subscription,
+			new IDs(){	
+				{ SUBSCRIPTION_6_MONTH, 	AppleAppStore.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_YEAR_MONTH, ProductType.Subscription,
+			new IDs(){	
+				{ SUBSCRIPTION_YEAR_MONTH, 	AppleAppStore.Name },
+			}
+			);
+		#else
+
+			builder.AddProduct(SUBSCRIPTION_MONTH, ProductType.Subscription,
+			new IDs(){	
+			{ SUBSCRIPTION_MONTH,		GooglePlay.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_3_MONTH, ProductType.Subscription,
+			new IDs(){	
+			{ SUBSCRIPTION_3_MONTH, 	GooglePlay.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_6_MONTH, ProductType.Subscription,
+			new IDs(){	
+			{ SUBSCRIPTION_6_MONTH, 	GooglePlay.Name },
+			}
+			);
+
+			builder.AddProduct(SUBSCRIPTION_YEAR_MONTH, ProductType.Subscription,
+			new IDs(){	
+			{ SUBSCRIPTION_YEAR_MONTH, 	GooglePlay.Name },
+			}
+			);
+
+		#endif
+
 
 		// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
 		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
 		UnityPurchasing.Initialize(this, builder);
+	}
+
+	// Restore purchases previously made by this customer. Some platforms automatically restore purchases, like Google. 
+	// Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
+	public void RestorePurchases(PurchRestoreDelegare pDelegate)
+	{
+		// If Purchasing has not yet been set up ...
+		if (!IsInitialized())
+		{
+			// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
+			Debug.Log("RestorePurchases FAIL. Not initialized.");
+			return;
+		}
+
+		// If we are running on an Apple device ... 
+		if (Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.OSXPlayer)
+		{
+			// ... begin restoring purchases
+			Debug.Log("RestorePurchases started ...");
+
+			// Fetch the Apple store-specific subsystem.
+			var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+			// Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
+			// the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
+			apple.RestoreTransactions((result) => {
+			// The first phase of restoration. If no more responses are received on ProcessPurchase then 
+			// no purchases are available to be restored.
+				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
+				pDelegate(result);
+			});
+		}
+		// Otherwise ...
+		else
+		{
+			pDelegate(false);
+			// We are not running on an Apple device. No work is necessary to restore purchases.
+			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
+		}
 	}
 
 

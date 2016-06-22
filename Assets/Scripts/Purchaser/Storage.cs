@@ -8,14 +8,22 @@ public class Storage {
 	private static string LEVEL_KEY = "tomi_level";
 
 	public static int GetMoneyBalance(){
-		return StoreInventory.GetItemBalance (BuyItems.TALENT_CURRENCY_ITEM_ID);
+		if (SoomlaStore.Initialized) {
+			return StoreInventory.GetItemBalance (BuyItems.TALENT_CURRENCY_ITEM_ID);
+		} else {
+			return 0;
+		}
 	}
 	public static void GiveMoney(int value){
-		StoreInventory.GiveItem (BuyItems.TALENT_CURRENCY_ITEM_ID, value);
+		if (SoomlaStore.Initialized) {
+			StoreInventory.GiveItem (BuyItems.TALENT_CURRENCY_ITEM_ID, value);
+		}
 	}
 
 	public static void TakeMoney(int value){
-		StoreInventory.TakeItem (BuyItems.TALENT_CURRENCY_ITEM_ID, value);
+		if (SoomlaStore.Initialized) {
+			StoreInventory.TakeItem (BuyItems.TALENT_CURRENCY_ITEM_ID, value);
+		}
 	}
 
 	public static void SetLevel(int value){

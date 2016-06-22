@@ -33,7 +33,7 @@ public class BuySubscriptionDialog : BaseDialog {
 
 		buttonThreeMonth.onClick.RemoveAllListeners();
 		buttonThreeMonth.onClick.AddListener (()=> {
-			BuyProduct(TestPurch.SUBSCRIPTION_6_MONTH);
+			BuyProduct(TestPurch.SUBSCRIPTION_3_MONTH);
 		} );
 
 		buttonSixMonth.onClick.RemoveAllListeners();

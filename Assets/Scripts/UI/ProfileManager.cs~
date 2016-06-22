@@ -11,6 +11,8 @@ using Soomla.Store;
 using GooglePlayGames;
 #endif
 
+public delegate void PurchRestoreDelegare(bool result);
+
 public class ProfileManager : BaseUIClass {
 
 	public Text			nicname;
@@ -30,6 +32,7 @@ public class ProfileManager : BaseUIClass {
 	public Text TextRank;
 	public Image avatar;
 
+	public Button purchButton;
 
 	// Use this for initialization
 	void OnEnable() {
@@ -38,6 +41,10 @@ public class ProfileManager : BaseUIClass {
 		MainScreenManager.googleAnalytics.LogScreen (new AppViewHitBuilder ().SetScreenName ("Profile screen"));
 
 		screensManager = ScreensManager.instance;
+
+		#if UNITY_ANDROID
+			purchButton.gameObject.SetActive(false);
+		#endif
 
 		if(PlayerPrefs.HasKey("Volume")){
 			soundSlider.value = SetAudioLevels.volumeSize;
@@ -251,9 +258,34 @@ public class ProfileManager : BaseUIClass {
 		UserController.authenticated	= false;
 
 		UserController.AccessToken = "";
+		MainScreenManager.firstStart = true;
 
 		PlayerPrefs.DeleteAll ();
+
+		if (SoomlaStore.Initialized) {
+			Debug.Log ("LOGOUT BALANCE BEFORE" + Storage.GetMoneyBalance());
+			Storage.TakeMoney (Storage.GetMoneyBalance());
+			Debug.Log ("LOGOUT BALANCE AFTER" + Storage.GetMoneyBalance());
+		}
+
 		screensManager.ShowRegistrationScreen ();
+
+	}
+
+	public void RestorePurch(){
+		
+		var purchObject = TestPurch.instance;
+		purchObject.RestorePurchases (RestoreResult);
+
+	}
+
+	public void RestoreResult(bool result){
+
+		if (result) {
+			errorPanel = screensManager.ShowErrorDialog("Покупки успешно восстановлены." ,LoginErrorAction);
+		} else {
+			errorPanel = screensManager.ShowErrorDialog("Ошибка при восстановлении покупок." ,LoginErrorAction);
+		}
 
 	}
 

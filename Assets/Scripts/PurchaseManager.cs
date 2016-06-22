@@ -49,27 +49,28 @@ public class PurchaseManager : MonoBehaviour {
 
 	IEnumerator SendBalanceToServer(int balance)
 	{
-		var postScoreURL = NetWorkUtils.buildRequestToSendBalance (balance);
+		if (UserController.authenticated) {
+			var postScoreURL = NetWorkUtils.buildRequestToSendBalance (balance);
 
-		var dictHeader = new Dictionary<string, string> ();
-		dictHeader.Add ("Content-Type", "text/json");
+			var dictHeader = new Dictionary<string, string> ();
+			dictHeader.Add ("Content-Type", "text/json");
 
-		WWWForm form = new WWWForm ();
-		form.AddField ("Content-Type", "text/json");
+			WWWForm form = new WWWForm ();
+			form.AddField ("Content-Type", "text/json");
 
-		var request = new WWW (postScoreURL);
+			var request = new WWW (postScoreURL);
 
-		while (!request.isDone) {
-			yield return null;
-		}
+			while (!request.isDone) {
+				yield return null;
+			}
 
-		// check for errors
-		if (request.error == null)
-		{
-			Debug.Log("WWW Ok!: " + request.text);
-		} else {
-			//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
-			Debug.LogError("WWW Error: "+ request.error);
+			// check for errors
+			if (request.error == null) {
+				Debug.Log ("SEND BALANCE OK: " + request.text);
+			} else {
+				//errorPanel = screensManager.ShowErrorDialog(www.error + " " + www.text ,LoginErrorAction);
+				Debug.LogError ("SEND BALANCE Error: " + request.error);
+			}
 		}
 	}
 
@@ -190,7 +191,9 @@ public class PurchaseManager : MonoBehaviour {
 	}
 
 	public void ReleaseLiveObject(){
-		StoreInventory.TakeItem(StoreInfo.Goods[0].ItemId, 1);
+		if (SoomlaStore.Initialized) {
+			StoreInventory.TakeItem (StoreInfo.Goods [0].ItemId, 1);
+		}
 	}
 
 	public void ErrorEvent(){

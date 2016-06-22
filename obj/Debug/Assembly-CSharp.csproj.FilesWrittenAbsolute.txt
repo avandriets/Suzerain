@@ -6,7 +6,15 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEditor.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.UI.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Analytics.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Purchasing.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/ICSharpCode.SharpZipLib.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Common.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Editor.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Security.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Stores.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/Apple.dll
+/Users/AVAndriets/Suzerain/Temp/bin/Debug/winrt.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/wp-store.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb
@@ -20,11 +28,3 @@
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Pdb.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/AVAndriets/Suzerain/Temp/bin/Debug/soomla-wp-core.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Analytics.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/UnityEngine.Purchasing.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/Common.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/Editor.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/Security.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/Stores.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/Apple.dll
-/Users/AVAndriets/Suzerain/Temp/bin/Debug/winrt.dll

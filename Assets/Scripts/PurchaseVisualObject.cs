@@ -35,10 +35,9 @@ public class PurchaseVisualObject : MonoBehaviour {
 		buyCurrency.onClick.AddListener (OnBuyCurrencyClick);
 		buyCurrency.gameObject.SetActive (true);
 
-		StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-
 		if (SoomlaStore.Initialized) {
-			
+		
+			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 
 			if(StoreInventory.GetItemBalance (StoreInfo.Currencies [0].ItemId) > 0){
 				HasMoney.gameObject.SetActive (true);
@@ -54,16 +53,20 @@ public class PurchaseVisualObject : MonoBehaviour {
 
 	public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {		
 
-		if(StoreInventory.GetItemBalance (StoreInfo.Currencies [0].ItemId) > 0){
-			HasMoney.gameObject.SetActive (true);
-			NoMoney.gameObject.SetActive (false);
+		if (SoomlaStore.Initialized) {
+			
+			if (StoreInventory.GetItemBalance (StoreInfo.Currencies [0].ItemId) > 0) {
+				HasMoney.gameObject.SetActive (true);
+				NoMoney.gameObject.SetActive (false);
 
-			currencyAmount.text = StoreInventory.GetItemBalance (StoreInfo.Currencies [0].ItemId).ToString();
-		}else{
-			HasMoney.gameObject.SetActive (false);
-			NoMoney.gameObject.SetActive (true);
+				currencyAmount.text = StoreInventory.GetItemBalance (StoreInfo.Currencies [0].ItemId).ToString ();
+			} else {
+				HasMoney.gameObject.SetActive (false);
+				NoMoney.gameObject.SetActive (true);
 
-			currencyAmount.text = "";
+				currencyAmount.text = "";
+			}
+
 		}
 	}
 

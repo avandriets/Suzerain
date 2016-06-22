@@ -36,13 +36,15 @@ public class LiveMessenger : MonoBehaviour {
 
 		if (pulseWasStarted && startingTime > 2) {
 	
-			StartCoroutine (GetPulse ());
+			if (UserController.currentUser != null)
+				StartCoroutine (GetPulse ());
+			
 			startingTime = 0;
 		}
 	}
 
 	IEnumerator GetPulse(){
-		
+
 		var postScoreURL = NetWorkUtils.buildRequestPulse ();
 		var request = new WWW (postScoreURL);
 

@@ -425,9 +425,10 @@ public class RegistrationScreenManager : MonoBehaviour {
 			resultString = SystemInfo.deviceUniqueIdentifier;
 			Debug.Log ("DEVICE == " + resultString);
 		}else{
-			for (int i = 0; i < length; i++) {
-				resultString = resultString + chars [UnityEngine.Random.Range (0, chars.Length)];
-			}
+//			for (int i = 0; i < length; i++) {
+//				resultString = resultString + chars [UnityEngine.Random.Range (0, chars.Length)];
+//			}
+			resultString = "8SEXOIA";
 		}
 
 		return resultString;
