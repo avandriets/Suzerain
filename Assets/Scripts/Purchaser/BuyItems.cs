@@ -5,7 +5,7 @@ using Soomla.Store;
 public class BuyItems : IStoreAssets {
 
 	public int GetVersion() {
-		return 0;
+		return 1;
 	}
 
 	// NOTE: Even if you have no use in one of these functions, you still need to
