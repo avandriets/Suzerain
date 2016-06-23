@@ -90,14 +90,14 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.gcgamecore.suzerain
-  bundleVersion: 2.1.1
+  bundleVersion: 2.1.2
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
   productGUID: 76a2fd9b1d31b47208309ff660346dbb
-  AndroidBundleVersionCode: 53
+  AndroidBundleVersionCode: 54
   AndroidMinSdkVersion: 15
   AndroidPreferredInstallLocation: 0
   aotOptions: 
@@ -181,29 +181,67 @@ PlayerSettings:
   - m_BuildTarget: Android
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 3c15554bc96964ddda513f69570d805e, type: 3}
+      m_Icon: {fileID: 2800000, guid: 450e728871d644f62a5b87fb70a5bfff, type: 3}
       m_Width: 192
       m_Height: 192
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0adcd874abe754aea8f634ad3deb607d, type: 3}
+      m_Icon: {fileID: 2800000, guid: 5d2127b5f88c94e8fb6705af43ead014, type: 3}
       m_Width: 144
       m_Height: 144
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: b32a26dc9bfcc4884b0e29e50745f810, type: 3}
+      m_Icon: {fileID: 2800000, guid: 99a8278a357eb499ab5820e372a3366d, type: 3}
       m_Width: 96
       m_Height: 96
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 96cd63f2678d54112b078b5a549299c6, type: 3}
+      m_Icon: {fileID: 2800000, guid: 421b69a01d4644da397a2032cc18a0d1, type: 3}
       m_Width: 72
       m_Height: 72
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 03f62eb2114494f2185832d629765ca5, type: 3}
+      m_Icon: {fileID: 2800000, guid: 6bfe8c32bbe9a4c479bbc89d685bf62e, type: 3}
       m_Width: 48
       m_Height: 48
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: ccbd99b1f362d49fd8c6e1638be1d973, type: 3}
+      m_Icon: {fileID: 2800000, guid: 28426c16a182f400188647dd08c5aeac, type: 3}
       m_Width: 36
       m_Height: 36
+  - m_BuildTarget: iPhone
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: db86a373421494f57bddc5f5f53c2772, type: 3}
+      m_Width: 180
+      m_Height: 180
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: c8860660b3b6c4671b3c6a98253b2724, type: 3}
+      m_Width: 167
+      m_Height: 167
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 8680816fa66714375b20f2d90f32a38c, type: 3}
+      m_Width: 152
+      m_Height: 152
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 23dc95f779791465c93e1925adb6c807, type: 3}
+      m_Width: 144
+      m_Height: 144
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 26f3ebe0e24274735a75976a0e20eea2, type: 3}
+      m_Width: 120
+      m_Height: 120
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: cbfb43766547743b09d279e338757255, type: 3}
+      m_Width: 114
+      m_Height: 114
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: b41ff1686efe34f80b6f1e9cb9cd1f97, type: 3}
+      m_Width: 76
+      m_Height: 76
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 421b69a01d4644da397a2032cc18a0d1, type: 3}
+      m_Width: 72
+      m_Height: 72
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 4486ab838a2fa4e76a4694d2d5088822, type: 3}
+      m_Width: 57
+      m_Height: 57
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: AndroidPlayer
